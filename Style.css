@@ -1,0 +1,510 @@
+/* Start Styling that all pages have*/
+
+body {
+	background-color: #EBF5FF;
+}
+
+.mx {
+	/* 1100px */
+	width: 89%;
+	padding:5px;
+	margin-right:auto;
+	margin-left: auto;
+	background-color: white;
+	margin-top: -12px;
+	margin-bottom: -12px;
+}
+
+table {
+	border-collapse: collapse
+}
+
+.waffles {
+width:820px;
+padding:10px;
+border:5px solid gray;
+margin-right:20px;
+}
+
+/*End Styling that all pages have*/
+
+
+
+
+
+
+
+
+/* Start Image for the Store that may not be on the website at all anymore*/
+
+img.store {
+	height: 500;
+	width: 500;
+}
+
+/* End Image for the Store that may not be on the website at all anymore*/
+
+
+
+
+
+
+
+
+/*Start Properties that apply to all links that appear on No Work Homework, they mainly affect the color*/
+
+
+a:link {
+	color: #190707; /* unvisited link */
+}
+
+a:visited {
+	color: #190707;/* visited link */
+}
+
+
+a:hover {
+	color: #FF0000;/* mouse over link */
+}
+
+a:active {
+color: #190707;/*linke that is in use*/
+}
+
+.top {
+	margin-top: 10px;
+}
+
+
+/*End Properties that apply to all links that appear on No Work Homework, they mainly affect the color*/
+
+
+
+
+
+
+
+
+
+
+
+/*Start Navigation bar for Home*/
+
+
+.HomeNav {
+	list-style: none;
+	font-family: Verdana;
+	font-size: 25px;
+	text-align: center;
+	padding: 0;
+	float: center;
+}
+
+.HomeNav li {
+	margin-left: 17%;
+	float: left;
+    position: relative;
+    width: 12%;
+	text-align: center;  /* All text is placed in the center of the box */
+	list-style: none;  /* Removes the default styling (bullets) for the list */
+	padding: 0;
+	background-color: #fff;
+	z-index: 99;
+}
+
+.HomeNav a	{
+	text-decoration: none;  /* Removes the default hyperlink styling. */
+
+}
+
+/*End Navigation bar for Home*/
+
+
+
+
+/*Start Footer Navigation Bar*/
+
+.signInMenu li{
+	border-style: solid;
+	width: 10%;
+	list-style: none;  /* Removes the default styling (bullets) for the list */
+	padding: 2;
+	font-family:Times New Roman;
+	font-size: 20;
+}
+
+.signInMenu a {
+	text-decoration: none;
+}
+
+.signInMenu a:hover {
+	text-decoration: underline;
+}
+/*End Footer Navigation Bar*/
+
+
+
+
+
+
+
+
+/*Start Styles the Footer*/
+
+.hitcounter {
+	margin-top: -25px;
+}
+
+hr {
+	width: 88%;
+	height: 2px;
+	background-color: black;
+	position: absolute;
+	text-align:center;
+	z-index: 1;
+}
+
+footer {
+	width:90%;
+	height: 250px;
+	margin-left:-15px;
+	margin-right:-15px;
+	background-color: #EBF5FF;
+	position: absolute;
+}
+
+.leftline {
+    width:2px;
+    background-color: black;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:33%;
+}
+
+.rightline {
+    width:2px;
+    background-color: black;
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:33%;
+}
+
+
+hr.bottomline {
+	position: relative;
+	bottom: 30;
+	width: 98%;
+	left: 1;
+}
+
+p.version {
+	font-family: Times New Roman;
+	color: black;
+	margin-left: 47%;
+	bottom: 20px;
+	position: absolute;
+	text-align:center;
+}
+
+.FootNav {
+	font-family: Verdana;
+	font-size: 20px;
+	text-align: center;
+	position: absolute;
+	bottom: 30px;
+	right: 88%;
+}
+
+p.member {
+	font-family: Times New Roman;
+	color: black;
+	right: 90%;
+	bottom: 175px;
+	position: absolute;
+}
+
+/*End Styles the Footer*/
+
+
+
+
+
+
+
+
+/*Start Social Network Icons in the footer*/
+
+.twittericon {
+	opacity: 0.7;
+	position: absolute;
+	right: 28%;
+	bottom: 120px
+}
+
+.twittericon:hover {
+	opacity: 1.0;
+}
+
+.facebookicon {
+	opacity: 0.7;
+	position: absolute;
+	right: 24%;
+	bottom: 120;
+}
+
+.facebookicon:hover {
+	opacity: 1.0;
+}
+
+.instagramicon {
+	opacity: 0.7;
+	position: absolute;
+	right: 20%;
+	bottom: 120;
+}
+
+.instagramicon:hover {
+	opacity: 1.0;
+}
+
+.mailicon {
+	opacity: 0.7;
+	position: absolute;
+	right: 16%;
+	bottom: 120;
+}
+
+.mailicon:hover {
+	opacity: 1.0;
+}
+
+p.socialnetworks {
+	font-family: Times New Roman;
+	color: black;
+	right: 26%;
+	position: absolute;
+	bottom: 175px
+}
+
+
+/* End Social Network Icons in the Footer*/
+
+
+
+
+
+/*Start Membership Pictures*/
+
+.testprepmembership {
+	opacity: 1.0;
+	position: absolute;
+	margin-left: 295px;
+	margin-top: 0px;
+}
+
+.testprepmembership:hover {
+	opacity: 0.7;
+}
+
+.plusmembership {
+	opacity: 1.0;
+	position: absolute;
+	margin-left: 20px;
+	margin-top: 0px;
+}
+
+.plusmembership:hover {
+	opacity: 0.7;
+}
+
+.executivemembership {
+	opacity: 1.0;
+	position: absolute;
+	margin-left: 835px;
+	margin-top: 0px;
+}
+
+.executivemembership:hover {
+	opacity: 0.7;
+}
+
+
+.premiummembership {
+	opacity: 1.0;
+	position: absolute;
+	margin-left:565px;
+	margin-top: 0px;
+}
+
+.premiummembership:hover {
+	opacity: 0.7;
+}
+
+.premiumchart {
+	opacity: 1.0;
+	position: absolute;
+	margin-left:568px;
+	margin-top: 250px;
+}
+
+.executivechart {
+	opacity: 1.0;
+	position: absolute;
+	margin-left: 835px;
+	margin-top: 250px;
+}
+
+.pluschart {
+	opacity: 1.0;
+	position: absolute;
+	margin-left: 23px;
+	margin-top: 250px;
+}
+
+.testprepchart {
+	opacity: 1.0;
+	position: absolute;
+	margin-left: 299px;
+	margin-top: 253px;
+}
+/*End Membership Picture*/
+
+
+
+
+
+
+
+
+
+
+
+/*Styling for the Notes Section */
+
+p.authornote {
+	font-family: Times New Roman;
+	color: black;
+	text-align: center;
+	position: relative;
+}
+
+.noteslinks {
+	font-family: Times New Roman;
+	font-size: 20;
+}
+
+p.notesinformation {
+	color: green;
+	font-family: Times New Roman;
+	font-size: 20;
+}
+
+p.notessummary {
+	margin-left: 50px;
+	margin-right:50px;
+	position: relative;
+	font-family: Times New Roman;
+	font-size: 18;
+}
+
+.notespictureexample {
+	margin-left: 100px;
+	position: relative;
+	width: 800px;
+}
+
+.notesicon {
+	margin-left: 150px;
+	opacity: 0.7;
+	position: relative;
+	width: 50px;
+}
+
+.notesicon:hover {
+	opacity: 1.0;
+}
+
+p.note {
+	margin-left:20px;
+	font-family: Times New Roman;
+	font-size: 20;
+	padding: 10;
+	text-align: left;
+	height: 10;
+}
+
+p.notesinformation {
+	margin-left:80px;
+	font-family: Times New Roman;
+	font-size: 20;
+	padding: 0;
+	text-align: right;
+	height: 10;
+}
+
+table {
+	height: 800;
+	width: 1050;
+}
+
+table, th, td {
+	border: 1px solid black;
+	font-family: Times New Roman;
+	font-size: 20px;
+	text-align: center;
+}
+
+.previouspage {
+	margin-left: 200px;
+	font-family: Times New Roman;
+	font-size: 20;
+	float: left;
+}
+
+.nextpage {
+	margin-left: 800px;
+	font-family: Times New Roman;
+	font-size: 20;
+	z-index: 10;
+}
+
+/*End Styling for the Notes Section*/
+
+
+
+
+/*Start Paragraph tags that fall under no specific category*/
+
+p.website {
+	position:absolute;
+	font-size: 30px;
+	margin-left: 330px;
+	margin-top: 18px;
+}
+
+p.paragraph {
+	margin-left: 50px;
+	margin-right:50px;
+	position: absolute;
+	font-family: Times New Roman;
+	font-size: 18;
+}
+
+p.memberships {
+	margin-right: 100px;
+	margin-left: 100px;
+	font-family: Times New Roman;
+	font-size: 20px;
+}
+
+p.HeadingMemberships {
+	font-family: Times New Roman;
+	font-size: 20px;
+	position: relative;
+}
+
+
+
+/*Start Paragraph tags that fall under no specific category*/
