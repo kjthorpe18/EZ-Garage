@@ -1,0 +1,16 @@
+
+body {
+    background-color: rgb(233, 214, 214);
+}
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid;
+    padding: 10px;
+}
+
+.formdiv {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
