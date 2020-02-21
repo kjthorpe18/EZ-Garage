@@ -19,6 +19,16 @@ body {
     padding: 10px;
 }
 
+#logo {
+	margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+input, button {
+	margin: 3px;
+}
+
 ul {
 	list-style-type: none;
 	margin: 0;
