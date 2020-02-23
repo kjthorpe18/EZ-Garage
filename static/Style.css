@@ -53,3 +53,29 @@ ul {
   li a:hover {
 	background-color: #111;
   }
+
+   #rectangle {
+    height: 50px;
+    width: 100px;
+    background-color: #555;
+  }
+
+  .smallwhitetext{
+    font-size:12px;
+    color: white;
+    margin: 0px;
+  }
+
+  #Gdrop{
+    float: left;
+    background-color: rgb(10, 134, 175);
+    padding: 30px;
+    margin: 20px;
+    height: 500px;
+    width: 250px;
+    border-radius: 25px;
+  }
+
+  #ParkingLot {
+
+  }
