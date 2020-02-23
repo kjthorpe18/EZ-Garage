@@ -33,7 +33,15 @@
 					document.getElementById("floor").options[1]=new Option("IT'S REALLY SECRET","IT'S REALLY SECRET");
 					
 					break;
+				
+
+				case "0" :
+					document.getElementById("floor").options[0]=new Option("Please select Floor First","Please select Floor First");
+					
+					
+					break;
 				}
+
 				return true;
 			}
 		   </script>
@@ -54,7 +62,7 @@
 			
 			<!-- select menu for Garage ARC -->
 				<div id = "Gdrop">
-					<h1 style="color: white; font-size 18 px;">Resrevations<h1>
+					<h1 style="color: white; font-size 18 px;">Reservations<h1>
 					<p class ="smallwhitetext">Select Your Garage</p>
 					
 					<select id="GarageSelect">
@@ -65,32 +73,37 @@
 						<option value="D">Garbage Garage</option>
 					  </select>
 					  <p class="smallwhitetext">Select Car Type</p>
-					  <select  id="CarSelect">
+					  <select class="selectDropDown"  id="CarSelect">
 						<option value="null">--Select--</option>
 						<option value="A">Car</option>
 						<option value="B">Truck</option>
 						<option value="C">Van</option>
 						<option value="D">Electric Vehicle</option>
 					  </select>
+					 <div style="margin:0px;"> 
 					  <p class="smallwhitetext">Select Floor<p>
-					  <select style="margin-top: 0px;" id= "Floor Select" onchange="javascript: dynamicDropdown(this.options[this.selectedIndex].value);">
-						<option value="">--Select--</option>
+					  <select style="margin:0px;" id= "Floor Select" onchange="javascript: dynamicDropdown(this.options[this.selectedIndex].value);">
+						<option value="0">--Select--</option>
 						<option value="Floor 1">Floor 1</option>
 						<option value="Floor 2">Floor 2</option>
 						<option value="Floor 3">Secret Floor</option>
 						</select>
-					   
-						<div style="margin-top: 5px;">
-						<script type="text/javascript" language="JavaScript">
-							document.write('<select name="Spots" id="floor"><option>Please select Floor</option></select>')
+					   <p class="smallwhitetext">Spot Select<p>
+						<script  type="text/javascript" language="JavaScript">
+							document.write('<select id="floor"><option>Please select Floor First</option></select>')
 						</script>
 						<noscript>
 						<select name="floor" id="floor" >
 							<option value="">Turn on Javascript.</option>
 						</select>
 						</noscript>
-						</div>
+					</div>
 					  
+				  </div>
+
+				  <!-- Parking Lot -->
+				  <div id="ParkingLot">
+				      
 				  </div>
 				
 

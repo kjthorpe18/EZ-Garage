@@ -63,19 +63,29 @@ ul {
   .smallwhitetext{
     font-size:12px;
     color: white;
-    margin: 0px;
+    margin-top: 10px;
+    margin-bottom:0px;
   }
 
   #Gdrop{
     float: left;
     background-color: rgb(10, 134, 175);
-    padding: 30px;
+    padding: 40px;
     margin: 20px;
     height: 500px;
     width: 250px;
     border-radius: 25px;
   }
 
+  
+
   #ParkingLot {
+    float: right;
+    background-color: rgb(10, 134, 175);
+    padding: 40px;
+    margin: 20px;
+    height: 500px;
+    width: 850px;
+    border-radius: 25px;
 
   }
