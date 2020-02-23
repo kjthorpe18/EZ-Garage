@@ -54,11 +54,7 @@ ul {
 	background-color: #111;
   }
 
-   #rectangle {
-    height: 50px;
-    width: 100px;
-    background-color: #555;
-  }
+   
 
   .smallwhitetext{
     font-size:12px;
@@ -89,3 +85,38 @@ ul {
     border-radius: 25px;
 
   }
+
+
+  .HorizontalContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: left;
+
+  }
+  .VerticalContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+  }
+
+  
+
+
+  .ParkingSpot {
+      float: left;
+      margin:20px;
+      height: 50px;
+      width: 100px;
+      background-color: rgb(23, 209, 48);
+  
+  }
+
+  .ParkingSpotFill {
+    float: left;
+    margin:20px;
+    height: 50px;
+    width: 100px;
+    background-color: rgb(230, 17, 17);
+
+
+}

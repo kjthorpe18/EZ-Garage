@@ -1,112 +1,151 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-        <title>Reserve</title>
-		<link href="Style.css" type="text/css" rel="stylesheet" />
-		
-		<!-- script to change Floor Letters Dependent on Floor Selection ARC -->
-		<script language="javascript" type="text/javascript">
-			function dynamicDropdown(index)
-			{
-				document.getElementById("floor").length = 0;
-				switch (index)
-				{
-				case "Floor 1" :
-					document.getElementById("floor").options[0]=new Option("--Select--","--Select--");
-					document.getElementById("floor").options[1]=new Option("1A","1A");
-					document.getElementById("floor").options[2]=new Option("1B","1B");
-					document.getElementById("floor").options[3]=new Option("1C","1C");
-					document.getElementById("floor").options[4]=new Option("1D","1D");
-					document.getElementById("floor").options[5]=new Option("1E","1E");
-					document.getElementById("floor").options[6]=new Option("1F","1F");
-					break;
-	
-				case "Floor 2" :
-					document.getElementById("floor").options[0]=new Option("--Select--","--Select--");
-					document.getElementById("floor").options[1]=new Option("2A","2A");
-					document.getElementById("floor").options[2]=new Option("2B","2B");
-					document.getElementById("floor").options[3]=new Option("2C","2C");
+
+<head>
+	<title>Reserve</title>
+	<link href="Style.css" type="text/css" rel="stylesheet" />
+
+	<!-- script to change Floor Letters Dependent on Floor Selection ARC -->
+	<script language="javascript" type="text/javascript">
+		function dynamicDropdown(index) {
+			document.getElementById("floor").length = 0;
+			switch (index) {
+				case "Floor 1":
+					document.getElementById("floor").options[0] = new Option("--Select--", "--Select--");
+					document.getElementById("floor").options[1] = new Option("1A", "1A");
+					document.getElementById("floor").options[2] = new Option("1B", "1B");
+					document.getElementById("floor").options[3] = new Option("1C", "1C");
+					document.getElementById("floor").options[4] = new Option("1D", "1D");
+					document.getElementById("floor").options[5] = new Option("1E", "1E");
+					document.getElementById("floor").options[6] = new Option("1F", "1F");
 					break;
 
-				case "Floor 3" :
-					document.getElementById("floor").options[0]=new Option("--Select--","--Select--");
-					document.getElementById("floor").options[1]=new Option("IT'S REALLY SECRET","IT'S REALLY SECRET");
-					
+				case "Floor 2":
+					document.getElementById("floor").options[0] = new Option("--Select--", "--Select--");
+					document.getElementById("floor").options[1] = new Option("2A", "2A");
+					document.getElementById("floor").options[2] = new Option("2B", "2B");
+					document.getElementById("floor").options[3] = new Option("2C", "2C");
 					break;
-				
 
-				case "0" :
-					document.getElementById("floor").options[0]=new Option("Please select Floor First","Please select Floor First");
-					
-					
+				case "Floor 3":
+					document.getElementById("floor").options[0] = new Option("--Select--", "--Select--");
+					document.getElementById("floor").options[1] = new Option("IT'S REALLY SECRET", "IT'S REALLY SECRET");
+
 					break;
-				}
 
-				return true;
+
+				case "0":
+					document.getElementById("floor").options[0] = new Option("Please select Floor First", "Please select Floor First");
+
+
+					break;
 			}
-		   </script>
+
+			return true;
+		}
+	</script>
+
+</head>
+
+<body>
+	<div>
+		<ul class="HomeNav">
+			<li class=""><a href="index.html">Home</a></li>
+			<li class=""><a href="reserve.html">Reserve</a></li>
+			<li class=""><a href="account.html">Account</a></li>
+			<li class=""><a href="about.html">About Us</a></li>
+		</ul>
+	</div>
 
 	</head>
+
 	<body>
-		<div>
-			<ul class="HomeNav">
-				<li class=""><a href="index.html">Home</a></li>
-				<li class=""><a href="reserve.html">Reserve</a></li>
-				<li class=""><a href="account.html">Account</a></li>
-				<li class=""><a href="about.html" >About Us</a></li>
-			</ul>
-		</div>
-     
-			</head>
-			<body>
-			
-			<!-- select menu for Garage ARC -->
-				<div id = "Gdrop">
-					<h1 style="color: white; font-size 18 px;">Reservations<h1>
-					<p class ="smallwhitetext">Select Your Garage</p>
-					
+
+		<!-- select menu for Garage ARC -->
+		<div id="Gdrop">
+			<h1 style="color: white; font-size 18 px;">Reservations<h1>
+					<p class="smallwhitetext">Select Your Garage</p>
+
 					<select id="GarageSelect">
 						<option value="null">--Select--</option>
 						<option value="A">Super Cool Garage</option>
 						<option value="B">Not so Cool Garage</option>
-						<option value="C">LOL garage</option>
+						<option value="C">Random Garage</option>
 						<option value="D">Garbage Garage</option>
-					  </select>
-					  <p class="smallwhitetext">Select Car Type</p>
-					  <select class="selectDropDown"  id="CarSelect">
+					</select>
+					<p class="smallwhitetext">Select Car Type</p>
+					<select class="selectDropDown" id="CarSelect">
 						<option value="null">--Select--</option>
 						<option value="A">Car</option>
 						<option value="B">Truck</option>
 						<option value="C">Van</option>
 						<option value="D">Electric Vehicle</option>
-					  </select>
-					 <div style="margin:0px;"> 
-					  <p class="smallwhitetext">Select Floor<p>
-					  <select style="margin:0px;" id= "Floor Select" onchange="javascript: dynamicDropdown(this.options[this.selectedIndex].value);">
-						<option value="0">--Select--</option>
-						<option value="Floor 1">Floor 1</option>
-						<option value="Floor 2">Floor 2</option>
-						<option value="Floor 3">Secret Floor</option>
-						</select>
-					   <p class="smallwhitetext">Spot Select<p>
-						<script  type="text/javascript" language="JavaScript">
-							document.write('<select id="floor"><option>Please select Floor First</option></select>')
-						</script>
-						<noscript>
-						<select name="floor" id="floor" >
-							<option value="">Turn on Javascript.</option>
-						</select>
-						</noscript>
-					</div>
-					  
-				  </div>
+					</select>
+					<div style="margin:0px;">
+						<!-- 	-->
+						<p class="smallwhitetext">Select Floor<p>
+								<select style="margin:0px;" id="Floor Select"
+									onchange="javascript: dynamicDropdown(this.options[this.selectedIndex].value);">
 
-				  <!-- Parking Lot -->
-				  <div id="ParkingLot">
-				      
-				  </div>
+									<option value="0">--Select--</option>
+									<option value="Floor 1">Floor 1</option>
+									<option value="Floor 2">Floor 2</option>
+									<option value="Floor 3">Secret Floor</option>
+								</select>
+								<p class="smallwhitetext">Spot Select<p>
+										<script type="text/javascript" language="JavaScript">
+											document.write('<select id="floor"><option>Please select Floor First</option></select>')
+										</script>
+										<noscript>
+											<select name="floor" id="floor">
+												<option value="">Turn on Javascript.</option>
+											</select>
+										</noscript>
+					</div>
+
+					<div id ="Buttons">
+						<button>Find Closest</button>
+						<button>Find Handicap</button>
+					</div>
+
+		</div>
+
+		<!-- Parking Lot -->
+	<div id="ParkingLot">
+		<h1 style="color: white; font-size 18 px; margin-left: auto;">Parking Lot Map</h1>
+		<div class ="HorizontalContainer" >
+			
+			<div class="VerticalContainer">
+				<div class="ParkingSpotFill" id="1A"></div>
+				<br></br>
+				<div class="ParkingSpot" id="1B"></div>
+				<br></br>
+				<div class="ParkingSpot" id="1C"></div>
+				<br></br>
+				<div class="ParkingSpot" id="1D"></div>
 				
 
-             
-	        </body>
+			</div>
+
+			<div class="VerticalContainer">
+				<div class="ParkingSpot" id="1E"></div>
+				<br></br>
+				<div class="ParkingSpotFill" id="1F"></div>
+				<br></br>
+				<div class="ParkingSpot" id="1G"></div>
+				<br></br>
+				<div class="ParkingSpot" id="1H"></div>
+			
+
+			</div>
+
+
+
+		</div>
+	</div>
+
+
+
+	</body>
+
 </html>
