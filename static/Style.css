@@ -56,7 +56,9 @@ ul {
 	background-color: rgb(11, 89, 119);
   }
 
-
+  .body-content {
+    margin: 20px;
+  }
 
   .about-section {
     width: 70%;
