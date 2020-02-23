@@ -1,6 +1,6 @@
 
 body {
-    background-color: rgb(197, 197, 197);
+    background-color: whitesmoke;
 }
 
 .content {
@@ -34,7 +34,7 @@ ul {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background-color: #333;
+	background-color: rgb(10, 134, 175);
   }
   
   li {
@@ -51,7 +51,7 @@ ul {
   
   /* Change the link color to #111 (black) on hover */
   li a:hover {
-	background-color: #111;
+	background-color: rgb(11, 89, 119);
   }
 
    
