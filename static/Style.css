@@ -21,8 +21,10 @@ body {
 
 #logo {
 	margin: auto;
-    width: 50%;
-    padding: 10px;
+  font-family: cursive;
+  font-size: 50px;
+  color: rgb(10, 134, 175);
+  text-align: center;
 }
 
 input, button {
@@ -36,11 +38,11 @@ ul {
 	overflow: hidden;
 	background-color: rgb(10, 134, 175);
   }
-  
+
   li {
 	float: left;
   }
-  
+
   li a {
 	display: block;
 	color: white;
@@ -48,14 +50,20 @@ ul {
 	padding: 14px 16px;
 	text-decoration: none;
   }
-  
+
   /* Change the link color to #111 (black) on hover */
   li a:hover {
 	background-color: rgb(11, 89, 119);
   }
 
-  .body-content {
-    margin: 20px;
+
+
+  .about-section {
+    width: 70%;
+  }
+
+  .contact-section {
+    width: 70%;
   }
 
   .smallwhitetext{
@@ -64,11 +72,13 @@ ul {
     margin-top: 10px;
     margin-bottom:0px;
   }
+  
   .reserve-container {
     display: flex;
     flex-direction: row;
 
   }
+
   .reserve-header {
     color: white; 
     font-size: 18px; 
@@ -81,9 +91,11 @@ ul {
     padding: 40px;
     margin: 20px;
     height: 500px;
-    border-radius: 25px;
     width: 250px;
+    border-radius: 25px;
   }
+
+
 
   #ParkingLot {
     float: right;
@@ -91,8 +103,9 @@ ul {
     padding: 40px;
     margin: 20px;
     height: 500px;
+    width: 850px;
     border-radius: 25px;
-    width: 75%;
+
   }
 
 
@@ -108,7 +121,7 @@ ul {
       align-items: left;
   }
 
-  
+
 
 
   .ParkingSpot {
@@ -117,7 +130,7 @@ ul {
       height: 50px;
       width: 100px;
       background-color: rgb(23, 209, 48);
-  
+
   }
 
   .ParkingSpotFill {
