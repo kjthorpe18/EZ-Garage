@@ -58,17 +58,27 @@ ul {
     margin: 20px;
   }
 
+  .about-section {
+    width: 70%;
+  }
+
+  .contact-section {
+    width: 70%;
+  }
+
   .smallwhitetext{
     font-size:12px;
     color: white;
     margin-top: 10px;
     margin-bottom:0px;
   }
+  
   .reserve-container {
     display: flex;
     flex-direction: row;
 
   }
+
   .reserve-header {
     color: white; 
     font-size: 18px; 
