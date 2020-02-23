@@ -69,6 +69,11 @@ ul {
     flex-direction: row;
 
   }
+  .reserve-header {
+    color: white; 
+    font-size: 18px; 
+    margin-left: auto;
+  }
 
   #Gdrop{
     float: left;
