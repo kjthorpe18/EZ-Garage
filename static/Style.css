@@ -54,13 +54,20 @@ ul {
 	background-color: rgb(11, 89, 119);
   }
 
-   
+  .body-content {
+    margin: 20px;
+  }
 
   .smallwhitetext{
     font-size:12px;
     color: white;
     margin-top: 10px;
     margin-bottom:0px;
+  }
+  .reserve-container {
+    display: flex;
+    flex-direction: row;
+
   }
 
   #Gdrop{
@@ -69,11 +76,9 @@ ul {
     padding: 40px;
     margin: 20px;
     height: 500px;
-    width: 250px;
     border-radius: 25px;
+    width: 250px;
   }
-
-  
 
   #ParkingLot {
     float: right;
@@ -81,9 +86,8 @@ ul {
     padding: 40px;
     margin: 20px;
     height: 500px;
-    width: 850px;
     border-radius: 25px;
-
+    width: 75%;
   }
 
 
