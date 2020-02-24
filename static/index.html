@@ -2,6 +2,7 @@
 
 <head>
 	<title>EZ-Garage</title>
+    <link rel="icon" href="images/ezgarage_logo.png">
 	<link href="Style.css" type="text/css" rel="stylesheet" />
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 		<style>
@@ -9,10 +10,12 @@
 				font-family: 'Roboto';
 			}
 		</style>
+	<script src="scripts.js"></script>
 </head>
 
 
-<body>
+
+<body onload="showRandomQuote()">
 	<div>
 		<ul class="HomeNav">
             <li class=""><a href="index.html">Home</a></li>
@@ -27,7 +30,7 @@
 	<div class="content">
 		
 		<div id="logo">
-				<p>ez garage</p>
+				<img src="images/ezgarage_logo_wide.png"></img>
 		</div>
 
 		<div class="center">
@@ -53,32 +56,8 @@
 
 <center>
 
-<script language=javascript>
-
-<!--//
-
-//Enter the amount of quotes you are using.
-var quotnum = "3";
-
-//In between the " "; enter in your message. Remember not to use double
-//quote (") in your message. You may use a single quote (').
-
-var sds = new Array(1000);
-sds[0]="The solution to all your parking problems.";
-sds[1]="The future of parking.";
-sds[2]="Pay for parking by the hour.";
-sds[3]="Create an account today!";
-
-var arandomn=Math.random() * quotnum;
-arandomn=Math.round(arandomn);
-var daquote =sds[arandomn];
-
-document.write("<b>"+daquote+"</font>");
-
-//-->
-</script>
-
-
+<div id="randomQuotes">
+</div>
 
 
 
