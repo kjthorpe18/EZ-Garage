@@ -29,116 +29,131 @@ input, button {
 	margin: 3px;
 }
 
-ul {
+.HomeNav {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background-color: rgb(10, 134, 175);
-  }
+  background-color: rgb(10, 134, 175);
+}
 
-  li {
+.HomeNav li {
 	float: left;
-  }
+}
 
-  li a {
+.HomeNav li a {
 	display: block;
 	color: white;
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
-  }
+}
 
   /* Change the link color to #111 (black) on hover */
-  li a:hover {
+.HomeNav li a:hover {
 	background-color: rgb(11, 89, 119);
-  }
+}
 
-  .body-content {
-    margin: 20px;
-  }
+.body-content {
+  margin: 20px;
+}
 
-  .about-section {
-    width: 70%;
-  }
+#car-section {
+  width: 50%;
+  padding-bottom: 10px;
+}
 
-  .contact-section {
-    width: 70%;
-  }
+#garage-section {
+  width: 50%;
+  padding-bottom: 10px;
+}
 
-  .smallwhitetext{
-    font-size:12px;
-    color: white;
-    margin-top: 10px;
-    margin-bottom:0px;
-  }
-  
-  .reserve-container {
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding-right: 15px;
+  padding-left: 15px;
+  border: 1px solid black;
+}
+
+.about-section {
+  width: 70%;
+}
+
+.contact-section {
+  width: 70%;
+}
+
+.smallwhitetext{
+  font-size:12px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom:0px;
+}
+
+.reserve-container {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.reserve-header {
+  color: white; 
+  font-size: 18px; 
+  margin-left: auto;
+}
+
+#Gdrop{
+  float: left;
+  background-color: rgb(10, 134, 175);
+  padding: 40px;
+  margin: 20px;
+  height: 500px;
+  width: 250px;
+  border-radius: 25px;
+}
+
+
+
+#ParkingLot {
+  float: right;
+  background-color: rgb(10, 134, 175);
+  padding: 40px;
+  margin: 20px;
+  height: 500px;
+  width: 850px;
+  border-radius: 25px;
+
+}
+
+
+.HorizontalContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+
+}
+.VerticalContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: left;
+}
 
-  }
-
-  .reserve-header {
-    color: white; 
-    font-size: 18px; 
-    margin-left: auto;
-  }
-
-  #Gdrop{
-    float: left;
-    background-color: rgb(10, 134, 175);
-    padding: 40px;
-    margin: 20px;
-    height: 500px;
-    width: 250px;
-    border-radius: 25px;
-  }
-
-
-
-  #ParkingLot {
-    float: right;
-    background-color: rgb(10, 134, 175);
-    padding: 40px;
-    margin: 20px;
-    height: 500px;
-    width: 850px;
-    border-radius: 25px;
-
-  }
-
-
-  .HorizontalContainer {
-      display: flex;
-      flex-direction: row;
-      align-items: left;
-
-  }
-  .VerticalContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: left;
-  }
-
-
-
-
-  .ParkingSpot {
-      float: left;
-      margin:20px;
-      height: 50px;
-      width: 100px;
-      background-color: rgb(23, 209, 48);
-
-  }
-
-  .ParkingSpotFill {
+.ParkingSpot {
     float: left;
     margin:20px;
     height: 50px;
     width: 100px;
-    background-color: rgb(230, 17, 17);
+    background-color: rgb(23, 209, 48);
 
+}
 
+.ParkingSpotFill {
+  float: left;
+  margin:20px;
+  height: 50px;
+  width: 100px;
+  background-color: rgb(230, 17, 17);
 }
