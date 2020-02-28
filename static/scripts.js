@@ -20,3 +20,20 @@ function showRandomQuote(){
     elem.innerHTML = "<p><b>" + daquote + "<b></p>";
 
 }
+
+function openAccordion() {
+    var item = document.getElementsByClassName("accordion");
+    var i;
+    
+    for (i = 0; i < item.length; i++) {
+        item[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+        });
+    }
+}
