@@ -37,3 +37,9 @@ function openAccordion() {
         });
     }
 }
+
+function getDate() {
+    var date = Date();
+    //console.log(date);
+    document.getElementById("date").value = date;
+}
