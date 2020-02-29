@@ -87,3 +87,25 @@ function userAdded(a, b, c){
     console.log("User added");
 }
 
+function openAccordion() {
+    var item = document.getElementsByClassName("accordion");
+    var i;
+    
+    for (i = 0; i < item.length; i++) {
+        item[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+        });
+    }
+}
+
+function getDate() {
+    var date = Date();
+    //console.log(date);
+    document.getElementById("date").value = date;
+}

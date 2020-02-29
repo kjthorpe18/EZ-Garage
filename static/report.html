@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Report a Driver</title>
+		<link href="Style.css" type="text/css" rel="stylesheet" />
+		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+		<style>
+			body {
+				font-family: 'Roboto';
+			}
+        </style>
+        <script src="scripts.js"></script>
+    </head>
+    
+	<body onLoad="getDate()">
+        <div>
+            <ul class="HomeNav">
+                <li class=""><a href="index.html">Home</a></li>
+                <li class=""><a href="reserve.html">Reserve</a></li>
+                <li class=""><a href="account.html">Account</a></li>
+                <li class=""><a href="about.html" >About</a></li>
+                <li class=""><a href="help.html">Help</a></li>
+                <li class=""><a href="report.html">Report</a></li>
+            </ul>
+        </div>
+        <div class="body-content">
+            <h2>Report A Stolen Space</h2>
+            <div class="report-section">
+                <form>
+                    <label for="platenum">License Plate Number:</label><br>
+                    <input type="text" id="platenum" name="platenum"><br>
+                    <label for="spaceID">Space ID:</label><br>
+                    <input type="text" id="spaceID" name="spaceID"><br>
+                    <label for="date">Date:</label><br>
+                    <input type="text" id="date" name="date"><br>
+                    <p style="font-size: small;"><i><b>Note: </b>It can take up to a few days to process any claims and refund to your payment method.</i></p>
+                    <button type="button">Submit</button>
+                 </form>
+            </div>
+        </div>
+	</body>
+</html>

@@ -49,7 +49,6 @@ input, button {
 	text-decoration: none;
 }
 
-  /* Change the link color to #111 (black) on hover */
 .HomeNav li a:hover {
 	background-color: rgb(11, 89, 119);
 }
@@ -156,4 +155,28 @@ th, td {
   height: 50px;
   width: 100px;
   background-color: rgb(230, 17, 17);
+}
+
+
+/* For the Help page */
+.accordion {
+  background-color:rgb(10, 134, 175);
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .accordion:hover {
+  background-color:  rgb(11, 89, 119);
+}
+
+.answer {
+  padding: 10px;
+  display: none;
+  overflow: hidden;
 }

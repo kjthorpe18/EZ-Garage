@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>EZ Help</title>
+		<link href="Style.css" type="text/css" rel="stylesheet" />
+		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+		<style>
+			body {
+				font-family: 'Roboto';
+			}
+        </style>
+        <script src="scripts.js"></script>
+	</head>
+	<body onLoad="openAccordion()">
+        <div>
+            <ul class="HomeNav">
+                <li class=""><a href="index.html">Home</a></li>
+                <li class=""><a href="reserve.html">Reserve</a></li>
+                <li class=""><a href="account.html">Account</a></li>
+                <li class=""><a href="about.html" >About</a></li>
+                <li class=""><a href="help.html">Help</a></li>
+                <li class=""><a href="report.html">Report</a></li>
+            </ul>
+        </div>
+        <div class="body-content">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-section">
+                <h3>Drivers:</h3>
+                <button type="button" class="accordion">How do I reserve a parking space?</button>
+                <div class="answer"><p>Reserve a parking space by using the navigation bar tabs to go to the "Reserve" page.
+                    On this page, use the section on the left to select a floor and a space. Click the "Submit"
+                    button to reserve the space.</p>
+                </div>
+                <button type="button" class="accordion">How do I update my account information?</button>
+                <div class="answer"><p>Change your account information by using the navigation bar tabs to go to the "Account" page.
+                    From here, you are able to change any of your account information.</p>
+                </div>
+                <h3>Owners:</h3>
+                <button type="button" class="accordion">How do I view my garage(s)?</button>
+                <div class="answer"><p>As a garage owner, you are able to view your garages by viewing your account information. 
+                You can do this by using the navigation bar to go to the "Account" page.</p>
+                </div>
+                <button type="button" class="accordion">How do I add a garage?</button>
+                <div class="answer"><p>As a garage owner, create a new garage by clicking "Create" in the navigation bar.
+                    You will be brought to a page where you can create a new garage.</p>
+                </div>
+            </div>
+        </div>
+	</body>
+</html>
