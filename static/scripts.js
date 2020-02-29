@@ -32,7 +32,6 @@ function createXmlHttp() {
     return xmlhttp;
 }
 
-// Takes in a
 function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     var xmlHttp = createXmlHttp();
     xmlHttp.onreadystatechange = function() {
@@ -79,12 +78,12 @@ function addUser(){
         return;
     }
     userInfo['dl_no'] = document.getElementById("dl_no").value;
-
     sendJsonRequest(userInfo, '/add-user', userAdded);
 }
 
-function userAdded(a, b, c){
+function userAdded(jsonObject, targetUrl, parameterObject){
     console.log("User added");
+    window.location = '/static/account.html' // Ideally, they would be auto logged in when redirected
 }
 
 function openAccordion() {
@@ -93,13 +92,13 @@ function openAccordion() {
     
     for (i = 0; i < item.length; i++) {
         item[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-            content.style.display = "none";
-        } else {
-            content.style.display = "block";
-        }
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
         });
     }
 }

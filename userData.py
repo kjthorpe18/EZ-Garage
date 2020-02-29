@@ -4,8 +4,9 @@ from user import User
 USER_ENTITY_TYPE = 'User'
 
 # Note - you will need to change this path. You can try setting an environment variable but it didn't work for me
+# See this: https://cloud.google.com/docs/authentication/getting-started
 def getClient():
-    # return datastore.Client()
+    # return datastore.Client() # Use this if using the environment variable
     return datastore.Client.from_service_account_json(
         '/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
 
@@ -36,16 +37,19 @@ def load_entity(client, item_id):
     return entity
 
 def createUser(userToCreate):
+    """
+    Takes a User as a parameter and adds that user to the database
+    """
     log('enter createUser')
     client = getClient()
     key = None
     entity = None
     if not userToCreate.id:
-        key = load_key(client)
+        key = load_key(client) # generate a key for the entity
         userToCreate.id = key.id_or_name
-        entity = datastore.Entity(key)
+        entity = datastore.Entity(key) # create empty entity with the key from above
     entity['username'] = userToCreate.username
     entity['pwd'] = userToCreate.pwd
     entity['dl_no'] = userToCreate.dl_no
-    client.put(entity)
+    client.put(entity) # add the entity to the DB
     log('Saved new user. User id: %s' % userToCreate.id)

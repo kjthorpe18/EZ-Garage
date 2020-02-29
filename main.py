@@ -21,13 +21,9 @@ def root():
 @app.route('/add-user', methods=['POST'])
 def addUser():
     username = flask.request.form['username']
-    print('username ', username)
     pwd = flask.request.form['pwd']
-    print('pwd: ', pwd)
     dl_no = flask.request.form['dl_no']
-    print('dl_no: ', dl_no)
     json_result = {}
-
     try:
         log('Creating new user and adding to database')
         userData.createUser(User(None, username, pwd, dl_no))
@@ -35,7 +31,6 @@ def addUser():
     except Exception as exc:
         log(str(exc))
         json_result['error'] = str(exc)
-
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
 
