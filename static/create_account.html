@@ -5,6 +5,7 @@
       <title>Create Account</title>
       <link href="Style.css" type="text/css" rel="stylesheet" />
       <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+      <script src="scripts.js"></script>
 		<style>
 			body {
 				font-family: 'Roboto';
@@ -31,12 +32,13 @@
                   <input type="text" id="username" name="username"><br>
                   <label for="pwd">Password:</label><br>
                   <input type="password" id="pwd" name="pwd"><br>
-                  <label for="pwd">Confirm Password:</label><br>
+                  <label for="pwd2">Confirm Password:</label><br>
                   <input type="password" id="pwd2" name="pwd2"><br>
-                  <label for ="DL">Driver's License Number</label><br>
-                  <input type="text" id="DL" name="DL"></label> <br><br>
-                  <button type="button">Submit</button> 
+                  <label for ="dl_no">Driver's License Number</label><br>
+                  <input type="text" id="dl_no" name="dl_no"></label> <br><br>
+                  <button type="button" onclick="addUser()">Submit</button> 
                </form> 
+               <div id="error"></div>
             </div>
          </div>
 
