@@ -71,9 +71,19 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th {
+  background-color: rgb(10, 134, 175);
+  color: white;
+  text-align: center;
   padding-right: 15px;
   padding-left: 15px;
+}
+
+td {
+  text-align: left;
+}
+
+th, td {
   border: 1px solid black;
 }
 
