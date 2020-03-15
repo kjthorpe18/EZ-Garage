@@ -1,0 +1,11 @@
+indexes:
+
+- kind: Garage
+  properties:
+  - name: name
+    direction: desc
+  - name: floorCount
+  - name: spaces
+  - name: address
+  - name: phone
+  - name: ownerDL
