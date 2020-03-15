@@ -1,2 +1,2 @@
 # cs1520
-It's the group project lol
+It's the group project
