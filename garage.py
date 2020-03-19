@@ -3,7 +3,7 @@
 #avoid parents
 
 class Garage(object):
-    def __init__(self, name='', floorCount=0,  spaces, address='', phone=0, ownerDL=0):
+    def __init__(self, name, floorCount,  spaces, address, phone, ownerDL):
         self.name= name
         self.floorCount = floorCount
         self.spaces = spaces                   #Shouldn't have to pass as an array but let's see what happens
@@ -16,7 +16,7 @@ class Garage(object):
     def toDict(self):
         return {
             'name': self.name,                  #Name of Garage
-            'floorCount': self.username,
+            'floorCount': self.floorCount,
             'spaces': self.spaces,              #Array of Spaces: 1A 1B... 4F....
             'address': self.address,   
             'phone': self.phone,

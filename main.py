@@ -1,8 +1,7 @@
-import flask
-import garage.py
+from garage import Garage
 import garageData
+import flask
 import json
-
 app = flask.Flask(__name__)
 
 def log(msg):
@@ -26,15 +25,12 @@ def addGarage():
     json_result = {}
     try:
         log('Creating a new Garage and adding it to db')
-        garageData.createGarage(garage.Garage(None, garageName, floorCount, spaces, address, phone, ownerDL))
+        garageData.createGarage(Garage(None, garageName, floorCount, spaces, address, phone, ownerDL))
         json_result['ok'] = True
     except Exception as exc:
         log(str(exc))
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
-
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
 
 @app.route('/load-garage/<gName>')
 def loadGarageTest(gName):
@@ -47,3 +43,6 @@ def loadGarageTest(gName):
         
         responseJson = json.dumps(json_list)
         return flask.Response(responseJson, mimetype='application/json')
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=8080, debug=True)
