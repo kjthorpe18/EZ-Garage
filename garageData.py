@@ -11,7 +11,7 @@ def log(msg):
     print('GarageData: %s' % msg)
 
 def getClient():
-     return datastore.Client('PROJECTID')
+     return datastore.Client()
 
 
 #project 9 ex
@@ -49,3 +49,30 @@ def createGarage(garage):
     entity['phone'] = garage.phone
     entity['ownerDL'] = garage.ownerDL
     client.put(entity)
+
+
+#Create garage from datastore entity
+def _garage_from_entity(garage_entity):
+    
+
+    name = garage_entity.key.name
+    floorCount = garage_entity['floorCount']
+    spaces = garage_entity['spaces']
+    address = garage_entity['address']
+    phone = garage_entity['phone']
+    ownerDL = garage_entity['ownerDL']
+    garageVal = Garage(name, floorCount, spaces, address, phone, ownerDL)
+    return garageVal
+
+
+#Load value from datastore based on NAME
+def load_garage(gName):
+    log('Loading a Garage: ' + gName)
+    client = getClient()
+    garage_entity = _load_entity(client, _GARAGE_ENTITY, gName)
+    log('Loaded a Garage named: ' + gName)
+    
+    rGarage = _garage_from_entity(garage_entity)
+    return rGarage
+
+
