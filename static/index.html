@@ -11,6 +11,9 @@
 			}
 		</style>
 	<script src="scripts.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
+
 </head>
 
 
@@ -37,14 +40,18 @@
 
 		<div class="center">
 			<div class="formdiv">
-				<h3>Enter your login info:</h3>
-				<form>
+				<h3>Please click the link below to sign in using Google.</h3>
+
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+				<br>
+
+				<!-- <form>
 				   <label for="username">Username:</label><br>
 				   <input type="text" id="username" name="username"><br>
 				   <label for="pwd">Password:</label><br>
 				   <input type="password" id="pwd" name="pwd"><br>
 				   <button type="button">Submit</button>
-				</form>
+				</form> -->
 				<a href="create_account.html">Click here to create an account</a>
 			 </div>
 
