@@ -6,8 +6,10 @@ USER_ENTITY_TYPE = 'User'
 # Note - you will need to change this path. You can try setting an environment variable but it didn't work for me
 # See this: https://cloud.google.com/docs/authentication/getting-started
 def getClient():
-    # return datastore.Client() # Use this if using the environment variable
-    return datastore.Client.from_service_account_json(
+    # return datastore.Client() # Use this when deploying the app
+
+    # Use this when testing locally - mh
+    return datastore.Client.from_service_account_json( 
         '/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
 
 def log(msg):
@@ -27,7 +29,6 @@ def load_key(client, item_id=None):
         # this will generate an ID
         key = client.key(USER_ENTITY_TYPE)
     return key
-
 
 def load_entity(client, item_id):
     """Load a datstore entity using a particular client, and the ID."""
