@@ -48,7 +48,7 @@ def loadCarTest(plate_num):
 
 @app.route('/add-space', methods=['POST'])
 def addSpace():
-    id = flask.request.form['id']
+    space_id = flask.request.form['space_id']
     floor = flask.request.form['floor']
     taken = flask.request.form['taken']
     json_result = {}

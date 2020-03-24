@@ -39,8 +39,8 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 #insert space object
 def createSpace(space):
     client =getClient()
-    entity = datastore.Entity(_load_key(client, _SPACE_ENTITY, space.id))
-    entity['id'] = space.id
+    entity = datastore.Entity(_load_key(client, _SPACE_ENTITY, space.space_id))
+    entity['space_id'] = space.space_id
     entity['num'] = space.num
     entity['floor'] = space.floor
     entity['garage'] = space.garage
@@ -49,20 +49,20 @@ def createSpace(space):
 
 # Create a space from datastore entry
 def _space_from_entity(space_entity):
-    id = space_entity['id']
+    space_id = space_entity['space_id']
     num = space_entity['num']
     floor = space_entity['floor']
     garage = space_entity['garage']
     taken = space_entity['taken']
-    spaceVal = Space(id, floor, garage, taken)
+    spaceVal = Space(space_id, num, floor, garage, taken)
     return spaceVal
 
 #Load value from datastore based on id
-def load_space(id):
-    log('Loading a Space: ' + id)
+def load_space(space_id):
+    log('Loading a Space: ' + space_id)
     client = getClient()
-    space_entity = _load_entity(client, _SPACE_ENTITY, id)
-    log('Loaded a Space: ' + id)
+    space_entity = _load_entity(client, _SPACE_ENTITY, space_id)
+    log('Loaded a Space: ' + space_id)
     
     rSpace = _space_from_entity(space_entity)
     return rSpace
