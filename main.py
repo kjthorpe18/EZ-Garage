@@ -26,7 +26,7 @@ def addUser():
     json_result = {}
     try:
         log('Creating new user and adding to database')
-        userData.createUser(User(None, username, pwd, dl_no))
+        userData.createUser(User(uid=None, username=username, pwd=pwd, dl_no=dl_no))
         json_result['ok'] = True
     except Exception as exc:
         log(str(exc))

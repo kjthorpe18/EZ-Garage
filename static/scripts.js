@@ -18,54 +18,6 @@ function showRandomQuote(){
     elem.innerHTML = "<p><b>" + randQuote + "</b></p>";
 }
 
-// Used to create an XMLHttp object
-function createXmlHttp() {
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        xmlhttp = new XMLHttpRequest();
-    } else {
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    if (!(xmlhttp)) {
-        alert("Your browser does not support AJAX!");
-    }
-    return xmlhttp;
-}
-
-function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
-    var xmlHttp = createXmlHttp();
-    xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4) {
-            console.log(xmlHttp.responseText);
-            var myObject = JSON.parse(xmlHttp.responseText);
-            callbackFunction(myObject, targetUrl, parameterObject);
-        }
-    }
-    console.log(targetUrl);
-    console.log(parameterObject);
-    console.log(objectToParameters(parameterObject))
-    postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
-}
-
-// this function converts a simple key-value object to a parameter string.
-function objectToParameters(obj) {
-    var text = '';
-    for (var i in obj) {
-        // encodeURIComponent is a built-in function that escapes to URL-safe values
-        text += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]) + '&';
-    }
-    return text;
-}
-
-function postParameters(xmlHttp, target, parameters) {
-    if (xmlHttp) {
-        xmlHttp.open("POST", target, true); // XMLHttpRequest.open(method, url, async)
-        var contentType = "application/x-www-form-urlencoded";
-        xmlHttp.setRequestHeader("Content-type", contentType);
-        xmlHttp.send(parameters);
-    }
-}
-
 function addUser(){
     var userInfo = {};
     userInfo['username'] = document.getElementById("username").value;
@@ -78,10 +30,10 @@ function addUser(){
         return;
     }
     userInfo['dl_no'] = document.getElementById("dl_no").value;
-    sendJsonRequest(userInfo, '/add-user', userAdded);
+    sendJsonRequest(userInfo, '/add-user', userAddedCallback);
 }
 
-function userAdded(jsonObject, targetUrl, parameterObject){
+function userAddedCallback(jsonObject, targetUrl, parameterObject){
     console.log("User added");
     window.location = '/static/account.html' // Ideally, they would be auto logged in when redirected
 }
