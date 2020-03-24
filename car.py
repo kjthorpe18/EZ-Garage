@@ -11,15 +11,3 @@ class Car(object):
             'plate_num': self.plate_num,
         }
 
-class Space(object):
-    def __init__(self, id, floor, taken, pwd=''):
-        self.id = id
-        self.floor = floor
-        self.taken = False
-
-    def toDict(self):
-        return {
-            'id': self.id,
-            'floor': self.floor,
-            'taken': self.taken,
-        }
