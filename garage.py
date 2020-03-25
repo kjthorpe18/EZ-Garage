@@ -3,7 +3,8 @@
 #avoid parents
 
 class Garage(object):
-    def __init__(self, name, floorCount,  spaces, address, phone, ownerDL):
+    def __init__(self, gID, name, floorCount,  spaces, address, phone, ownerDL):
+        self.gID = gID
         self.name= name
         self.floorCount = floorCount
         self.spaces = spaces                   #Shouldn't have to pass as an array but let's see what happens

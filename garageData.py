@@ -15,34 +15,39 @@ def getClient():
 
 
 #project 9 ex
-def _load_key(client, entity_type, entity_id=None, parent_key=None):
+def _load_key(client,  entity_id=None):
     """Load a datastore key using a particular client, and if known, the ID.
     Note that the ID should be an int - we're allowing datastore to generate
     them in this example."""
 
     key = None
     if entity_id:
-        key = client.key(entity_type, entity_id, parent=parent_key)
+        key = client.key(_GARAGE_ENTITY, int(entity_id) )
     else:
         # this will generate an ID
-        key = client.key(entity_type)
+        key = client.key(_GARAGE_ENTITY)
     return key
 
-
+#NEED TO CHANGE
 # follow project 9 ex
-def _load_entity(client, entity_type, entity_id, parent_key=None):
+def _load_entity(client, entity_id,):
     """Load a datstore entity using a particular client, and the ID."""
 
-    key = _load_key(client, entity_type, entity_id, parent_key)
+    key = _load_key(client, entity_id)
     entity = client.get(key)
-    log('retrieved entity for ' + str(entity_id))
-    return entity
+    log('retrieved entity for ' + entity_id)
+    return entity  
 
 #insert garage object
 def createGarage(garage):
     log("Storing garage entity %s " + garage.name)
-    client =getClient()
-    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.name))
+    client = getClient()
+    key = None
+    entity = None
+    if not garage.gID:
+        key = _load_key(client) # generate a key for the entity
+        garage.gID= key.id_or_name
+        entity = datastore.Entity(key) # create empty entity with the key from above
     entity['name'] = garage.name
     entity['floorCount'] = garage.floorCount
     entity['spaces'] = garage.spaces
@@ -50,7 +55,7 @@ def createGarage(garage):
     entity['phone'] = garage.phone
     entity['ownerDL'] = garage.ownerDL
     client.put(entity)
-
+    log('Saved new Garage. gID: %s' % key.id_or_name)
 
 #Create garage from datastore entity
 def _garage_from_entity(garage_entity):
@@ -67,6 +72,7 @@ def _garage_from_entity(garage_entity):
     return garageVal
 
 
+#NEED TO CHANGE
 #Load value from datastore based on NAME
 def load_garage(gName):
     log('Loading a Garage: %s ' + gName)
