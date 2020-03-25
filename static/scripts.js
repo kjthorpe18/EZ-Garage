@@ -124,6 +124,8 @@ function displayGarage(result, targetUrl) {
 
 }
 
+}
+
 function loadGarage() {
     name = document.getElementById("nameCheck");
     
@@ -155,4 +157,4 @@ function loadGarage() {
     --turn the thing retured by get_item into dictionary
     --append to json_list
     --json.dumps(json_lits)
-    --return flask.Response(responseJson, mimetype = 'application/json') */
+--return flask.Response(responseJson, mimetype = 'application/json') */ 
