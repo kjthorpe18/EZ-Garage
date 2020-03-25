@@ -40,6 +40,7 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 
 #insert garage object
 def createGarage(garage):
+    log("Storing garage entity %s " + garage.name)
     client =getClient()
     entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.name))
     entity['name'] = garage.name
@@ -54,7 +55,7 @@ def createGarage(garage):
 #Create garage from datastore entity
 def _garage_from_entity(garage_entity):
     
-
+    log("Creating garage from entity...")
     name = garage_entity.key.name
     floorCount = garage_entity['floorCount']
     spaces = garage_entity['spaces']
@@ -62,15 +63,16 @@ def _garage_from_entity(garage_entity):
     phone = garage_entity['phone']
     ownerDL = garage_entity['ownerDL']
     garageVal = Garage(name, floorCount, spaces, address, phone, ownerDL)
+    log("Returning garage from entity...")
     return garageVal
 
 
 #Load value from datastore based on NAME
 def load_garage(gName):
-    log('Loading a Garage: ' + gName)
+    log('Loading a Garage: %s ' + gName)
     client = getClient()
     garage_entity = _load_entity(client, _GARAGE_ENTITY, gName)
-    log('Loaded a Garage named: ' + gName)
+    log('Loaded a Garage named: %s ' + gName)
     
     rGarage = _garage_from_entity(garage_entity)
     return rGarage
