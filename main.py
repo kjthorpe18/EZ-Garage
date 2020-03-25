@@ -16,12 +16,12 @@ def root():
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
-    garageName = flask.Flask.request.form['name']
-    floorCount = flask.Flask.request.form['count']
-    spaces = flask.Flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
-    address = flask.Flask.request.form['address']
-    phone = flask.Flask.request.form['phone']
-    ownerDL = flask.Flask.request.form['ownerDL']
+    garageName = flask.request.form['name']
+    floorCount = flask.request.form['count']
+    spaces = flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
+    address = flask.request.form['address']
+    phone = flask.request.form['phone']
+    ownerDL = flask.request.form['ownerDL']
     json_result = {}
     try:
         log('Creating a new Garage and adding it to db')
