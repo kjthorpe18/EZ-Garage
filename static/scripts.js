@@ -96,12 +96,12 @@ function garageSaved(result, targetUrl, params) {
 //Saves a new garage after user inputs
 function saveGarage() {
     let values = {};
-        values['name'] = document.getElementById("addName");
-        values['floorCount'] = document.getElementById("addFloorCount");
-        values['spaces'] = document.getElementById("addSpaces");
-        values['address'] = document.getElementById("addAddress");
-        values['phone'] = document.getElementById("addPhone");
-        values['ownerDL'] = document.getElementById("addOwnerDL");
+        values['name'] = document.getElementById("addName").value;
+        values['floorCount'] = document.getElementById("addFloorCount").value;
+        values['spaces'] = document.getElementById("addSpaces").value;
+        values['address'] = document.getElementById("addAddress").value;
+        values['phone'] = document.getElementById("addPhone").value;
+        values['ownerDL'] = document.getElementById("addOwnerDL").value;
         sendJsonRequest(values,'/add-garage', garageSaved)
 }
 

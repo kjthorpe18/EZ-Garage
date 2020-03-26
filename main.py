@@ -24,6 +24,7 @@ def addGarage():
     address = flask.request.form['address']
     phone = flask.request.form['phone']
     ownerDL = flask.request.form['ownerDL']
+    log('About to create JSON')
     json_result = {}
     log('About to try')
     try:
