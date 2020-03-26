@@ -44,10 +44,9 @@ def createGarage(garage):
     client = getClient()
     key = None
     entity = None
-    if not garage.gID:
-        key = _load_key(client) # generate a key for the entity
-        garage.gID= key.id_or_name
-        entity = datastore.Entity(key) # create empty entity with the key from above
+    key = _load_key(client) # generate a key for the entity
+    garage.gID= key.id_or_name
+    entity = datastore.Entity(key) # create empty entity with the key from above
     entity['name'] = garage.name
     entity['floorCount'] = garage.floorCount
     entity['spaces'] = garage.spaces
@@ -67,7 +66,7 @@ def _garage_from_entity(garage_entity):
     address = garage_entity['address']
     phone = garage_entity['phone']
     ownerDL = garage_entity['ownerDL']
-    garageVal = Garage(name, floorCount, spaces, address, phone, ownerDL)
+    garageVal = Garage(None, name, floorCount, spaces, address, phone, ownerDL)
     log("Returning garage from entity...")
     return garageVal
 

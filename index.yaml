@@ -2,8 +2,8 @@ indexes:
 
 - kind: Garage
   properties:
+  - name: gID
   - name: name
-    direction: desc
   - name: floorCount
   - name: spaces
   - name: address

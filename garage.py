@@ -16,6 +16,7 @@ class Garage(object):
 
     def toDict(self):
         return {
+            'gID': self.gID,
             'name': self.name,                  #Name of Garage
             'floorCount': self.floorCount,
             'spaces': self.spaces,              #Array of Spaces: 1A 1B... 4F....
