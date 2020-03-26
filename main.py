@@ -24,11 +24,13 @@ def addGarage():
     phone = flask.request.form['phone']
     ownerDL = flask.request.form['ownerDL']
     json_result = {}
+    log('About to try')
     try:
-        log('Creating a new Garage and adding it to db')
+        log('In try')
         garageData.createGarage(Garage(None, garageName, floorCount, spaces, address, phone, ownerDL))
         json_result['ok'] = True
     except Exception as exc:
+        log('EXCEPTION')
         log(str(exc))
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
