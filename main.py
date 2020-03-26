@@ -16,6 +16,7 @@ def root():
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
+    log('Called addGarage')
     garageName = flask.request.form['name']
     floorCount = flask.request.form['count']
     spaces = flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
@@ -25,7 +26,7 @@ def addGarage():
     json_result = {}
     try:
         log('Creating a new Garage and adding it to db')
-        garageData.createGarage(Garage(garageName, floorCount, spaces, address, phone, ownerDL))
+        garageData.createGarage(Garage(None, garageName, floorCount, spaces, address, phone, ownerDL))
         json_result['ok'] = True
     except Exception as exc:
         log(str(exc))
