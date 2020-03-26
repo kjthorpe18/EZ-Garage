@@ -19,7 +19,7 @@ def addGarage():
     log('Called addGarage')
     garageName = flask.request.form['name']
     log(garageName)
-    floorCount = flask.request.form['count']
+    floorCount = flask.request.form['floorcount']
     spaces = flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
     address = flask.request.form['address']
     phone = flask.request.form['phone']

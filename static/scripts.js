@@ -96,7 +96,6 @@ function garageSaved(result, targetUrl, params) {
 //Saves a new garage after user inputs
 function saveGarage() {
     let values = {};
-    
         values['name'] = document.getElementById("addName");
         values['floorCount'] = document.getElementById("addFloorCount");
         values['spaces'] = document.getElementById("addSpaces");
