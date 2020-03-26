@@ -22,8 +22,8 @@ function addUser(){
     var auth2 = gapi.auth2.getAuthInstance();
     var profile = auth2.currentUser.get();
     var userInfo = {};
-    userInfo['user_id'] = profile.getAuthResponse().id_token;
-    console.log(userInfo['user_id']);
+    userInfo['user_token'] = profile.getAuthResponse().id_token;
+    console.log('user_token: ' + userInfo['user_token']);
     userInfo['username'] = document.getElementById("username").value;
     userInfo['pwd'] = document.getElementById("pwd").value;
     var confirmPass = document.getElementById("pwd2").value;
@@ -50,7 +50,7 @@ function getLoggedInUser(){
 function getLoggedInUserCallback(returnedObject, targetUrl, unused){
     var elem = document.getElementById('getLoggedInUser');
     var text = '';
-    text += "<p><h2>User Information</h2><br> User ID: " + returnedObject['user_id'] + "<br>";
+    text += "<p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
     text += "Username: " + returnedObject['username'] + "<br>";
     text += "Password(This isn't actually necessary): " + returnedObject['pwd'] + "<br>";
     text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br>";

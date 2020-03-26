@@ -5,7 +5,7 @@ USER_ENTITY_TYPE = 'User'
 
 # Note - you will need to change this path. You can try setting an environment variable but it didn't work for me
 # See this: https://cloud.google.com/docs/authentication/getting-started
-def getClient():
+def get_client():
     client = None
     try: # When we run 'gcloud app deploy' this will work and it will connect to the database
         client = datastore.Client()
@@ -43,29 +43,29 @@ def convert_to_object(entity):
     user_id = entity.key.id_or_name
     return User(user_id, entity['username'], entity['pwd'], entity['dl_no'])   
 
-def createUser(userToCreate):
+def create_user(user_to_create):
     """
     Takes a User as a parameter and adds that user to the database
     """
-    log('enter createUser')
-    client = getClient()
+    log('enter create_user')
+    client = get_client()
     key = None
     entity = None
-    if not userToCreate.uid:
+    if not user_to_create.uid:
         key = load_key(client) # generate a key for the entity
-        userToCreate.uid = key.id_or_name
+        user_to_create.uid = key.id_or_name
         entity = datastore.Entity(key) # create empty entity with the key from above
     else:
-        key = load_key(client, userToCreate.uid)
+        key = load_key(client, user_to_create.uid)
         entity = datastore.Entity(key)
-    entity['username'] = userToCreate.username
-    entity['pwd'] = userToCreate.pwd
-    entity['dl_no'] = userToCreate.dl_no
+    entity['username'] = user_to_create.username
+    entity['pwd'] = user_to_create.pwd
+    entity['dl_no'] = user_to_create.dl_no
     client.put(entity) # add the entity to the DB
     log('Saved new user. User id: %s' % key.id_or_name)
 
-def getUser(user_id):
-    client = getClient()
+def get_user(user_id):
+    client = get_client()
     log('retrieving object for ID: %s' % user_id)
     entity = load_entity(client, user_id)
     return convert_to_object(entity)
