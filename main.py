@@ -20,10 +20,15 @@ def addGarage():
     garageName = flask.request.form['name']
     log(garageName)
     floorCount = flask.request.form['floorcount']
+    log(floorCount)
     spaces = flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
+    log(spaces)
     address = flask.request.form['address']
+    log(address)
     phone = flask.request.form['phone']
+    log(phone)
     ownerDL = flask.request.form['ownerDL']
+    log(ownerDL)
     log('About to create JSON')
     json_result = {}
     log('About to try')

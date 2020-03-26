@@ -103,6 +103,11 @@ function saveGarage() {
     values['phone'] = document.getElementById("addPhone").value;
     values['ownerDL'] = document.getElementById("addOwnerDL").value;
     console.log(document.getElementById("addName").value)
+    console.log(document.getElementById("addFloorCount").value)
+    console.log(document.getElementById("addAddress").value)
+    console.log(document.getElementById("addPhone").value)
+    console.log(document.getElementById("addOwnerDL").value)
+
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
 
