@@ -7,7 +7,7 @@ class User(object):
         self.pwd = pwd
         self.dl_no = dl_no
 
-    def toDict(self):
+    def to_dict(self):
         return {
             'uid': self.uid,
             'username': self.username,

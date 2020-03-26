@@ -5,15 +5,15 @@
         <link href="Style.css" type="text/css" rel="stylesheet" />
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <script src="scripts.js"></script>
-        <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-        <meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
+        <script src="server_access.js"></script>
+
 		<style>
 			body {
 				font-family: 'Roboto';
 			}
 		</style>
 	</head>
-	<body onload="showUserInfo()">
+	<body>
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
@@ -24,9 +24,12 @@
         <li class=""><a href="report.html">Report</a></li>
 			</ul>
         </div>
-        <!-- <div id="userInfo"></div> -->
+        <div id="userInfo"></div>
         <div class="body-content">
             <h1>Manage your Account</h1>
+            <!-- This is dumb, but it shows the idea of how to access data from the backend -->
+            <button onclick="getLoggedInUser()">Click this button to show your info.</button><br>
+            <div id="getLoggedInUser"></div>
 
             <div>
                 <form>

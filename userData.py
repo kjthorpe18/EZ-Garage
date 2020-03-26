@@ -25,7 +25,7 @@ def load_key(client, item_id=None):
     them in this example."""
     key = None
     if item_id:
-        key = client.key(USER_ENTITY_TYPE, int(item_id))
+        key = client.key(USER_ENTITY_TYPE, str(item_id))
     else:
         # this will generate an ID
         key = client.key(USER_ENTITY_TYPE)
@@ -36,7 +36,12 @@ def load_entity(client, item_id):
     key = load_key(client, item_id)
     entity = client.get(key)
     log('retrieved entity for ' + item_id)
-    return entity    
+    log(entity)
+    return entity 
+
+def convert_to_object(entity):
+    user_id = entity.key.id_or_name
+    return User(user_id, entity['username'], entity['pwd'], entity['dl_no'])   
 
 def createUser(userToCreate):
     """
@@ -50,8 +55,18 @@ def createUser(userToCreate):
         key = load_key(client) # generate a key for the entity
         userToCreate.uid = key.id_or_name
         entity = datastore.Entity(key) # create empty entity with the key from above
+    else:
+        key = load_key(client, userToCreate.uid)
+        entity = datastore.Entity(key)
     entity['username'] = userToCreate.username
     entity['pwd'] = userToCreate.pwd
     entity['dl_no'] = userToCreate.dl_no
     client.put(entity) # add the entity to the DB
     log('Saved new user. User id: %s' % key.id_or_name)
+
+def getUser(user_id):
+    client = getClient()
+    log('retrieving object for ID: %s' % user_id)
+    entity = load_entity(client, user_id)
+    return convert_to_object(entity)
+
