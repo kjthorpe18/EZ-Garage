@@ -33,6 +33,7 @@ function createXmlHttp() {
 }
 
 function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
+    console.log('server_access: Enter sendJsonRequest')
     var xmlHttp = createXmlHttp();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4) {
@@ -41,9 +42,9 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
             callbackFunction(myObject, targetUrl, parameterObject);
         }
     }
-    console.log(targetUrl);
-    console.log(parameterObject);
-    console.log(objectToParameters(parameterObject))
+    console.log('\t' + targetUrl);
+    console.log('\t' + parameterObject);
+    console.log('\t' + objectToParameters(parameterObject))
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 

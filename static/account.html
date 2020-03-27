@@ -13,7 +13,7 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body onload="getLoggedInUser()">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
@@ -28,7 +28,7 @@
         <div class="body-content">
             <h1>Manage your Account</h1>
             <!-- This is dumb, but it shows the idea of how to access data from the backend -->
-            <button onclick="getLoggedInUser()">Click this button to show your info.</button><br>
+            <!-- <button onclick="getLoggedInUser()">Click this button to show your info.</button><br> -->
             <div id="getLoggedInUser"></div>
 
             <div>

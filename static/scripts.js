@@ -19,20 +19,9 @@ function showRandomQuote(){
 }
 
 function addUser(){
-    var auth2 = gapi.auth2.getAuthInstance();
-    var profile = auth2.currentUser.get();
     var userInfo = {};
-    userInfo['user_token'] = profile.getAuthResponse().id_token;
-    console.log('user_token: ' + userInfo['user_token']);
     userInfo['username'] = document.getElementById("username").value;
-    userInfo['pwd'] = document.getElementById("pwd").value;
-    var confirmPass = document.getElementById("pwd2").value;
-    if(userInfo['pwd'] != confirmPass){
-        var errorElem = document.getElementById("error");
-        errorElem.innerHTML = "Passwords do not match. Please try again."
-        console.log("Passwords do not match. Please try again.");
-        return;
-    }
+    userInfo['phone'] = document.getElementById("phone").value;
     userInfo['dl_no'] = document.getElementById("dl_no").value;
     sendJsonRequest(userInfo, '/add-user', userAddedCallback);
 }
@@ -52,7 +41,7 @@ function getLoggedInUserCallback(returnedObject, targetUrl, unused){
     var text = '';
     text += "<p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
     text += "Username: " + returnedObject['username'] + "<br>";
-    text += "Password(This isn't actually necessary): " + returnedObject['pwd'] + "<br>";
+    text += "Phone: " + returnedObject['phone'] + "<br>";
     text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br>";
     elem.innerHTML = text;
 
@@ -96,16 +85,23 @@ function getDate() {
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-    console.log('Full Name: ' + profile.getName());
-    console.log('Given Name: ' + profile.getGivenName());
-    console.log('Family Name: ' + profile.getFamilyName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail());
-
-    // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
+    let params = {}
+    params['email'] = profile.getEmail();
+    params['id_token'] = id_token
+    document.getElementById("pleaseWait").innerHTML = "Please wait...";
+    sendJsonRequest(params, '/login', onSignInCallback);
+}
+
+function onSignInCallback(returnedObject, targetURL, origParams){
+    if(returnedObject['data']['user_in_db'] == "true"){
+        window.location = '/static/account.html';
+    }
+    else{
+        window.location = '/static/create_account.html';
+    }
+    console.log("enter onSignInCallback");
 }
 
 

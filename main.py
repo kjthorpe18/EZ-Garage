@@ -26,23 +26,21 @@ def root():
 
 @app.route('/add-user', methods=['POST'])
 def add_user():
-    user_token = flask.request.form['user_token']
     username = flask.request.form['username']
-    pwd = flask.request.form['pwd']
+    phone = flask.request.form['phone']
     dl_no = flask.request.form['dl_no']
     json_result = {}
     try:
         log('Creating new user and adding to database')
-        user_id = validate_user(user_token)
-        userData.create_user(User(uid=user_id, username=username, pwd=pwd, dl_no=dl_no))
-        flask.session['user_id'] = user_id # store the user_id into the flask session so that we can access it on different pages
+        user_id = flask.session['user_id']
+        userData.create_user(User(uid=user_id, username=username, phone=phone, dl_no=dl_no))
         json_result['ok'] = True
     except Exception as exc:
         log(str(exc))
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-@app.route('/get-user', methods=['POST'])
+@app.route('/get-user', methods=['POST', 'GET'])
 def get_user():
     user_id = flask.session['user_id']
     if user_id:
@@ -50,36 +48,89 @@ def get_user():
         u = user.to_dict()
     return flask.Response(json.dumps(u), mimetype='application/json')
 
-@app.route('/user-login', methods=['POST'])
-def login_user():
-    user_token = flask.request.form['user_token']
+@app.route('/login', methods=['POST'])
+def login():
+    jd = JsonData()
+    user_token = flask.request.form['id_token']
+    email = flask.request.form['email']
+    user_id = None
+    validate_user(user_token, jd)
+    if len(jd.errors) != 0:
+        log('there were errors logging the user in')
+        return show_json(jd)
+    else:
+        user_id = jd.data['user_id']
+        flask.session['user_id'] = user_id # store the user_id in the session to use later
+        if userData.get_user(user_id):
+            jd.set_data({
+                    'user_in_db' : "true",
+                    'user_id' : user_id,
+                })
+            return show_json(jd)
+        else:
+            jd.set_data({
+                    'user_in_db' : "false",
+                    'user_id' : user_id,
+                })
+            return show_json(jd)
 
 
 # takes the token_id given by google and returns the user id for that token
 # if the token is valid
-def validate_user(user_token):
+def validate_user(user_token, jsonData):
     log('validating user')
     try:
         idinfo = id_token.verify_oauth2_token(user_token, requests.Request(), SIGN_IN_CLIENT_ID)
 
-        # Or, if multiple clients access the backend server:
-        # idinfo = id_token.verify_oauth2_token(token, requests.Request())
-        # if idinfo['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
-        #     raise ValueError('Could not verify audience.')
-
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-            raise ValueError('Wrong issuer.')
-
-        # If auth request is from a G Suite domain:
-        # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
-        #     raise ValueError('Wrong hosted domain.')
+            jsonData.errors.append('Unable to authenticate the user token')
+            jsonData.errors.append('Please try logging in again')
 
         # ID token is valid. Get the user's Google Account ID from the decoded token.
         user_id = idinfo['sub']
-        return user_id
+        jsonData.set_data({
+                'user_id' : user_id
+            })
     except ValueError:
         # Invalid token
-        pass
+        jsonData.errors.append('There was an error validating the user')
+        
+
+class PageData(object):
+    def __init__(self, title):
+        self.title = title
+        self.errors = []
+        self.p = {}
+
+    def add_error(self, error):
+        self.errors.append(error)
+
+    def set_param(self, key, value):
+        self.p[key] = value
+
+class JsonData(object):
+    def __init__(self):
+        self.errors = []
+        self.status = []
+
+    def add_error(self, error):
+        self.errors.append(error)
+
+    def add_status(self, status):
+        self.status.append(status)
+
+    def set_data(self, data):
+        self.data = data
+
+def show_json(json_data):
+    response_dict = {
+        'errors': json_data.errors,
+        'status': json_data.status,
+        'data': json_data.data,
+    }
+    responseJson = json.dumps(response_dict)
+    log('responseJson: ' + responseJson)
+    return flask.Response(responseJson, mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

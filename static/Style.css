@@ -1,6 +1,7 @@
 
 body {
     background-color: whitesmoke;
+    font-family: 'Roboto';
 }
 
 .content {
@@ -15,7 +16,7 @@ body {
 
 .formdiv {
     margin: auto;
-    width: 50%;
+    width: 80%;
     padding: 10px;
 }
 
