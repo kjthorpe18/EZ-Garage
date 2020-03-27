@@ -59,6 +59,7 @@ def createGarage(garage):
     log("Storing garage entity %s " + garage.name)
     client = getClient()
     log('Testing load key')
+    garage.gID = None
     if not garage.gID:                                  ##############################
         key=(_load_key(client, _GARAGE_ENTITY))
         garage.gID = key.id_or_name
