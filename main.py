@@ -34,7 +34,7 @@ def addGarage():
     log('About to try')
     try:
         log('In try')
-        garageData.createGarage(Garage(None, garageName, floorCount, spaces, address, phone, ownerDL))
+        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL))
         json_result['ok'] = True
         log('after json result')
     except Exception as exc:

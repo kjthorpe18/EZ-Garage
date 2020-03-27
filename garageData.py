@@ -59,14 +59,16 @@ def createGarage(garage):
     log("Storing garage entity %s " + garage.name)
     client = getClient()
     log('Testing load key')
-    if not garage.gID:
+    if not garage.gID:                                  ##############################
         key=(_load_key(client, _GARAGE_ENTITY))
         garage.gID = key.id_or_name
         entity = datastore.Entity(key)
     else:
+        log('about to load key in else')
         key = _load_key(client, _GARAGE_ENTITY, garage.gID)
+        log('about to assign key to entity')
         entity = datastore.Entity(key)
-    log('creating entity')
+    log('creating entity')                              #################################
     entity['gID'] = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.phone)) #temporarily using pn# as ID
     entity['name'] = garage.name
     entity['floorCount'] = garage.floorCount
