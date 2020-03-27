@@ -34,13 +34,15 @@ def _load_key(client, entity_type, entity_id=None, parent_key=None):
     """Load a datastore key using a particular client, and if known, the ID.
     Note that the ID should be an int - we're allowing datastore to generate
     them in this example."""
-
+    log('in load key')
     key = None
     if entity_id:
+        log ('in load key if')
         key = client.key(entity_type, entity_id, parent=parent_key)
     else:
         # this will generate an ID
         key = client.key(entity_type)
+    log('returning key')
     return key
 
 
@@ -56,6 +58,7 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 def createGarage(garage):
     log("Storing garage entity %s " + garage.name)
     client = getClient()
+    log('Testing load key')
     if not garage.gID:
         key=(_load_key(client, _GARAGE_ENTITY))
         garage.gID = key.id_or_name
@@ -63,7 +66,7 @@ def createGarage(garage):
     else:
         key = _load_key(client, _GARAGE_ENTITY, garage.gID)
         entity = datastore.Entity(key)
-
+    log('creating entity')
     entity['gID'] = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.phone)) #temporarily using pn# as ID
     entity['name'] = garage.name
     entity['floorCount'] = garage.floorCount
