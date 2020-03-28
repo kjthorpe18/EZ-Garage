@@ -132,9 +132,9 @@ function displayGarage(result, targetUrl) {
 }
 
 function loadGarage() {
-    name = document.getElementById("nameCheck");
+    phone = document.getElementById("phoneCheck").value;
     
-    getData('/load-garage/' +name, displayGarage);
+    getData('/load-garage/' +phone, displayGarage);
 }
 
 //test function to GET garage entity after storing

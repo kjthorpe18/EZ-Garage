@@ -32,9 +32,10 @@ def addGarage():
     log('About to create JSON')
     json_result = {}
     log('About to try')
+    
     try:
         log('In try')
-        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL))
+        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL)) #First argument is gID, will use as key somehow, passing phone for now
         log('finished create garage')
         json_result['ok'] = True
         log('after json result')
@@ -46,7 +47,7 @@ def addGarage():
 
 @app.route('/load-garage/<gName>')
 def loadGarageTest(gName):
-        log('loading Garage.')
+        log('loading Garage.' + gName)
         garageObj = garageData.load_garage(gName)
         g = garageObj.toDict()
         json_list = []

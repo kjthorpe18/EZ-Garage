@@ -96,10 +96,12 @@ def _garage_from_entity(garage_entity):
 
 
 #NEED TO CHANGE
-#Load value from datastore based on NAME
+#Load value from datastore based on PHONE
 def load_garage(phone):
     log('Loading a Garage: %s ' + phone)
     client = getClient()
+    q= client.query(kind = _GARAGE_ENTITY)
+    q.add_filter('phone')
     garage_entity = _load_entity(client, _GARAGE_ENTITY, phone)
     log('Loaded a Garage named: %s ' + phone)
     
