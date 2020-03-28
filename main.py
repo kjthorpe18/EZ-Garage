@@ -45,8 +45,8 @@ def addGarage():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-@app.route('/load-garage/<gName>')
-def loadGarageTest(gName):
+@app.route('/load-garage/<gPhone>')
+def loadGarageTest(gPhone):
         log('loading Garage.' + gName)
         garageObj = garageData.load_garage(gName)
         g = garageObj.toDict()
