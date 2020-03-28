@@ -13,22 +13,8 @@ def log(msg):
 def getClient():
      return datastore.Client()
 
-
-#project 9 ex
-def _load_key(client, entity_type, entity_id=None, parent_key=None):
-    """Load a datastore key using a particular client, and if known, the ID.
-    Note that the ID should be an int - we're allowing datastore to generate
-    them in this example."""
-
-    key = None
-    if entity_id:
-        key = client.key(entity_type, entity_id, parent=parent_key)
-    else:
-        # this will generate an ID
-        key = client.key(entity_type)
-    return key
-
-
+    
+    
 # follow project 9 ex
 def _load_key(client, entity_type, entity_id=None, parent_key=None):
     """Load a datastore key using a particular client, and if known, the ID.
