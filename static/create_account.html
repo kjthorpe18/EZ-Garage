@@ -5,6 +5,10 @@
       <title>Create Account</title>
       <link href="Style.css" type="text/css" rel="stylesheet" />
       <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+      <script src="scripts.js"></script>
+      <script src="server_access.js"></script>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
 		<style>
 			body {
 				font-family: 'Roboto';
@@ -14,31 +18,31 @@
 
    <body>
       <div>
-         <ul class="HomeNav">
-            <li class=""><a href="index.html">Home</a></li>
-            <li class=""><a href="reserve.html">Reserve</a></li>
-            <li class=""><a href="account.html">Account</a></li>
-            <li class=""><a href="about.html" >About</a></li>
-            <li class=""><a href="help.html">Help</a></li>
-            <li class=""><a href="report.html">Report</a></li>
-         </ul>
+            <ul class="HomeNav">
+                <li class=""><a href="index.html">Home</a></li>
+                <li class=""><a href="reserve.html">Reserve</a></li>
+                <li class=""><a href="account.html">Account</a></li>
+                <li class=""><a href="about.html" >About</a></li>
+                <li class=""><a href="help.html">Help</a></li>
+                <li class=""><a href="report.html">Report</a></li>
+            </ul>
       </div>
       
       <div class="content">
          <div class="center">
             <div class="formdiv">
                <h1>Create an account:</h1>
+               <p>First, click the button to connect your EZ Garage account with your google account.</p>
                <form>
                   <label for="username">Username:</label><br>
                   <input type="text" id="username" name="username"><br>
-                  <label for="pwd">Password:</label><br>
-                  <input type="password" id="pwd" name="pwd"><br>
-                  <label for="pwd">Confirm Password:</label><br>
-                  <input type="password" id="pwd2" name="pwd2"><br>
-                  <label for ="DL">Driver's License Number</label><br>
-                  <input type="text" id="DL" name="DL"></label> <br><br>
-                  <button type="button">Submit</button> 
+                  <label for="phone">Phone number:</label><br>
+                  <input type="number" id="phone" name="phone"><br>
+                  <label for ="dl_no">Driver's License Number</label><br>
+                  <input type="text" id="dl_no" name="dl_no"></label> <br><br>
+                  <button type="button" onclick="addUser()">Submit</button> 
                </form> 
+               <div id="error"></div>
             </div>
          </div>
 

@@ -4,13 +4,16 @@
         <title>Manage your Account</title>
         <link href="Style.css" type="text/css" rel="stylesheet" />
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+        <script src="scripts.js"></script>
+        <script src="server_access.js"></script>
+
 		<style>
 			body {
 				font-family: 'Roboto';
 			}
 		</style>
 	</head>
-	<body>
+	<body onload="getLoggedInUser()">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
@@ -21,18 +24,22 @@
         <li class=""><a href="report.html">Report</a></li>
 			</ul>
         </div>
+        <div id="userInfo"></div>
         <div class="body-content">
             <h1>Manage your Account</h1>
+            <!-- This is dumb, but it shows the idea of how to access data from the backend -->
+            <!-- <button onclick="getLoggedInUser()">Click this button to show your info.</button><br> -->
+            <div id="getLoggedInUser"></div>
 
             <div>
                 <form>
                     <label for="username">Update Username:</label><br>
                     <input type="text" id="username" name="username"><br>
-                    <label for="pwd">Update Password:</label><br>
-                    <input type="password" id="pwd" name="pwd"><br>
+                    <label for="pwd">Update Phone Number:</label><br>
+                    <input type="number" id="phone" name="phone"><br>
                     <label for="pwd">Update Driver's License Number:</label><br>
-                    <input type="text" id="license" name="license"><br>
-                    <button type="button">Submit</button> 
+                    <input type="text" id="dl_no" name="dl_no"><br>
+                    <button type="button" onclick="addUser()">Submit</button> 
                 </form> 
             </div>
 
