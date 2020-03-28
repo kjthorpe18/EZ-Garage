@@ -13,8 +13,10 @@ function showRandomQuote(){
     quoteList[2] = "Pay for parking by the hour.";
     quoteList[3] = "Create an account today!";
 
-    var randNum = Math.round(Math.random() * numQuotes);
+    var randNum = Math.floor(Math.random() * numQuotes);
+    console.log(randNum);
     var randQuote = quoteList[randNum];
+    console.log(randQuote);
     elem.innerHTML = "<p><b>" + randQuote + "</b></p>";
 }
 
@@ -33,18 +35,22 @@ function userAddedCallback(jsonObject, targetUrl, parameterObject){
 
 function getLoggedInUser(){
     console.log('enter getLoggedInUser()');
+    var elem = document.getElementById('getLoggedInUser');
+    elem.innerHTML = "<div class='loader'></div>";
     sendJsonRequest(null, '/get-user', getLoggedInUserCallback);
 }
 
 function getLoggedInUserCallback(returnedObject, targetUrl, unused){
     var elem = document.getElementById('getLoggedInUser');
+    elem.innerHTML = '';
     var text = '';
+    // text += "<marquee><p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
     text += "<p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
     text += "Username: " + returnedObject['username'] + "<br>";
     text += "Phone: " + returnedObject['phone'] + "<br>";
     text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br>";
+    // text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br></marquee>";
     elem.innerHTML = text;
-
 }
 
 function openAccordion() {
@@ -83,14 +89,15 @@ function getDate() {
 
 // logs user information to the console when they're logged in
 function onSignIn(googleUser) {
+    document.getElementById("pleaseWait").innerHTML = "<br><div class='loader'></div>"
+
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
     let params = {}
     params['email'] = profile.getEmail();
-    params['id_token'] = id_token
-    document.getElementById("pleaseWait").innerHTML = "Please wait...";
+    params['id_token'] = id_token;
     sendJsonRequest(params, '/login', onSignInCallback);
 }
 

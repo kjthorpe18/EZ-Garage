@@ -30,6 +30,27 @@ input, button {
 	margin: 3px;
 }
 
+.loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid rgb(10, 134, 175);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+marquee{
+  font-size: 30px;
+  font-weight: 800;
+  color: #8ebf42;
+  font-family: sans-serif;
+}
+
 .HomeNav {
 	list-style-type: none;
 	margin: 0;

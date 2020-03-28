@@ -25,7 +25,7 @@ def load_key(client, item_id=None):
     them in this example."""
     key = None
     if item_id:
-        key = client.key(USER_ENTITY_TYPE, int(item_id))
+        key = client.key(USER_ENTITY_TYPE, str(item_id))
     else:
         # this will generate an ID
         key = client.key(USER_ENTITY_TYPE)
@@ -72,4 +72,3 @@ def get_user(user_id):
         return None
     else:
         return convert_to_object(entity)
-
