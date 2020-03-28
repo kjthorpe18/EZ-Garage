@@ -47,8 +47,8 @@ def addGarage():
 
 @app.route('/load-garage/<gPhone>')
 def loadGarageTest(gPhone):
-        log('loading Garage.' + gName)
-        garageObj = garageData.load_garage(gName)
+        log('loading Garage.' + gPhone)
+        garageObj = garageData.load_garage(gPhone)
         g = garageObj.toDict()
         json_list = []
         for key in g:
