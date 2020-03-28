@@ -1,9 +1,5 @@
-import flask
-import json
+from flask import Flask, Response, redirect
 import carData
-from car import Car
-
-
 import flask
 import json
 import userData
@@ -11,10 +7,12 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 
 from user import User
+from car import Car
+
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 app.secret_key = b'@U\xb0\xadf\x92f\xe8\x10\xee\xdf\x81O\x92\xb7\xe5\xca\x10rE&=\xd0\x7f'
 # secret key is needed for flask sessions
 
