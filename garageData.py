@@ -11,7 +11,12 @@ def log(msg):
     print('GarageData: %s' % msg)
 
 def getClient():
-     return datastore.Client()
+    client = None
+    try: # When we run 'gcloud app deploy' this will work and it will connect to the database
+        client = datastore.Client()
+        return client
+    except: # if that doesn't work, look for the local path to the API keys for the database
+        return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
 
 
 
@@ -47,7 +52,7 @@ def createGarage(garage):
     log('Testing load key')
     log('creating entity')
 
-    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.phone))                            #################################
+    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.phone))                   
     entity['gID'] = garage.gID
     log('gID ' + garage.gID)
 
@@ -69,7 +74,7 @@ def createGarage(garage):
 def _garage_from_entity(garage_entity):
 
     log("Creating garage from entity...")
-    gID = garage_entity.key.name
+    gID = garage_entity['phone']
     name = garage_entity['name']
     floorCount = garage_entity['floorCount']
     spaces = garage_entity['spaces']
@@ -89,7 +94,8 @@ def load_garage(phone):
     q= client.query(kind = _GARAGE_ENTITY)
     q.add_filter('phone', '=', phone)
     garage_entity = _load_entity(client, _GARAGE_ENTITY, phone)
-    log('Loaded a Garage named: %s ' + phone)
+    log('Loaded a Garage name test: %s ' + garage_entity['phone'])
+    log('Loaded a Garage ownerDL test: %s ' + garage_entity['ownerDL'])
 
     rGarage = _garage_from_entity(garage_entity)
     return rGarage
