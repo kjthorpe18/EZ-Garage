@@ -1,6 +1,6 @@
 
 
-//--------Ripped from week06 project 7
+//--------SERVER_ACCES.JS STARTS HERE ----
 
 
 function createXmlHttp() {
@@ -50,6 +50,13 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 
+
+//-------END OF SERVER_ACCESS.JS
+
+
+
+
+
 // This can load data from the server using a simple GET request.
 function getData(targetUrl, callbackFunction) {
     let xmlHttp = createXmlHttp();
@@ -68,18 +75,21 @@ function getData(targetUrl, callbackFunction) {
     xmlHttp.send();
 }
 
+
 function showError(msg) {
     let errorAreaDiv = document.getElementById('ErrorArea');
     errorAreaDiv.display = 'block';
     errorAreaDiv.innerHTML = msg;
 }
 
+
 function hideError() {
     let errorAreaDiv = document.getElementById('ErrorArea');
     errorAreaDiv.display = 'none';
 }
 
-// this is called in response to saving list item data.
+
+
 //edited into garage CALLBACKFUNCTION
 function garageSaved(result, targetUrl, params) {
     if (result && result.ok) {
@@ -91,9 +101,9 @@ function garageSaved(result, targetUrl, params) {
 }
 
 
-//--------END of COPY PASTE
 
-//Saves a new garage after user inputs
+
+//Saves a new garage after user inputs one
 function saveGarage() {
     let values = {};
     values['name'] = document.getElementById("addName").value;
@@ -137,29 +147,125 @@ function loadGarage() {
     getData('/load-garage/' +phone, displayGarage);
 }
 
-//test function to GET garage entity after storing
+function showRandomQuote(){
+    var elem = document.getElementById('randomQuotes');
 
-/*----Datastore process and Ajax process:
-    --python class of object with toDict
-    --classData.py which has the datastore functions read, write edit
+    //Enter the amount of quotes you are using.
+    var numQuotes = "4";
+
+    //In between the " "; enter in your message. Remember not to use double
+    //quote (") in your message. You may use a single quote (').
+
+    var quoteList = new Array(1000);
+    quoteList[0] = "The solution to all your parking problems.";
+    quoteList[1] = "The future of parking.";
+    quoteList[2] = "Pay for parking by the hour.";
+    quoteList[3] = "Create an account today!";
+
+    var randNum = Math.floor(Math.random() * numQuotes);
+    console.log(randNum);
+    var randQuote = quoteList[randNum];
+    console.log(randQuote);
+    elem.innerHTML = "<p><b>" + randQuote + "</b></p>";
+}
+
+function addUser(){
+    var userInfo = {};
+    userInfo['username'] = document.getElementById("username").value;
+    userInfo['phone'] = document.getElementById("phone").value;
+    userInfo['dl_no'] = document.getElementById("dl_no").value;
+    sendJsonRequest(userInfo, '/add-user', userAddedCallback);
+}
+
+function userAddedCallback(jsonObject, targetUrl, parameterObject){
+    console.log("User added");
+    window.location = '/static/account.html' // Ideally, they would be auto logged in when redirected
+}
+
+function getLoggedInUser(){
+    console.log('enter getLoggedInUser()');
+    var elem = document.getElementById('getLoggedInUser');
+    elem.innerHTML = "<div class='loader'></div>";
+    sendJsonRequest(null, '/get-user', getLoggedInUserCallback);
+}
+
+function getLoggedInUserCallback(returnedObject, targetUrl, unused){
+    var elem = document.getElementById('getLoggedInUser');
+    elem.innerHTML = '';
+    var text = '';
+    // text += "<marquee><p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
+    text += "<p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
+    text += "Username: " + returnedObject['username'] + "<br>";
+    text += "Phone: " + returnedObject['phone'] + "<br>";
+    text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br>";
+    // text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br></marquee>";
+    elem.innerHTML = text;
+}
+
+function openAccordion() {
+    var item = document.getElementsByClassName("accordion");
+    var i;
     
-    --First, take user input
-    --send JSONrequest with it, (json obj, flask route, callbackFUcntion)
-    --Main py calls classDATA.py
-    --Check to see if it's already there (skipping in test)
-    --if not there -> ADD to datastore, ELSE edit the current datastore
-    --what the hell does json_result['ok'] do
-    
-    --Second, Show the user input from db
-    --define callbackfunction with (jsonREsult, targetURL)
-    -- get ID of some div you want to change
-    --use a text var and shove it in between div with getElementByID("stuff").innerHTML = text
-    --call getData (route, callbackfunctionDisplays)
-    --remember callbackfunctionDiplays first argument is the RESULT of call
-    
-    --IN MAIN.PY we call get_item that returns a list() with the stuff we want
-    --define json_list[]
-    --turn the thing retured by get_item into dictionary
-    --append to json_list
-    --json.dumps(json_lits)
---return flask.Response(responseJson, mimetype = 'application/json') */ 
+    for (i = 0; i < item.length; i++) {
+        item[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+}
+
+function getDate() {
+    var today = new Date();
+    var dd = today.getDate(); 
+    var mm = today.getMonth() + 1; 
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) { 
+        dd = '0' + dd; 
+    } 
+    if (mm < 10) { 
+        mm = '0' + mm; 
+    } 
+    var today = dd + '/' + mm + '/' + yyyy; 
+
+    document.getElementById("date").value = today;
+}
+
+// logs user information to the console when they're logged in
+function onSignIn(googleUser) {
+    document.getElementById("pleaseWait").innerHTML = "<br><div class='loader'></div>"
+
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+    let params = {}
+    params['email'] = profile.getEmail();
+    params['id_token'] = id_token;
+    sendJsonRequest(params, '/login', onSignInCallback);
+}
+
+function onSignInCallback(returnedObject, targetURL, origParams){
+    if(returnedObject['data']['user_in_db'] == "true"){
+        window.location = '/static/account.html';
+    }
+    else{
+        window.location = '/static/create_account.html';
+    }
+    console.log("enter onSignInCallback");
+}
+
+
+// Sign out of google sign in
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+}
+
