@@ -39,8 +39,8 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     var xmlHttp = createXmlHttp();
     xmlHttp.onreadystatechange = function() {
         console.log("ready state changed. Here's the targetURL: " + targetUrl);
+        console.log('ready state is: ' + xmlHttp.readyState);
         if (xmlHttp.readyState == 4) {
-            console.log("ready state is 4");
             console.log(xmlHttp.responseText);
             var myObject = JSON.parse(xmlHttp.responseText);
             console.log('calling callback function');
@@ -52,6 +52,12 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     console.log('posting parameters');
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
+
+
+
+
+
+
 
 
 //-------END OF SERVER_ACCESS.JS
@@ -132,6 +138,7 @@ function displayGarage(result, targetUrl, params) {
     /*Gameplan is to change display array to text of garage object returned*/
     // garageToSearch = document.getElementById("displayGarage");
     console.log('got here');
+    var elem = document.getElementById("DisplayArea");
 
     let text = '<ul>';
     for (var key in result) {
@@ -140,18 +147,20 @@ function displayGarage(result, targetUrl, params) {
         text += '</li>';
         text += '</ul>';
     }
-    document.getElementById("DisplayArea").innerHTML = text;
+    elem.innerHTML = text;
 
 }
 
 function loadGarage() {
     phone = document.getElementById("phoneCheck").value;
-    console.log('getting data in loadGarage()');
+    console.log('getting data in loadGarage()' + phone);
     // function sendJsonRequest(parameterObject, targetUrl, callbackFunction) 
-    let params = {};
+    var params = {};
     params['phone'] = phone;
     sendJsonRequest(params, '/load-garage', displayGarage);
 }
+
+
 
 function showRandomQuote(){
     var elem = document.getElementById('randomQuotes');

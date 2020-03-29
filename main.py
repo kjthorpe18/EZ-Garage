@@ -71,10 +71,8 @@ def loadGarageTest():
     garageObj = garageData.load_garage(gPhone)
     g = garageObj.toDict()
     for key in g:
-        print(key + ': ' + g[key]);
-    responseJson = json.dumps(g)
-    print(responseJson)
-    return flask.Response(responseJson, mimetype='application/json')
+        print(g[key])
+    return flask.Response(json.dumps(g), mimetype='application/json')
 
 @app.route('/add-user', methods=['POST'])
 def add_user():
