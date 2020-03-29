@@ -65,15 +65,15 @@ def addGarage():
 
 @app.route('/load-garage/<gPhone>')
 def loadGarageTest(gPhone):
-        log('loading Garage.' + gPhone)
-        garageObj = garageData.load_garage(gPhone)
-        g = garageObj.toDict()
-        json_list = []
-        for key in g:
-            json_list.append(g[key])
-
+    log('loading Garage.' + gPhone)
+    garageObj = garageData.load_garage(gPhone)
+    g = garageObj.toDict()
+    json_list = []
+    for key in g:
+        print(key);
+        json_list.append(g[key])
         responseJson = json.dumps(json_list)
-        return flask.Response(responseJson, mimetype='application/json')
+    return flask.Response(responseJson, mimetype='application/json')
 
 @app.route('/add-user', methods=['POST'])
 def add_user():
