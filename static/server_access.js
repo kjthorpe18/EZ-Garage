@@ -7,7 +7,7 @@
                 - var userInfo = {}
                 - userInfo['name'] = 'Matt' etc...
             2. prepare a callback function to perform functions based on the data returned by the server
-            3. Call sendJsonRequest with the following parameters: 
+            3. Call sendJsonRequest with the following parameters:
                 - 1-the parameter object prepared in step 1
                 - 2-the target URL that the backend server will respond to when accessed
                 - 3-the callback function created in step 2
@@ -65,4 +65,35 @@ function postParameters(xmlHttp, target, parameters) {
         xmlHttp.setRequestHeader("Content-type", contentType);
         xmlHttp.send(parameters);
     }
+}
+
+// This can load data from the server using a simple GET request.
+function getData(targetUrl, callbackFunction) {
+    let xmlHttp = createXmlHttp();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4) {
+            // note that you can check xmlHttp.status here for the HTTP response code
+            try {
+                let myObject = JSON.parse(xmlHttp.responseText);
+                callbackFunction(myObject, targetUrl);
+            } catch (exc) {
+                console.log("There was a problem at the server.");
+            }
+        }
+    }
+    xmlHttp.open("GET", targetUrl, true);
+    xmlHttp.send();
+}
+
+
+function showError(msg) {
+    let errorAreaDiv = document.getElementById('ErrorArea');
+    errorAreaDiv.display = 'block';
+    errorAreaDiv.innerHTML = msg;
+}
+
+
+function hideError() {
+    let errorAreaDiv = document.getElementById('ErrorArea');
+    errorAreaDiv.display = 'none';
 }

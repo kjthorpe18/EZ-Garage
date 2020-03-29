@@ -1,3 +1,58 @@
+//edited into garage CALLBACKFUNCTION
+function garageSaved(result, targetUrl, params) {
+    if (result && result.ok) {
+        console.log("Saved Garage.");
+    } else {
+        console.log("Received error: " + result.error);
+        showError(result.error);
+    }
+}
+
+
+//Saves a new garage after user inputs one
+function saveGarage() {
+    let values = {};
+    values['name'] = document.getElementById("addName").value;
+    values['floorCount'] = document.getElementById("addFloorCount").value;
+    values['spaces'] = document.getElementById("addSpaces").value;
+    values['address'] = document.getElementById("addAddress").value;
+    values['phone'] = document.getElementById("addPhone").value;
+    values['ownerDL'] = document.getElementById("addOwnerDL").value;
+    console.log(document.getElementById("addName").value)
+    console.log(document.getElementById("addFloorCount").value)
+    console.log(document.getElementById("addAddress").value)
+    console.log(document.getElementById("addPhone").value)
+    console.log(document.getElementById("addOwnerDL").value)
+
+    sendJsonRequest(values,'/add-garage', garageSaved)
+}
+
+
+//Change a DIV to show garage immediately after stored
+function displayGarage(result, targetUrl) {
+    /*Gameplan is to change display array to text of garage object returned*/
+    garageToSearch = document.getElementById("displayGarage");
+
+    let text = '<ul>';
+    for (var key in result) {
+        text += '<li id="attribute_'+ key + '">';
+        text += result[key]
+        text += '</li>';
+
+    text += '</ul>';
+
+    document.getElementById("DisplayArea").innerHTML = text;
+
+}
+
+}
+
+function loadGarage() {
+    phone = document.getElementById("phoneCheck").value;
+
+    getData('/load-garage/' +phone, displayGarage);
+}
+
 function showRandomQuote(){
     var elem = document.getElementById('randomQuotes');
 
@@ -56,7 +111,7 @@ function getLoggedInUserCallback(returnedObject, targetUrl, unused){
 function openAccordion() {
     var item = document.getElementsByClassName("accordion");
     var i;
-    
+
     for (i = 0; i < item.length; i++) {
         item[i].addEventListener("click", function() {
             this.classList.toggle("active");
@@ -72,17 +127,17 @@ function openAccordion() {
 
 function getDate() {
     var today = new Date();
-    var dd = today.getDate(); 
-    var mm = today.getMonth() + 1; 
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
     var yyyy = today.getFullYear();
 
-    if (dd < 10) { 
-        dd = '0' + dd; 
-    } 
-    if (mm < 10) { 
-        mm = '0' + mm; 
-    } 
-    var today = dd + '/' + mm + '/' + yyyy; 
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var today = dd + '/' + mm + '/' + yyyy;
 
     document.getElementById("date").value = today;
 }
