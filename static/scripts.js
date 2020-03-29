@@ -35,16 +35,21 @@ function postParameters(xmlHttp, target, parameters) {
 }
 
 function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
+    console.log('enter sendjsonrequest')
     var xmlHttp = createXmlHttp();
     xmlHttp.onreadystatechange = function() {
+        console.log("ready state changed. Here's the targetURL: " + targetUrl);
         if (xmlHttp.readyState == 4) {
+            console.log("ready state is 4");
             console.log(xmlHttp.responseText);
             var myObject = JSON.parse(xmlHttp.responseText);
+            console.log('calling callback function');
             callbackFunction(myObject, targetUrl, parameterObject);
         }
     }
     console.log(targetUrl);
     console.log(parameterObject);
+    console.log('posting parameters');
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 
@@ -63,6 +68,7 @@ function getData(targetUrl, callbackFunction) {
             // note that you can check xmlHttp.status here for the HTTP response code
             try {
                 let myObject = JSON.parse(xmlHttp.responseText);
+                console.log('calling callback function')
                 callbackFunction(myObject, targetUrl);
             } catch (exc) {
                 console.log("There was a problem at the server.");
@@ -70,6 +76,7 @@ function getData(targetUrl, callbackFunction) {
         }
     }
     xmlHttp.open("GET", targetUrl, true);
+    console.log('sending xmlhttp request');
     xmlHttp.send();
 }
 
@@ -121,28 +128,29 @@ function saveGarage() {
 
 
 //Change a DIV to show garage immediately after stored
-function displayGarage(result, targetUrl) {
+function displayGarage(result, targetUrl, params) {
     /*Gameplan is to change display array to text of garage object returned*/
-    garageToSearch = document.getElementById("displayGarage");
+    // garageToSearch = document.getElementById("displayGarage");
+    console.log('got here');
 
     let text = '<ul>';
     for (var key in result) {
         text += '<li id="attribute_'+ key + '">';
-        text += result[key]
+        text += result[key];
         text += '</li>';
-
-    text += '</ul>';
-
+        text += '</ul>';
+    }
     document.getElementById("DisplayArea").innerHTML = text;
-
-}
 
 }
 
 function loadGarage() {
     phone = document.getElementById("phoneCheck").value;
-
-    getData('/load-garage/' +phone, displayGarage);
+    console.log('getting data in loadGarage()');
+    // function sendJsonRequest(parameterObject, targetUrl, callbackFunction) 
+    let params = {};
+    params['phone'] = phone;
+    sendJsonRequest(params, '/load-garage', displayGarage);
 }
 
 function showRandomQuote(){
