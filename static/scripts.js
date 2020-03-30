@@ -216,6 +216,21 @@ function openAccordion() {
     }
 }
 
+// Pre-fills the information of a user into the update account info form on the account page
+function prefillAccountInfo() {
+    console.log("enter prefillAccountInfo()");
+    sendJsonRequest(null, '/get-user', accountInfoCallback);
+}
+
+function accountInfoCallback(returnedObject, targetUrl, unused) {
+    var elem = document.getElementById('username');
+    elem.value = returnedObject['username']
+    var elem = document.getElementById('phone');
+    elem.value = returnedObject['phone']
+    var elem = document.getElementById('dl_no');
+    elem.value = returnedObject['dl_no']
+}
+
 function getDate() {
     var today = new Date();
     var dd = today.getDate();
