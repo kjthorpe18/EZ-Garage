@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-        <title>Manage your Account</title>
-        <link href="Style.css" type="text/css" rel="stylesheet" />
-        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-        <script src="scripts.js"></script>
-        <script src="server_access.js"></script>
+    <title>Manage your Account</title>
+    <link href="Style.css" type="text/css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <script src="scripts.js"></script>
+    <script src="server_access.js"></script>
 
 		<style>
 			body {
@@ -24,15 +24,14 @@
 				<li class=""><a href="about.html" >About</a></li>
 				<li class=""><a href="help.html">Help</a></li>
 			</ul>
-        </div>
-        <div id="userInfo"></div>
-        <div class="body-content">
-            <h1>Manage your Account</h1>
-            <!-- This is dumb, but it shows the idea of how to access data from the backend -->
-            <!-- <button onclick="getLoggedInUser()">Click this button to show your info.</button><br> -->
-            <div id="getLoggedInUser"></div>
+    </div>
 
-            <div>
+    <div class="body-content">
+        <h1>Manage Account</h1>
+        <div class="account-content">
+		  <div class="user-info-section" style="width: 50%; float: left;">
+			<div>
+				<h2>Update Your Account Info</h2>
                 <form>
                     <label for="username">Update Username:</label><br>
                     <input type="text" id="username" name="username"><br>
@@ -43,42 +42,52 @@
                     <button type="button" onclick="addUser()">Submit</button>
                 </form>
             </div>
+            <div id="userInfo">
+				<h2>User Information</h2>
+			</div>
+            <!-- This is dumb, but it shows the idea of how to access data from the backend -->
+            <!-- <button onclick="getLoggedInUser()">Click this button to show your info.</button><br> -->
+            <div id="getLoggedInUser">
+			</div>
+          </div>
 
+          <div class="owned-section" style="width: 50%; float: right;">
             <div id="car-section">
-                <h2>Your Cars</h2>
-                <table>
-                    <tr>
-                      <th style="width: 100px;">Make</th>
-                      <th style="width: 100px;">Model</th>
-                      <th style="width: 140px;">License Plate No.</th>
-                    </tr>
-                    <tr>
-                      <td>Example</td>
-                      <td>Car</td>
-                      <td>KKY-2948</td>
-                    </tr>
-                  </table>
+              <h2>Your Cars</h2>
+              <table>
+                  <tr>
+                    <th style="width: 100px;">Make</th>
+                    <th style="width: 100px;">Model</th>
+                    <th style="width: 140px;">License Plate No.</th>
+                  </tr>
+                  <tr>
+                    <td>Example</td>
+                    <td>Car</td>
+                    <td>KKY-2948</td>
+                  </tr>
+                </table>
             </div>
 
             <div id="garage-section">
-                <h2>Your Garages</h2>
-                <table>
-                    <tr>
-                      <th style="width: 150px;">Name</th>
-                      <th style="width: 150px;">Address</th>
-                      <th style="width: 80px;">Floors</th>
-                      <th style="width: 80px;">Spaces</th>
-                    </tr>
-                    <tr>
-                      <td>Example Garage</td>
-                      <td>111 University Pl.</td>
-                      <td>10</td>
-                      <td>100</td>
-                    </tr>
-                  </table>
+              <h2>Your Garages</h2>
+              <table>
+                  <tr>
+                    <th style="width: 150px;">Name</th>
+                    <th style="width: 150px;">Address</th>
+                    <th style="width: 80px;">Floors</th>
+                    <th style="width: 80px;">Spaces</th>
+                  </tr>
+                  <tr>
+                    <td>Example Garage</td>
+                    <td>111 University Pl.</td>
+                    <td>10</td>
+                    <td>100</td>
+                  </tr>
+                </table>
             </div>
-
+          </div>
         </div>
+    </div>
 
 	</body>
 </html>

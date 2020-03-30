@@ -100,7 +100,7 @@ function getLoggedInUserCallback(returnedObject, targetUrl, unused){
     elem.innerHTML = '';
     var text = '';
     // text += "<marquee><p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
-    text += "<p><h2>User Information</h2><br> User ID: " + returnedObject['uid'] + "<br>";
+    text += "<p>User ID: " + returnedObject['uid'] + "<br>";
     text += "Username: " + returnedObject['username'] + "<br>";
     text += "Phone: " + returnedObject['phone'] + "<br>";
     text += "Driver's License Number: " + returnedObject['dl_no'] + "</p><br>";
