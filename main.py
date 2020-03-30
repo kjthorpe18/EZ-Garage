@@ -34,7 +34,7 @@ def root():
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
-    log('Called addGarage')
+    log('Called addGarage') 
     garageName = flask.request.form['name']
     log(garageName)
     floorCount = flask.request.form['floorCount']
@@ -64,15 +64,13 @@ def addGarage():
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
 @app.route('/load-garage', methods=['POST'])
-def loadGarageTest():
-    log('loading Garage.')
+def load_garage():
     gPhone = flask.request.form['phone']
-    log(gPhone)
     garageObj = garageData.load_garage(gPhone)
     g = garageObj.toDict()
-    for key in g:
-        print(g[key])
+    log(g)
     return flask.Response(json.dumps(g), mimetype='application/json')
+    
 
 @app.route('/add-user', methods=['POST'])
 def add_user():

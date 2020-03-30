@@ -91,11 +91,8 @@ def _garage_from_entity(garage_entity):
 def load_garage(phone):
     log('Loading a Garage: %s ' + phone)
     client = getClient()
-    q= client.query(kind = _GARAGE_ENTITY)
-    q.add_filter('phone', '=', phone)
     garage_entity = _load_entity(client, _GARAGE_ENTITY, phone)
     log('Loaded a Garage name test: %s ' + garage_entity['phone'])
     log('Loaded a Garage ownerDL test: %s ' + garage_entity['ownerDL'])
-
     rGarage = _garage_from_entity(garage_entity)
     return rGarage

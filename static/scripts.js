@@ -35,21 +35,13 @@ function postParameters(xmlHttp, target, parameters) {
 }
 
 function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
-    console.log('enter sendjsonrequest')
     var xmlHttp = createXmlHttp();
     xmlHttp.onreadystatechange = function() {
-        console.log("ready state changed. Here's the targetURL: " + targetUrl);
-        console.log('ready state is: ' + xmlHttp.readyState);
         if (xmlHttp.readyState == 4) {
-            console.log(xmlHttp.responseText);
             var myObject = JSON.parse(xmlHttp.responseText);
-            console.log('calling callback function');
             callbackFunction(myObject, targetUrl, parameterObject);
         }
     }
-    console.log(targetUrl);
-    console.log(parameterObject);
-    console.log('posting parameters');
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 
@@ -74,7 +66,6 @@ function getData(targetUrl, callbackFunction) {
             // note that you can check xmlHttp.status here for the HTTP response code
             try {
                 let myObject = JSON.parse(xmlHttp.responseText);
-                console.log('calling callback function')
                 callbackFunction(myObject, targetUrl);
             } catch (exc) {
                 console.log("There was a problem at the server.");
@@ -82,7 +73,6 @@ function getData(targetUrl, callbackFunction) {
         }
     }
     xmlHttp.open("GET", targetUrl, true);
-    console.log('sending xmlhttp request');
     xmlHttp.send();
 }
 
@@ -99,8 +89,6 @@ function hideError() {
     errorAreaDiv.display = 'none';
 }
 
-
-
 //edited into garage CALLBACKFUNCTION
 function garageSaved(result, targetUrl, params) {
     if (result && result.ok) {
@@ -110,9 +98,6 @@ function garageSaved(result, targetUrl, params) {
         showError(result.error);
     }
 }
-
-
-
 
 //Saves a new garage after user inputs one
 function saveGarage() {
@@ -132,32 +117,42 @@ function saveGarage() {
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
 
+function loadGarage() {
+    var phone = document.getElementById("phoneCheck").value;
+    let params = {};
+    params['phone'] = phone;
+    var elem = document.getElementById("DisplayArea");
+    elem.innerHTML = "<div class='loader'></div>";
+    sendJsonRequest(params, '/load-garage', displayGarage);
+}
 
 //Change a DIV to show garage immediately after stored
 function displayGarage(result, targetUrl, params) {
     /*Gameplan is to change display array to text of garage object returned*/
-    // garageToSearch = document.getElementById("displayGarage");
-    console.log('got here');
     var elem = document.getElementById("DisplayArea");
-
-    let text = '<ul>';
-    for (var key in result) {
-        text += '<li id="attribute_'+ key + '">';
-        text += result[key];
-        text += '</li>';
-        text += '</ul>';
-    }
+    elem.innerHTML = '';
+    text = '<ul>';
+    text += '<li>Garage ID: ' + result['gID'] + '</li>';
+    text += '<li>Garage Name: ' + result['name'] + '</li>';
+    text += '<li>Floor Count: ' + result['floorCount'] + '</li>';
+    text += '<li>Spaces: ' + result['spaces'] + '</li>';
+    text += '<li>Address: ' + result['address'] + '</li>';
+    text += '<li>Phone Number: ' + result['phone'] + '</li>';
+    text += '</ul>';
     elem.innerHTML = text;
-
 }
 
-function loadGarage() {
-    phone = document.getElementById("phoneCheck").value;
-    console.log('getting data in loadGarage()' + phone);
-    // function sendJsonRequest(parameterObject, targetUrl, callbackFunction) 
-    var params = {};
-    params['phone'] = phone;
-    sendJsonRequest(params, '/load-garage', displayGarage);
+function addUser(){
+    var userInfo = {};
+    userInfo['username'] = document.getElementById("username").value;
+    userInfo['phone'] = document.getElementById("phone").value;
+    userInfo['dl_no'] = document.getElementById("dl_no").value;
+    sendJsonRequest(userInfo, '/add-user', userAddedCallback);
+}
+
+function userAddedCallback(jsonObject, targetUrl, parameterObject){
+    console.log("User added");
+    window.location = '/static/account.html' // Ideally, they would be auto logged in when redirected
 }
 
 
@@ -182,19 +177,6 @@ function showRandomQuote(){
     var randQuote = quoteList[randNum];
     console.log(randQuote);
     elem.innerHTML = "<p><b>" + randQuote + "</b></p>";
-}
-
-function addUser(){
-    var userInfo = {};
-    userInfo['username'] = document.getElementById("username").value;
-    userInfo['phone'] = document.getElementById("phone").value;
-    userInfo['dl_no'] = document.getElementById("dl_no").value;
-    sendJsonRequest(userInfo, '/add-user', userAddedCallback);
-}
-
-function userAddedCallback(jsonObject, targetUrl, parameterObject){
-    console.log("User added");
-    window.location = '/static/account.html' // Ideally, they would be auto logged in when redirected
 }
 
 function getLoggedInUser(){
