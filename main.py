@@ -34,7 +34,7 @@ def root():
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
-    log('Called addGarage')
+    log('Called addGarage') 
     garageName = flask.request.form['name']
     log(garageName)
     floorCount = flask.request.form['floorCount']
@@ -63,17 +63,14 @@ def addGarage():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-@app.route('/load-garage/<gPhone>')
-def loadGarageTest(gPhone):
-        log('loading Garage.' + gPhone)
-        garageObj = garageData.load_garage(gPhone)
-        g = garageObj.toDict()
-        json_list = []
-        for key in g:
-            json_list.append(g[key])
-
-        responseJson = json.dumps(json_list)
-        return flask.Response(responseJson, mimetype='application/json')
+@app.route('/load-garage', methods=['POST'])
+def load_garage():
+    gPhone = flask.request.form['phone']
+    garageObj = garageData.load_garage(gPhone)
+    g = garageObj.toDict()
+    log(g)
+    return flask.Response(json.dumps(g), mimetype='application/json')
+    
 
 @app.route('/add-user', methods=['POST'])
 def add_user():

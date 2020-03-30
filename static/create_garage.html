@@ -5,14 +5,13 @@
         <link href="Style.css" type="text/css" rel="stylesheet" />
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <script src="scripts.js"></script>
-        <script src="server_access.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
-          <style>
-              body {
-                  font-family: 'Roboto';
-              }
-          </style>
+        <style>
+          body {
+            font-family: 'Roboto';
+          }
+        </style>
      </head>
 
      <body>
@@ -20,37 +19,41 @@
               <ul class="HomeNav">
                 <li class=""><a href="index.html">Home</a></li>
                 <li class=""><a href="reserve.html">Reserve</a></li>
-          			<li class=""><a href="create_garage.html">Create Garage</a></li>
+            		<li class=""><a href="create_garage.html">Create Garage</a></li>
                 <li class=""><a href="account.html">Account</a></li>
-          			<li class=""><a href="report.html">Report</a></li>
-          			<li class=""><a href="about.html" >About</a></li>
-          			<li class=""><a href="help.html">Help</a></li>
+            		<li class=""><a href="report.html">Report</a></li>
+            		<li class=""><a href="about.html" >About</a></li>
+            		<li class=""><a href="help.html">Help</a></li>
               </ul>
         </div>
         <div class="content">
-            <h2>Make a garage</h2>
+            <h2>Create A Garage</h2>
 
-            <form>
-                <label>Enter name</label><br>
-                <input id= "addName"></input><br>
+            <form onsubmit='return false;'>
+                <label>Enter Garage Name</label><br>
+                <input type="text" id= "addName"></input><br>
                 <label>Add Floor Count</label><br>
-                <input id = "addFloorCount"></input><br>
-                <label>Enter space names: [Floor#Letter] separated by comma and space eg. 1A, 1B, 1F, 4K...</label><br>
+                <input type="number" id = "addFloorCount"></input><br>
+                <label>Enter Space Names: [Floor-Letter] separated by comma and space eg. 1A, 1B, 1F, 4K...</label><br>
                 <input id ="addSpaces"></input><br>
                 <label>Enter Address</label><br>
-                <input id="addAddress"></input><br>
-                <label>Enter phone</label><br>
-                <input id="addPhone"></input><br>
-                <label>Enter ownerDL</label><br>
+                <input type="text" id="addAddress"></input><br>
+                <label>Enter Phone Number</label><br>
+                <input type="number" id="addPhone"></input><br>
+                <label>Enter Owner's Drivers License Number </label><br>
                 <input id="addOwnerDL"></input><br>
-                <button onclick="saveGarage()"> Submit</button><br>
+                <button onclick="saveGarage()"> Submit</button>
                 <br>
-                <label>Enter name of Garage to Search</label><br>
-                <input id="phoneCheck"> </input><br>
-                <button id="displayGarage" onclick="loadGarage()">Show Garage</button>
+                <br>
             </form>
+            <form onsubmit='return false'>
+              <label>Enter Phone Number of Garage Owner</label><br>
+              <input type="number" id="phoneCheck"> </input><br>
+              <button type="button" id="displayGarage" onclick="loadGarage()">Show Garage</button>
+            </form>
+            <div id="DisplayArea"></div>
         </div>
+        
 
     </body>
-    <div id="DisplayArea"></div>
 </html>
