@@ -4,6 +4,7 @@
 <head>
 	<title>Reserve</title>
 	<link href="Style.css" type="text/css" rel="stylesheet" />
+	<script src="scripts.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 		<style>
 			body {
@@ -52,13 +53,13 @@
 	</script>
 </head>
 
-<body>
+<body onload="loadAllGarages()">
 	<div>
 		<ul class="HomeNav">
 			<li class=""><a href="index.html">Home</a></li>
-      <li class=""><a href="reserve.html">Reserve</a></li>
+      		<li class=""><a href="reserve.html">Reserve</a></li>
 			<li class=""><a href="create_garage.html">Create Garage</a></li>
-      <li class=""><a href="account.html">Account</a></li>
+      		<li class=""><a href="account.html">Account</a></li>
 			<li class=""><a href="report.html">Report</a></li>
 			<li class=""><a href="about.html" >About</a></li>
 			<li class=""><a href="help.html">Help</a></li>
@@ -69,49 +70,54 @@
 		<!-- select menu for Garage ARC -->
 		<div id="Gdrop">
 			<h1 class="reserve-header">Reservations<h1>
-					<p class="smallwhitetext">Select Your Garage</p>
+			<p class="smallwhitetext">Select Your Garage</p>
 
-					<select id="GarageSelect">
-						<option value="null">--Select--</option>
-						<option value="A">Super Cool Garage</option>
-						<option value="B">Not so Cool Garage</option>
-						<option value="C">Random Garage</option>
-						<option value="D">Garbage Garage</option>
+			<select id="GarageSelect">
+				<option value="null">--Select--</option>
+				<option value="A">Super Cool Garage</option>
+				<option value="B">Not so Cool Garage</option>
+				<option value="C">Random Garage</option>
+				<option value="D">Garbage Garage</option>
+			</select>
+
+			<!-- Car Type 
+			<p class="smallwhitetext">Select Car Type</p>
+			<select class="selectDropDown" id="CarSelect">
+				<option value="null">--Select--</option>
+				<option value="A">Car</option>
+				<option value="B">Truck</option>
+				<option value="C">Van</option>
+				<option value="D">Electric Vehicle</option>
+			</select>
+			-->
+			<div style="margin:0px;">
+				<!-- Floor -->
+				<p class="smallwhitetext">Select Floor<p>
+				<select style="margin:0px;" id="Floor Select"
+					onchange="javascript: dynamicDropdown(this.options[this.selectedIndex].value);">
+
+					<option value="0">--Select--</option>
+					<option value="Floor 1">Floor 1</option>
+					<option value="Floor 2">Floor 2</option>
+					<option value="Floor 3">Secret Floor</option>
+				</select>
+				<!-- Parking Space -->
+				<p class="smallwhitetext">Spot Select<p>
+				<script type="text/javascript" language="JavaScript">
+					document.write('<select id="floor"><option>Please select Floor First</option></select>')
+				</script>
+
+				<noscript>
+					<select name="floor" id="floor">
+						<option value="">Turn on Javascript.</option>
 					</select>
-					<p class="smallwhitetext">Select Car Type</p>
-					<select class="selectDropDown" id="CarSelect">
-						<option value="null">--Select--</option>
-						<option value="A">Car</option>
-						<option value="B">Truck</option>
-						<option value="C">Van</option>
-						<option value="D">Electric Vehicle</option>
-					</select>
-					<div style="margin:0px;">
-						<!-- 	-->
-						<p class="smallwhitetext">Select Floor<p>
-								<select style="margin:0px;" id="Floor Select"
-									onchange="javascript: dynamicDropdown(this.options[this.selectedIndex].value);">
+				</noscript>
+			</div>
 
-									<option value="0">--Select--</option>
-									<option value="Floor 1">Floor 1</option>
-									<option value="Floor 2">Floor 2</option>
-									<option value="Floor 3">Secret Floor</option>
-								</select>
-								<p class="smallwhitetext">Spot Select<p>
-										<script type="text/javascript" language="JavaScript">
-											document.write('<select id="floor"><option>Please select Floor First</option></select>')
-										</script>
-										<noscript>
-											<select name="floor" id="floor">
-												<option value="">Turn on Javascript.</option>
-											</select>
-										</noscript>
-					</div>
-
-					<div id ="Buttons">
-						<button>Find Closest</button>
-						<button>Find Handicap</button>
-					</div>
+			<div id ="Buttons">
+				<button>Find Closest</button>
+				<button>Find Handicap</button>
+			</div>
 
 		</div>
 
@@ -128,8 +134,6 @@
 					<div class="ParkingSpot" id="1C"></div>
 					<br></br>
 					<div class="ParkingSpot" id="1D"></div>
-
-
 				</div>
 
 				<div class="VerticalContainer">

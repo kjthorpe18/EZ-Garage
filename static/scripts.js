@@ -216,6 +216,18 @@ function openAccordion() {
     }
 }
 
+// Loads the garages for the dropdown in the reserve page
+function loadAllGarages() {
+    console.log("Loading all garages for dropdown...")
+    sendJsonRequest(null, '/load-all-garages', loadAllGaragesCallback);
+}
+
+function loadAllGaragesCallback(returnedObject, targetUrl, unused) {
+    var dropdown = document.getElementById("GarageSelect");
+    
+    console.log(returnedObject)
+}
+
 // Pre-fills the information of a user into the update account info form on the account page
 function prefillAccountInfo() {
     console.log("enter prefillAccountInfo()");

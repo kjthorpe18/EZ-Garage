@@ -71,6 +71,15 @@ def load_garage():
     log(g)
     return flask.Response(json.dumps(g), mimetype='application/json')
     
+@app.route('/load-all-garages', methods=['POST'])
+def load_all_garages():
+
+    garage_list = garageData.load_all_garages()
+    it = iter(garage_list) 
+    gList = dict(zip(it, it))
+    log(gList)
+    return flask.Response(json.dumps(gList), mimetype='application/json')
+
 
 @app.route('/add-user', methods=['POST'])
 def add_user():

@@ -97,3 +97,12 @@ def load_garage(phone):
     log('Loaded a Garage ownerDL test: %s ' + garage_entity['ownerDL'])
     rGarage = _garage_from_entity(garage_entity)
     return rGarage
+
+# This is supposed to get all garage entities
+def load_all_garages():
+    log('Getting all garages...')
+    client = getClient()
+    
+    query = client.query(kind='Garage')
+    results = list(query.fetch())
+    return results
