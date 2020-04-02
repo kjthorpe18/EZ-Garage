@@ -224,8 +224,12 @@ function loadAllGarages() {
 
 function loadAllGaragesCallback(returnedObject, targetUrl, unused) {
     var dropdown = document.getElementById("GarageSelect");
-    
-    console.log(returnedObject)
+    text = '';
+    Object.keys(returnedObject).forEach(function(key) {
+       text += "<option value='" + returnedObject[key]['name'] + "'>" + returnedObject[key]['name'] + "<//option>";
+    });
+
+    dropdown.innerHTML = text;
 }
 
 // Pre-fills the information of a user into the update account info form on the account page
