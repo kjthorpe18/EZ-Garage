@@ -75,10 +75,12 @@ def load_garage():
 def load_all_garages():
 
     garage_list = garageData.load_all_garages()
-    it = iter(garage_list) 
-    gList = dict(zip(it, it))
-    log(gList)
-    return flask.Response(json.dumps(gList), mimetype='application/json')
+    list_to_return = []
+    for garage in garage_list:
+        g = garageData._garage_from_entity(garage)
+        list_to_return.append(g.toDict())
+    log(list_to_return)
+    return flask.Response(json.dumps(list_to_return), mimetype='application/json')
 
 
 @app.route('/add-user', methods=['POST'])

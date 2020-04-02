@@ -105,4 +105,5 @@ def load_all_garages():
     
     query = client.query(kind='Garage')
     results = list(query.fetch())
+    log(results)
     return results
