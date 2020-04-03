@@ -216,6 +216,8 @@ function openAccordion() {
     }
 }
 
+/* ----------------------- Reserve Page Dropdowns ------------------------ */ 
+
 // Loads the garages for the dropdown in the reserve page
 function loadAllGarages() {
     console.log("Loading all garages for dropdown...")
@@ -225,12 +227,36 @@ function loadAllGarages() {
 function loadAllGaragesCallback(returnedObject, targetUrl, unused) {
     var dropdown = document.getElementById("GarageSelect");
     text = '';
+    text += "<option value='null'>--Select--</option>";
     Object.keys(returnedObject).forEach(function(key) {
        text += "<option value='" + returnedObject[key]['name'] + "'>" + returnedObject[key]['name'] + "<//option>";
     });
-
+   
     dropdown.innerHTML = text;
 }
+
+function getFloors() {
+    // Kind of difficult to get the selected garage's floors, since we need to get a garage by
+    // phone number. We need to save the garage's phone number somehow, and then populate everything.
+
+    var phone = document.getElementById("phoneNum").innerHTML;
+    console.log("Getting floors for: " + phone)
+    let params = {};
+    params['phone'] = phone;
+    console.log(params);
+    sendJsonRequest(params, '/load-garage', displayFloors);
+}
+
+function displayFloors(returnedObject, targetUrl, unused) {
+    var dropdown = document.getElementById("floorSelect");
+    console.log(returnedObject);
+    var text = '';
+    text = "<option value='" + returnedObject[key]['phone'] + "'>" + returnedObject[key]['phone'] + "<//option>";
+    console.log(text);
+    dropdown.innerHTML = text;
+}
+
+/* ----------------------- End Reserve Page Dropdowns ------------------------ */ 
 
 // Pre-fills the information of a user into the update account info form on the account page
 function prefillAccountInfo() {
