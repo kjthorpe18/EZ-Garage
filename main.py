@@ -5,6 +5,7 @@ import json
 
 import userData
 import garageData
+import reportData
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -12,7 +13,9 @@ from google.auth.transport import requests
 from user import User
 from car import Car
 from garage import Garage
+from report import Report
 
+# BE SURE TO CHANGE NAME BACK TO MAIN !!!!!
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
 
@@ -223,6 +226,36 @@ def addSpace():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
+@app.route('/add-report', methods=['POST'])
+def addReport():
+    log('Called add-report') 
+    user = flask.request.form['userBy']
+    log(user)
+    plate = flask.request.form['plate']
+    log(plate)
+    space = flask.request.form['space']
+    log(space)
+    dateOccured = flask.request.form['dateOccured']
+    log(dateOccured)
+    description = flask.request.form['description']
+    log(description)
+    dateReported = flask.request.form['dateSubmitted']
+    log(description)
+    garage = flask.request.form['garage']
+    log(garage)
+    log(garage)
+    log('adding report for ' + dateOccured)
+    json_result = {}
+    try:
+       
+        reportData.createReport(Report(user, description, plate, garage, space, dateReported, dateOccured ))
+        json_result['ok'] = True
+        
+    except Exception as exc:
+        log('EXCEPTION')
+        log(str(exc))
+        json_result['error'] = str(exc)
+    return flask.Response(json.dumps(json_result), mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
