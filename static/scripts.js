@@ -304,11 +304,11 @@ function saveReport() {
     
     }
 
-    function reportSaved(result, targetUrl, params) {
-        if (result && result.ok) {
-            console.log("Saved Report.");
-        } else {
-            console.log("Received error: " + result.error);
-            showError(result.error);
-        }
+function reportSaved(result, targetUrl, params) {
+     if (result && result.ok) {
+         console.log("Saved Report.");
+     } else {
+         console.log("Received error: " + result.error);
+         showError(result.error);
+       }
     }
