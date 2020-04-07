@@ -30,12 +30,16 @@
                 <form>
                     <label for="platenum">License Plate Number:</label><br>
                     <input type="text" id="platenum" name="platenum"><br>
+                    <label for="garage">Garage:</label><br>
+                    <input type="text" id="garage" name="garage"><br>
                     <label for="spaceID">Space ID:</label><br>
                     <input type="text" id="spaceID" name="spaceID"><br>
                     <label for="date">Date:</label><br>
-                    <input type="text" id="date" name="date" readonly><br>
+                    <input type="date" id="date" name="date"><br>
+                    <label for="description">Description:</label><br>
+                    <input type="text" id="description" name="description"><br>
                     <p style="font-size: small;"><i><b>Note: </b>It can take up to a few days to process any claims and refund to your payment method.</i></p>
-                    <button type="button">Submit</button>
+                    <button type="button" onclick = "saveReport()">Submit</button>
                  </form>
             </div>
         </div>
