@@ -280,3 +280,35 @@ function signOut() {
       console.log('User signed out.');
     });
 }
+
+
+//----Start Reports--------
+
+function saveReport() {
+    //need to see if user is logged in to get current user, if not alert they must sign in, using default user now
+    console.log('saving Report...')
+    
+        let values = {};
+        values['userBy'] = 'defaultUser';
+        values['plate'] = document.getElementById("platenum").value;
+        values['space'] = document.getElementById("spaceID").value;
+        values['dateOccured'] = document.getElementById("date").value;
+        values['description'] = document.getElementById("description").value;
+        
+        values['dateSubmitted'] = Date.now();
+        values['garage'] = document.getElementById("garage").value;
+        console.log('Created report... for ' + document.getElementById("platenum").value);
+        console.log('Values: ' + values['userBy'] + ' ' + values['plate'] + ' ' + values['dateOccured'] + ' ' + values['description'] + ' ' + values['dateSubmitted'] + ' ' + values['garage']);
+        sendJsonRequest(values,'/add-report', reportSaved)
+        
+    
+    }
+
+    function reportSaved(result, targetUrl, params) {
+        if (result && result.ok) {
+            console.log("Saved Report.");
+        } else {
+            console.log("Received error: " + result.error);
+            showError(result.error);
+        }
+    }
