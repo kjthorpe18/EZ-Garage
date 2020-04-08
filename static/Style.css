@@ -79,6 +79,10 @@ marquee{
   margin: 20px;
 }
 
+#account-section {
+  padding-bottom: 10px;
+}
+
 #car-section {
   padding-bottom: 10px;
 }

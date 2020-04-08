@@ -28,6 +28,7 @@
 
     <div class="body-content">
 
+      <!-- Begin Account Page Navigation -->
 			<ul class="AccountNav">
 				<li>
 					<a href="account.html" class="account-nav-icon">
@@ -45,74 +46,30 @@
 					</a>
 				</li>
 			</ul>
+      <!-- End Account Page Navigation -->
 
-			<br>
-			<br>
-			<br>
-
-
-
-        <h1>Manage Account</h1>
-        <div class="account-content">
-		  <div class="user-info-section" style="width: 50%; float: left;">
-			<div>
-				<h2>Update Your Account Info</h2>
-                <form onsubmit='return false;'>
-                    <label for="username">Update Username:</label><br>
-                    <input type="text" id="username" name="username"><br>
-                    <label for="pwd">Update Phone Number:</label><br>
-                    <input type="number" id="phone" name="phone"><br>
-                    <label for="pwd">Update Driver's License Number:</label><br>
-                    <input type="text" id="dl_no" name="dl_no"><br>
-                    <button type="button" onclick="addUser()">Submit</button>
-                </form>
-            </div>
-            <div id="userInfo">
-				<h2>User Information</h2>
-			</div>
-            <!-- This is dumb, but it shows the idea of how to access data from the backend -->
-            <!-- <button onclick="getLoggedInUser()">Click this button to show your info.</button><br> -->
-            <div id="getLoggedInUser">
-			</div>
-          </div>
-
-          <div class="owned-section" style="width: 50%; float: right;">
-            <div id="car-section">
-              <h2>Your Cars</h2>
+      <!-- Begin Vehicle Table -->
+      <div class="account-content">
+        <div class="owned-section" style="width: 50%; margin: auto;">
+          <div id="car-section">
+            <h2>Your Vehicles</h2>
               <table>
-                  <tr>
-                    <th style="width: 100px;">Make</th>
-                    <th style="width: 100px;">Model</th>
-                    <th style="width: 140px;">License Plate No.</th>
-                  </tr>
-                  <tr>
-                    <td>Example</td>
-                    <td>Car</td>
-                    <td>KKY-2948</td>
-                  </tr>
-                </table>
-            </div>
-
-            <div id="garage-section">
-              <h2>Your Garages</h2>
-              <table>
-                  <tr>
-                    <th style="width: 150px;">Name</th>
-                    <th style="width: 150px;">Address</th>
-                    <th style="width: 80px;">Floors</th>
-                    <th style="width: 80px;">Spaces</th>
-                  </tr>
-                  <tr>
-                    <td>Example Garage</td>
-                    <td>111 University Pl.</td>
-                    <td>10</td>
-                    <td>100</td>
-                  </tr>
-                </table>
-            </div>
+                <tr>
+                  <th style="width: 100px;">Make</th>
+                  <th style="width: 100px;">Model</th>
+                  <th style="width: 140px;">License Plate No.</th>
+                </tr>
+                <tr>
+                  <td>Example</td>
+                  <td>Car</td>
+                  <td>KKY-2948</td>
+                </tr>
+              </table>
           </div>
         </div>
-    </div>
+      </div>
+      <!-- End Vehicle Table -->
 
+    </div>
 	</body>
 </html>
