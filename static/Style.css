@@ -129,8 +129,8 @@ th, td {
 }
 
 .reserve-header {
-  color: white; 
-  font-size: 18px; 
+  color: white;
+  font-size: 18px;
   margin-left: auto;
 }
 
@@ -209,4 +209,22 @@ th, td {
   padding: 10px;
   display: none;
   overflow: hidden;
+}
+
+/* For the Account Pages */
+.AccountNav {
+  text-align: center;
+}
+
+.AccountNav li {
+  display: inline;
+}
+
+.AccountNav a {
+  display: inline-block;
+  padding: 50px;
+}
+
+.account-nav-icon {
+  text-decoration: none;
 }
