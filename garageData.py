@@ -17,7 +17,7 @@ def getClient():
         return client
     except: # if that doesn't work, look for the local path to the API keys for the database
         #return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
-        return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
+        return datastore.Client.from_service_account_json("/Users/Jared/Documents/College Doc's/Senior Year/Second Semester/Web Dev/service-acct-keys.json")
 
 
 
@@ -53,7 +53,7 @@ def createGarage(garage):
     log('Testing load key')
     log('creating entity')
 
-    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.phone))                   
+    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.phone))
     entity['gID'] = garage.gID
     log('gID ' + garage.gID)
 
