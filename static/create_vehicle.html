@@ -37,12 +37,12 @@
 				</li>
 				<li>
 					<a href="account_vehicles.html" class="account-nav-icon">
-						<img src="images/accountimages/inactivevehicles.png" alt="Vehicles" width = "200px" height = "200px">
+						<img src="images/accountimages/activevehicles.png" alt="Vehicles" width = "200px" height = "200px">
 					</a>
 				</li>
 				<li>
 					<a href="account_garages.html" class="account-nav-icon">
-						<img src="images/accountimages/activegarages.png" alt="Garages" width = "200px" height = "200px">
+						<img src="images/accountimages/inactivegarages.png" alt="Garages" width = "200px" height = "200px">
 					</a>
 				</li>
 			</ul>
@@ -77,54 +77,32 @@
 			<br>
       <br>
 
-      <!-- Begin Create Garage-->
+      <!-- Begin Create Vehicle -->
       <div style="width: 50%; margin: auto;">
-        <h2>Add Your Garage:</h2>
+        <h2>Add Your Vehicle:</h2>
         <form onsubmit='return false;'>
-            <label>Enter Garage Name:   </label>
-            <input type="text" id= "addName"></input>
+					<label for="vehicle_make">Make:   </label>
+					<input type="text" id="vehicle_make" name="vehicle_make">
 
-            <br>
-            <br>
+					<br>
+					<br>
 
-            <label>Add Floor Count:   </label>
-            <input type="number" id = "addFloorCount"></input>
+					<label for="vehicle_model">Model:   </label>
+					<input type="text" id="vehicle_model" name="vehicle_model">
 
-            <br>
-            <br>
+					<br>
+					<br>
 
-            <label>Enter Space Names:   </label>
-            <input id ="addSpaces"></input> <br>
-            <label>NOTE: [Floor-Letter] separated by comma and space eg. 1A, 1B, 1F, 4K...</label>
+					<label for="vehicle_license_plate_number">License Plate Number:   </label>
+					<input type="text" id="vehicle_license_plate_number" name="vehicle_license_plate_number">
 
-            <br>
-            <br>
+					<br>
+					<br>
 
-            <label>Enter Address</label>
-            <input type="text" id="addAddress"></input>
-
-            <br>
-            <br>
-
-            <label>Enter Phone Number</label>
-            <input type="number" id="addPhone"></input>
-
-            <br>
-            <br>
-
-            <label>Enter Owner's Drivers License Number </label>
-            <input id="addOwnerDL"></input>
-
-            <br>
-            <br>
-
-            <button onclick="saveGarage()"> Submit</button>
-            
-            <br>
-            <br>
-        </form>
+					<button type="button" onclick="">Submit</button>
+				</form>
       </div>
-      <!-- End Create Garage -->
+      <!-- End Create Vehicle -->
 
 
     </div>
