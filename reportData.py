@@ -64,25 +64,36 @@ def createReport(report):
 def _report_from_entity(report_entity):
     log('Creating Reprot from entity')
     user = report_entity['By User']
-    desciption = report_entity['Description']
-    description= report_entity['Plate Reported']
-    plate = report_entity['Garage']
+   # log(user)
+    description = report_entity['Description']
+    #log(description)
+    plate= report_entity['Plate Reported']
+    #log(plate)
+    garage = report_entity['Garage']
+    #log(garage)
     space = report_entity['Space ID']
+    #log(space)
     dateReported =  report_entity['Date Reported']
+    log(dateReported)
     dateOccured = report_entity['Date Occuring']
-    reportVal = Report(user, description, plate, space, garage, space, dateReported, dateOccured)
+    #log(dateOccured)
+    reportVal = Report(user, description, plate, garage, space, dateReported, dateOccured)
     return reportVal
 
 #TO DO
 #Load all Reports for a garage in list
+#Returns: Array of Report class
 def loadAllReports(garageToSearch):           
     log('Loading Reports for Garage:' + garageToSearch)
     client =getClient()
     query = client.query(kind ='Report')
-    query.add_filter('garage', '=', garageToSearch)
+    query.add_filter('Garage', '=', garageToSearch)
     returnList =[]
-    for x in query:
+    iterable = list(query.fetch())
+    log('Iterable Contents: ' + str(len(iterable)))
+    for x in iterable:
         newReport =_report_from_entity(x)
+        log('Newreport Descript: ' + newReport.description)
         returnList.append(newReport)
     return returnList
     

@@ -14,10 +14,11 @@ class Report(object):
 
     def toDict(self):
         return {
-            'userBy' : userBy,
-            'plate' : plate,
-            'garage': garage,
-            'space': space,
-            'dateReported': dateReported,
-            'dateOccured': dateOccured
+            'userBy' : self.userBy,
+            'plate' : self.plate,
+            'garage': self.garage,
+            'space': self.space,
+            'dateReported': self.dateReported,
+            'dateOccured': self.dateOccured
         }
+
