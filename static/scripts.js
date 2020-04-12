@@ -108,19 +108,17 @@ function saveGarage() {
     values['address'] = document.getElementById("addAddress").value;
     values['phone'] = document.getElementById("addPhone").value;
     values['ownerDL'] = document.getElementById("addOwnerDL").value;
-    console.log(document.getElementById("addName").value)
-    console.log(document.getElementById("addFloorCount").value)
-    console.log(document.getElementById("addAddress").value)
-    console.log(document.getElementById("addPhone").value)
-    console.log(document.getElementById("addOwnerDL").value)
+    values['longitude'] = document.getElementById("longitude").value;
+    values['latitude'] = document.getElementById("latitude").value;
+    console.log(values);
 
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
 
 function loadGarage() {
-    var phone = document.getElementById("phoneCheck").value;
+    var name = document.getElementById("name").value;
     let params = {};
-    params['phone'] = phone;
+    params['name'] = name;
     var elem = document.getElementById("DisplayArea");
     elem.innerHTML = "<div class='loader'></div>";
     sendJsonRequest(params, '/load-garage', displayGarage);
@@ -129,17 +127,19 @@ function loadGarage() {
 //Change a DIV to show garage immediately after stored
 function displayGarage(result, targetUrl, params) {
     /*Gameplan is to change display array to text of garage object returned*/
-    var elem = document.getElementById("DisplayArea");
+    console.log(result);
+    
+    
+    /* var elem = document.getElementById("DisplayArea");
     elem.innerHTML = '';
     text = '<ul>';
-    text += '<li>Garage ID: ' + result['gID'] + '</li>';
     text += '<li>Garage Name: ' + result['name'] + '</li>';
     text += '<li>Floor Count: ' + result['floorCount'] + '</li>';
     text += '<li>Spaces: ' + result['spaces'] + '</li>';
     text += '<li>Address: ' + result['address'] + '</li>';
     text += '<li>Phone Number: ' + result['phone'] + '</li>';
-    text += '</ul>';
-    elem.innerHTML = text;
+    text += '</ul>'; 
+    elem.innerHTML = text; */
 }
 
 function addUser(){
