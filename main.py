@@ -257,5 +257,23 @@ def addReport():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
+
+#Loads all reports for a specfic garage
+@app.route('/load-all-reports', methods=['POST'])
+def loadReports():
+    garageToQuery = flask.request.form['garage']
+    reportArray = reportData.loadAllReports(garageToQuery)
+    data = []
+    counter = 1
+    log('About to enter load-all reports for')
+    for X in reportArray:
+        newDict = X.toDict().copy()
+        data.append(newDict)
+        log('new dict added...')
+        log(json.dumps(newDict))
+
+   
+    return flask.Response(json.dumps(data), mimetype='application/json')
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

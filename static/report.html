@@ -10,6 +10,7 @@
 			}
         </style>
         <script src="scripts.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
 
 	<body onLoad="getDate()">
@@ -39,7 +40,8 @@
                     <label for="description">Description:</label><br>
                     <input type="text" id="description" name="description"><br>
                     <p style="font-size: small;"><i><b>Note: </b>It can take up to a few days to process any claims and refund to your payment method.</i></p>
-                    <button type="button" onclick = "saveReport()">Submit</button>
+                    <button type="button" onclick = "getUserForReport()">Submit</button>
+                    <button type="button" onclick = "loadAllReports()()">Load All Test</button>
                  </form>
             </div>
         </div>

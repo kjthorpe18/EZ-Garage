@@ -184,6 +184,9 @@ function getLoggedInUser(){
     var elem = document.getElementById('getLoggedInUser');
     elem.innerHTML = "<div class='loader'></div>";
     sendJsonRequest(null, '/get-user', getLoggedInUserCallback);
+    
+  
+    
 }
 
 function getLoggedInUserCallback(returnedObject, targetUrl, unused){
@@ -284,25 +287,53 @@ function signOut() {
 
 //----Start Reports--------
 
-function saveReport() {
+function saveReport(name) {
     //need to see if user is logged in to get current user, if not alert they must sign in, using default user now
-    console.log('saving Report...')
-    
+
+        
         let values = {};
-        values['userBy'] = 'defaultUser';
+        values['userBy'] = name;
         values['plate'] = document.getElementById("platenum").value;
         values['space'] = document.getElementById("spaceID").value;
         values['dateOccured'] = document.getElementById("date").value;
         values['description'] = document.getElementById("description").value;
         
-        values['dateSubmitted'] = Date.now();
+        values['dateSubmitted'] = Date.now().toString();
         values['garage'] = document.getElementById("garage").value;
         console.log('Created report... for ' + document.getElementById("platenum").value);
         console.log('Values: ' + values['userBy'] + ' ' + values['plate'] + ' ' + values['dateOccured'] + ' ' + values['description'] + ' ' + values['dateSubmitted'] + ' ' + values['garage']);
-        sendJsonRequest(values,'/add-report', reportSaved)
+        sendJsonRequest(values,'/add-report', reportSaved);
         
     
     }
+
+//Load all Reports for a Garage
+function loadAllReports() {
+    garage = 'Cool Garage'
+    let params = {};
+    params['garage'] = garage;
+
+    sendJsonRequest(params,'/load-all-reports', loadAllCallback);
+}
+
+function loadAllCallback(result, targetUrl, params) {
+    console.log('Load All has returned')
+    console.log(result)
+}
+
+function getUserForReport(){
+        console.log('enter getUserforReport');
+        sendJsonRequest(null, '/get-user', reportUserCallback);
+}
+
+
+
+
+function reportUserCallback(returnedObject, targetUrl, unused){
+    let name = returnedObject['username'];
+    saveReport(name);
+
+}
 
 function reportSaved(result, targetUrl, params) {
      if (result && result.ok) {
