@@ -5,7 +5,7 @@
     <link href="Style.css" type="text/css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="scripts.js"></script>
-    <script src="server_access.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 		<style>
 			body {
@@ -13,7 +13,7 @@
 			}
 		</style>
 	</head>
-	<body onload="getLoggedInUser(); prefillAccountInfo()">
+	<body onload="getTableGarages();">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
@@ -26,7 +26,7 @@
 			</ul>
     </div>
 
-    <div class="body-content">
+    <div class="body-content" >
 
       <!-- Begin Account Page Navigation -->
 			<ul class="AccountNav">
@@ -51,7 +51,8 @@
       <!-- Begin Garage Table -->
       <div class="account-content">
         <div class="owned-section" style="width: 50%; margin: auto;">
-          <div id="garage-section">
+          <div id="garage-section" >
+			
             <h2>Your Garages:</h2>
             <table>
               <tr>

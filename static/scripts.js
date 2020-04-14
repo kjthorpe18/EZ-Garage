@@ -322,7 +322,7 @@ function loadAllCallback(result, targetUrl, params) {
 }
 
 function getUserForReport(){
-        console.log('enter getUserforReport');
+        console.log('entering getUserforReport');
         sendJsonRequest(null, '/get-user', reportUserCallback);
 }
 
@@ -343,3 +343,32 @@ function reportSaved(result, targetUrl, params) {
          showError(result.error);
        }
     }
+
+//-- END REPORTS
+
+//--START Account Pages
+
+function getTableGarages() {
+    console.log('Entering getTableGarage');
+    sendJsonRequest(null, '/get-user', tableCallback);
+}
+
+function tableCallback(returnedObject, targetUrl, unused){
+    console.log('Entering tableCallback');
+    console.log('result:');
+    console.log(returnedObject);
+    let drNum = returnedObject['dl_no'];
+    loadAllGaragesUser(drNum);
+
+}
+
+function loadAllGaragesUser(drNum) {
+    console.log('Entering loadAllGaragesUser');
+    let params = {};
+    params['dl_number'] = drNum;
+    sendJsonRequest(params, '/load-all-garages', loadAllGaragesUserCallback);
+}
+
+function loadAllGaragesUserCallback(result, targetURL, origParams) {
+    console.log(result);
+}

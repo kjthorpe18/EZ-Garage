@@ -89,13 +89,28 @@ def _garage_from_entity(garage_entity):
     return garageVal
 
 
-#NEED TO CHANGE
-#Load value from datastore based on PHONE
-def load_garage(phone):
-    log('Loading a Garage: %s ' + phone)
+
+#Load value from datastore based on NAME
+def load_garage(name):
+    log('Loading a Garage: ' + name)
     client = getClient()
-    garage_entity = _load_entity(client, _GARAGE_ENTITY, phone)
-    log('Loaded a Garage name test: %s ' + garage_entity['Name'])
-    log('Loaded a Garage ownerDL test: %s ' + garage_entity['ownerDL'])
+    garage_entity = _load_entity(client, _GARAGE_ENTITY, name)
+    log('Loaded a Garage name test: ' + garage_entity['Name'])
+    log('Loaded a Garage ownerDL test: ' + garage_entity['ownerDL'])
     rGarage = _garage_from_entity(garage_entity)
     return rGarage
+
+def load_all_garages_dl(dlNumber):
+    log('Loading Garages for owner:' + dlNumber)
+    client = getClient()
+    query = client.query(kind = 'Garage')
+    query.add_filter('Owner DL', '=', dlNumber)
+    returnList = []
+    iterable = list(query.fetch())
+    log('Iterable Contents: ' + str(len(iterable)))
+    for x in iterable:
+        newGarage = _garage_from_entity(x)
+        log('New Garage name' + newGarage.name)
+        returnList.append(newGarage)
+    
+    return returnList
