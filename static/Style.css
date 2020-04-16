@@ -26,7 +26,12 @@ body {
   text-align: center;
 }
 
+#Buttons {
+  margin-top: 30px;
+}
+
 input, button {
+  /*margin-top: 10px;*/
 	margin: 3px;
 }
 
@@ -122,6 +127,13 @@ th, td {
   margin-bottom:0px;
 }
 
+.reserve-section-header {
+  color: white;
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
 .reserve-container {
   display: flex;
   flex-direction: row;
@@ -139,7 +151,7 @@ th, td {
   background-color: rgb(10, 134, 175);
   padding: 40px;
   margin: 20px;
-  height: 500px;
+  height: 650px;
   width: 250px;
   border-radius: 25px;
 }

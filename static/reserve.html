@@ -69,26 +69,80 @@
 	<div class="reserve-container">
 		<!-- select menu for Garage ARC -->
 		<div id="Gdrop">
-			<h1 class="reserve-header">Reservations<h1>
-			<p class="smallwhitetext">Select Your Garage</p>
+			<h1 class="reserve-header">Reserve a Parking Spot</h1>
+
+			<p class="reserve-section-header">Check-in Date</p>
+			<div>
+				<input type="date" id="date">
+			</div>
+
+			<p class="reserve-section-header">Check-in Time</p>
+			<div>
+				<select id="hourTime">
+					<option value='12'>12</option>
+					<option value='1'>1</option>
+					<option value='2'>2</option>
+					<option value='3'>3</option>
+					<option value='4'>4</option>
+					<option value='5'>5</option>
+					<option value='6'>6</option>
+					<option value='7'>7</option>
+					<option value='8'>8</option>
+					<option value='9'>9</option>
+					<option value='10'>10</option>
+					<option value='11'>11</option>
+				</select>
+				<select id="minuteTime">
+					<option value='00'>00</option>
+					<option value='30'>30</option>
+				</select>
+				<select id="AMorPM">
+					<option value='AM'>AM</option>
+					<option value='PM'>PM</option>
+				</select>
+			</div>
+			
+			<p class="reserve-section-header">Duration</p>
+			<div>
+				<select id="duarationHours">
+					<option value="none">--Select--</option>
+					<option value='1'>1 hour</option>
+					<option value='2'>2 hours</option>
+					<option value='3'>3 hours</option>
+					<option value='4'>4 hours</option>
+					<option value='5'>5 hours</option>
+					<option value='6'>6 hours</option>
+					<option value='7'>7 hours</option>
+					<option value='8'>8 hours</option>
+					<option value='9'>9 hours</option>
+					<option value='10'>10 hours</option>
+				</select>
+				<select id="durationMinutes">
+					<option value="none">--Select--</option>
+					<option value='0'>0 minutes</option>
+					<option value='30'>30 minutes</option>
+				</select>
+
+			</div>
+
+			<p class="reserve-section-header">Select Your Garage</p>
 			<div>
 				<select id="GarageSelect" onChange="getFloors()">
 					<option value="null">Loading...</option>
 				</select>
-				<p id="phoneNum" class="smallwhitetext"></p>
 			</div>
 
 			
-			<div style="margin:0px;">
-				<!-- Floor -->
-				<p class="smallwhitetext">Select Floor<p>
-					
-				<select style="margin:0px;" id="floorSelect">
+			<p class="reserve-section-header">Select Floor</p>
+			<div>
+				<select id="floorSelect">
 					<option value="0">--Select--</option>
 				</select>
+			</div>
 
-				<!-- Parking Space -->
-				<p class="smallwhitetext">Spot Select<p>
+				
+			<p class="reserve-section-header">Spot Select</p>
+			<div>
 				<script type="text/javascript" language="JavaScript">
 					document.write('<select id="floor"><option>Please select Floor First</option></select>')
 				</script>
@@ -107,32 +161,7 @@
 
 		</div>
 
-		<!-- Parking Lot -->
-		<div id="ParkingLot">
-			<h1 class="reserve-header">Parking Lot Map</h1>
-			<div class ="HorizontalContainer" >
-
-				<div class="VerticalContainer">
-					<div class="ParkingSpotFill" id="1A"></div>
-					<br></br>
-					<div class="ParkingSpot" id="1B"></div>
-					<br></br>
-					<div class="ParkingSpot" id="1C"></div>
-					<br></br>
-					<div class="ParkingSpot" id="1D"></div>
-				</div>
-
-				<div class="VerticalContainer">
-					<div class="ParkingSpot" id="1E"></div>
-					<br></br>
-					<div class="ParkingSpotFill" id="1F"></div>
-					<br></br>
-					<div class="ParkingSpot" id="1G"></div>
-					<br></br>
-					<div class="ParkingSpot" id="1H"></div>
-				</div>
-			</div>
-		</div>
+		
 	</div>
 </body>
 
