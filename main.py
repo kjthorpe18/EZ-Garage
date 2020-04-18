@@ -77,6 +77,22 @@ def load_garage():
     return flask.Response(json.dumps(g), mimetype='application/json')
     
 
+@app.route('/load-all-garages', methods=['POST'])
+def load_all_garages():
+    nameToQuery = flask.request.form['dl_number']
+    garageArray = garageData.load_all_garages_dl(nameToQuery)
+    data = []
+    
+    log('About to enter load-all Garages for')
+    for X in garageArray:
+        newDict = X.toDict().copy()
+        data.append(newDict)
+        log('new dict added...')
+        log(json.dumps(newDict))
+
+   
+    return flask.Response(json.dumps(data), mimetype='application/json')
+
 @app.route('/add-user', methods=['POST'])
 def add_user():
     username = flask.request.form['username']
@@ -97,8 +113,10 @@ def add_user():
 def get_user():
     user_id = flask.session['user_id']
     if user_id:
+        log('Getting User ID')
         user = userData.get_user(user_id)
         u = user.to_dict()
+        log(json.dumps(u))
     return flask.Response(json.dumps(u), mimetype='application/json')
 
 @app.route('/login', methods=['POST'])
@@ -266,7 +284,7 @@ def loadReports():
     garageToQuery = flask.request.form['garage']
     reportArray = reportData.loadAllReports(garageToQuery)
     data = []
-    counter = 1
+    
     log('About to enter load-all reports for')
     for X in reportArray:
         newDict = X.toDict().copy()
@@ -276,6 +294,8 @@ def loadReports():
 
    
     return flask.Response(json.dumps(data), mimetype='application/json')
+
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

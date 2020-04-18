@@ -350,10 +350,10 @@ function reportSaved(result, targetUrl, params) {
 
 function getTableGarages() {
     console.log('Entering getTableGarage');
-    sendJsonRequest(null, '/get-user', tableCallback);
+    sendJsonRequest(null, '/get-user', tableGarageCallback);
 }
 
-function tableCallback(returnedObject, targetUrl, unused){
+function tableGarageCallback(returnedObject, targetUrl, unused){
     console.log('Entering tableCallback');
     console.log('result:');
     console.log(returnedObject);
@@ -371,4 +371,60 @@ function loadAllGaragesUser(drNum) {
 
 function loadAllGaragesUserCallback(result, targetURL, origParams) {
     console.log(result);
+    var elem = document.getElementById("garage-section");
+    var constantTag = '<td>';
+    var closeTag = '</td>';
+    elem.innerHTML = '';
+   
+    text = '<h2>Your Garages:</h2> <table> <tr> <th style="width: 150px;">Name</th> <th style="width: 150px;">Address</th> <th style="width: 80px;">Floors</th>  <th style="width: 80px;">Phone</th> </tr>';
+    
+    for (x in result) {
+        text += '<tr>'
+        text += constantTag + result[x].name + closeTag;
+        text += constantTag +result[x].address + closeTag;
+        text += constantTag + result[x].floorCount + closeTag;
+        text += constantTag + result[x].phone + closeTag;
+        text += '</tr>'
+    }
+    text += '</table>'
+    elem.innerHTML = text;
 }
+
+function getTableAccount() {
+    console.log('Entering getTableAccount');
+    sendJsonRequest(null, '/get-user', tableAcountCallback);
+}
+
+function tableAcountCallback(result, targetURL, origParams) {
+    console.log(result);
+    var elem = document.getElementById("account-section");
+    var constantTag = '<td>';
+    var closeTag = '</td>';
+    elem.innerHTML = '';
+   
+    text = '<h2>Your Account:</h2> <table> <tr> <th style="width: 150px;">Username</th> <th style="width: 150px;">Phone Number</th> <th style="width: 150px;">Driver\'s License</th></tr>';
+    
+
+    text += '<tr>'
+    text += constantTag + result['username'] + closeTag;
+    text += constantTag +result['phone'] + closeTag;
+    text += constantTag + result['dl_no'] + closeTag;
+    text += '</tr>'
+    
+    text += '</table>'
+    elem.innerHTML = text;
+}
+
+
+
+
+    /* var elem = document.getElementById("DisplayArea");
+    elem.innerHTML = '';
+    text = '<ul>';
+    text += '<li>Garage Name: ' + result['name'] + '</li>';
+    text += '<li>Floor Count: ' + result['floorCount'] + '</li>';
+    text += '<li>Spaces: ' + result['spaces'] + '</li>';
+    text += '<li>Address: ' + result['address'] + '</li>';
+    text += '<li>Phone Number: ' + result['phone'] + '</li>';
+    text += '</ul>'; 
+    elem.innerHTML = text; */
