@@ -86,6 +86,11 @@ marquee{
 #garage-section {
   padding-bottom: 10px;
 }
+#map {
+    width: 50%;
+    height: 400px;
+    background-color: grey;
+}
 
 table {
   border-collapse: collapse;
@@ -129,8 +134,8 @@ th, td {
 }
 
 .reserve-header {
-  color: white; 
-  font-size: 18px; 
+  color: white;
+  font-size: 18px;
   margin-left: auto;
 }
 

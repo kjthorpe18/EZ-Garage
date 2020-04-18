@@ -10,7 +10,6 @@
 				font-family: 'Roboto';
 			}
 		</style>
-
 	<!-- script to change Floor Letters Dependent on Floor Selection ARC -->
 	<script language="javascript" type="text/javascript">
 		function dynamicDropdown(index) {
@@ -118,9 +117,19 @@
 		<!-- Parking Lot : Jared -->
 		<div id="MapContainer">
 			<h1 class="reserve-header">Local Garages Map</h1>
-			<div class ="Map">
-                
-
+			<div id="map_area">
+                <!-- script for loading and connecting to the Google Maps api -->
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9cZpbGsGALA05ij9hx-EIpKKD84eZW1s&callback=initMap"></script>
+                <script language="javascript" type="text/javascript">
+                function initMap() {
+                    console.log('Entered initMap');
+                    var pitt_location = {lat:40.441754, lng:-79.956339};
+                    var map_var = document.getElementById('map_area');
+                    var map = new google.maps.Map(document.getElementById('map_area'), {zoom: 4, center: pitt_location});
+                    var pitt_marker = new google.maps.Marker({position: pitt_location, map: map});
+                    console.log('Finished init');
+                }
+                </script>
 			</div>
 		</div>
 	</div>

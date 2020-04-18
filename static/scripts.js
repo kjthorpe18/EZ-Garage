@@ -99,8 +99,26 @@ function garageSaved(result, targetUrl, params) {
     }
 }
 
-//Saves a new garage after user inputs one
-function saveGarage() {
+// Order for saving Garage: setupForGetCoords -> getCoords -> saveGarage
+
+// Function that is called on sumbit from the createGarage page
+function setupForGetCoords() {
+    var address = document.getElementById("addAddress").value;
+    getCoords(address);
+}
+
+// Calls the GeoCode API to get the coords of the passed in address
+function getCoords(address) {
+    var params = {
+        'address' : address,
+        'key' : 'AIzaSyB9cZpbGsGALA05ij9hx-EIpKKD84eZW1s&callback'
+    };
+    // Call the API and send it to the addGarage Function
+    sendJsonRequest(params,'https://maps.googleapis.com/maps/api/geocode/json?', saveGarage)
+}
+
+//Saves a new garage after user inputs one -- Called after get coords
+function saveGarage(returnedJSON) {
     let values = {};
     values['name'] = document.getElementById("addName").value;
     values['floorCount'] = document.getElementById("addFloorCount").value;
@@ -113,9 +131,28 @@ function saveGarage() {
     console.log(document.getElementById("addAddress").value)
     console.log(document.getElementById("addPhone").value)
     console.log(document.getElementById("addOwnerDL").value)
+    // Parse coords json to get the lat and longitude
+    if (returnedJSON.status === "OK") {
+        var lat = returnedJSON.results.geometry.location.lat;
+        var lng = returnedJSON.results.geometry.location.lng;
+        var coords = {
+            'lat' : lat,
+            'lng' : lng
+        }
+        console.log(coords);
+    } else {
+        // Geocode API didn't find a matching address so add fake lat and long
+        var coords = {
+            'lat' : '-1.00',
+            'lng' : '-1.00'
+        }
+    }
+    
+    values['coords'] = coords;
 
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
+
 
 function loadGarage() {
     var phone = document.getElementById("phoneCheck").value;
@@ -280,3 +317,14 @@ function signOut() {
       console.log('User signed out.');
     });
 }
+
+/*
+function initMap() {
+    console.log('Entered initMap');
+    var pitt_location = {lat:40.441754, lng:-79.956339};
+    var map = new google.maps.Map (
+        document.getElementById('map'), {zoom: 4, center: pitt_location});
+        var pitt_marker = new google.maps.Marker({position: pitt_location, map: map});
+    )
+}
+*/

@@ -63,9 +63,13 @@ def createGarage(garage):
     entity['floorCount'] = garage.floorCount
     entity['spaces'] = garage.spaces
     entity['address'] = garage.address
+
     entity['phone'] = garage.phone
     entity['ownerDL'] = garage.ownerDL
     log('ownerDL ' + garage.ownerDL)
+    # Added code for coords
+    entity['coords'] = garage.coords
+    long('coords ' + garage.coords)
 
     log('putting entity')
     client.put(entity)

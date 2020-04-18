@@ -2,7 +2,7 @@
 #avoid parents
 
 class Garage(object):
-    def __init__(self, gID, name, floorCount,  spaces, address, phone, ownerDL):
+    def __init__(self, gID, name, floorCount,  spaces, address, phone, ownerDL, coords):
         self.gID = gID
         self.name= name
         self.floorCount = floorCount
@@ -10,8 +10,8 @@ class Garage(object):
         self.address = address
         self.phone = phone
         self.ownerDL = ownerDL
+        self.coords = coords
 
-    
     #add setter functions
 
     def toDict(self):
@@ -22,5 +22,6 @@ class Garage(object):
             'spaces': self.spaces,              #Array of Spaces: 1A 1B... 4F....
             'address': self.address,
             'phone': self.phone,
-            'ownerDL': self.ownerDL            #For allowing Garage admnin option.
+            'ownerDL': self.ownerDL,           #For allowing Garage admnin option.
+            'coords': self.coords
         }

@@ -34,7 +34,7 @@ def root():
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
-    log('Called addGarage') 
+    log('Called addGarage')
     garageName = flask.request.form['name']
     log(garageName)
     floorCount = flask.request.form['floorCount']
@@ -50,10 +50,12 @@ def addGarage():
     log('About to create JSON')
     json_result = {}
     log('About to try')
+    coords = flask.request.form['coords']
+    log(coords)
 
     try:
         log('In try')
-        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL)) #First argument is gID, will use as key somehow, passing phone for now
+        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL, coords)) #First argument is gID, will use as key somehow, passing phone for now
         log('finished create garage')
         json_result['ok'] = True
         log('after json result')
@@ -70,7 +72,7 @@ def load_garage():
     g = garageObj.toDict()
     log(g)
     return flask.Response(json.dumps(g), mimetype='application/json')
-    
+
 
 @app.route('/add-user', methods=['POST'])
 def add_user():
