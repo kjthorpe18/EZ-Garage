@@ -63,6 +63,7 @@
 			<li class=""><a href="report.html">Report</a></li>
 			<li class=""><a href="about.html" >About</a></li>
 			<li class=""><a href="help.html">Help</a></li>
+			<li class=""><a href=# onclick="signOut()">Log Out</a>
 		</ul>
 	</div>
 
@@ -78,7 +79,7 @@
 
 			<p class="reserve-section-header">Check-in Time</p>
 			<div>
-				<select id="hourTime">
+				<select id="checkInHour">
 					<option value='12'>12</option>
 					<option value='1'>1</option>
 					<option value='2'>2</option>
@@ -92,38 +93,42 @@
 					<option value='10'>10</option>
 					<option value='11'>11</option>
 				</select>
-				<select id="minuteTime">
+				<select id="checkinMinutes">
 					<option value='00'>00</option>
 					<option value='30'>30</option>
 				</select>
-				<select id="AMorPM">
+				<select id="checkinAMorPM">
+					<option value='AM'>AM</option>
+					<option value='PM'>PM</option>
+				</select>
+			</div>
+
+			<p class="reserve-section-header">Check-out Time</p>
+			<div>
+				<select id="checkoutHour">
+					<option value='12'>12</option>
+					<option value='1'>1</option>
+					<option value='2'>2</option>
+					<option value='3'>3</option>
+					<option value='4'>4</option>
+					<option value='5'>5</option>
+					<option value='6'>6</option>
+					<option value='7'>7</option>
+					<option value='8'>8</option>
+					<option value='9'>9</option>
+					<option value='10'>10</option>
+					<option value='11'>11</option>
+				</select>
+				<select id="checkoutMinutes">
+					<option value='00'>00</option>
+					<option value='30'>30</option>
+				</select>
+				<select id="checkoutAMorPM">
 					<option value='AM'>AM</option>
 					<option value='PM'>PM</option>
 				</select>
 			</div>
 			
-			<p class="reserve-section-header">Duration</p>
-			<div>
-				<select id="duarationHours">
-					<option value="none">--Select--</option>
-					<option value='1'>1 hour</option>
-					<option value='2'>2 hours</option>
-					<option value='3'>3 hours</option>
-					<option value='4'>4 hours</option>
-					<option value='5'>5 hours</option>
-					<option value='6'>6 hours</option>
-					<option value='7'>7 hours</option>
-					<option value='8'>8 hours</option>
-					<option value='9'>9 hours</option>
-					<option value='10'>10 hours</option>
-				</select>
-				<select id="durationMinutes">
-					<option value="none">--Select--</option>
-					<option value='0'>0 minutes</option>
-					<option value='30'>30 minutes</option>
-				</select>
-
-			</div>
 
 			<p class="reserve-section-header">Select Your Garage</p>
 			<div>

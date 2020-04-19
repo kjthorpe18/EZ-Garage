@@ -1,10 +1,11 @@
 from flask import Flask, Response, redirect
-import carData
 import flask
 import json
 
 import userData
 import garageData
+import checkinData
+import carData
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -12,6 +13,7 @@ from google.auth.transport import requests
 from user import User
 from car import Car
 from garage import Garage
+from checkin import Checkin
 
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
@@ -31,6 +33,15 @@ def log(msg):
 @app.route('/')
 def root():
     return flask.redirect("/static/index.html", code=302)
+
+@app.route('/userLoggedIn', methods=['GET'])
+def userLoggedIn():
+    log("enter userLoggedIn")
+    json_result = {}
+    json_result['user_id'] = flask.session['user_id']
+    log(json_result)
+    return flask.Response(json.dumps(json_result), mimetype='application/json')
+
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
@@ -132,6 +143,11 @@ def login():
                     'user_id' : user_id,
                 })
             return show_json(jd)
+
+@app.route('/dologout', methods=['GET'])
+def dologout():
+    flask.session['user_id'] = None
+    return flask.redirect('/')
 
 
 # takes the token_id given by google and returns the user id for that token

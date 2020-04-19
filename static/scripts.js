@@ -45,7 +45,25 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 
+function get(xmlHttp, target) {
+    if (xmlHttp) {
+        xmlHttp.open("GET", target, true); // XMLHttpRequest.open(method, url, async)
+        var contentType = "application/x-www-form-urlencoded";
+        xmlHttp.setRequestHeader("Content-type", contentType);
+        xmlHttp.send();
+    }
+}
 
+function sendGetRequest(targetUrl, callbackFunction) {
+    var xmlHttp = createXmlHttp();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4) {
+            var myObject = JSON.parse(xmlHttp.responseText);
+            callbackFunction(myObject, targetUrl);
+        }
+    }
+    get(xmlHttp, targetUrl)
+}
 
 
 
@@ -302,11 +320,13 @@ function onSignIn(googleUser) {
     params['email'] = profile.getEmail();
     params['id_token'] = id_token;
     sendJsonRequest(params, '/login', onSignInCallback);
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.disconnect();
 }
 
 function onSignInCallback(returnedObject, targetURL, origParams){
     if(returnedObject['data']['user_in_db'] == "true"){
-        window.location = '/static/account.html';
+        window.location = '/static/index.html';
     }
     else{
         window.location = '/static/create_account.html';
@@ -314,11 +334,40 @@ function onSignInCallback(returnedObject, targetURL, origParams){
     console.log("enter onSignInCallback");
 }
 
+function loadIndex() {
+    sendGetRequest('/userLoggedIn', loadIndexCallback);
+}
+
+function loadIndexCallback(params, targetUrl){
+    var user = params['user_id']
+    elem = document.getElementById("mainBody");
+    text = "";
+    if(user == null){
+        text += ""
+        // elem.innerHTML = "Please log in.";
+    }
+    else{
+        text = ""
+        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='create_garage.html'>Create Garage</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
+        document.getElementById('BannerPlaceholder').innerHTML = text;
+        text = "<li><a href=# onclick='signOut()''>Log Out</a>";
+        document.getElementById('LogoutPlaceholder').innerHTML = text;
+        text = "<center>Welcome back!</center>";
+        document.getElementById('indexBody').innerHTML = text;
+    }
+
+}
+
 
 // Sign out of google sign in
 function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
+    gapi.load('auth2', function(){
+        gapi.auth2.init().then(function() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                document.location = '/dologout';
+            });
+        });
     });
 }
