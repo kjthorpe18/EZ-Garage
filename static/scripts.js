@@ -128,8 +128,8 @@ function loadGarage() {
 function displayGarage(result, targetUrl, params) {
     /*Gameplan is to change display array to text of garage object returned*/
     console.log(result);
-    
-    
+
+
     /* var elem = document.getElementById("DisplayArea");
     elem.innerHTML = '';
     text = '<ul>';
@@ -138,7 +138,7 @@ function displayGarage(result, targetUrl, params) {
     text += '<li>Spaces: ' + result['spaces'] + '</li>';
     text += '<li>Address: ' + result['address'] + '</li>';
     text += '<li>Phone Number: ' + result['phone'] + '</li>';
-    text += '</ul>'; 
+    text += '</ul>';
     elem.innerHTML = text; */
 }
 
@@ -184,9 +184,9 @@ function getLoggedInUser(){
     var elem = document.getElementById('getLoggedInUser');
     elem.innerHTML = "<div class='loader'></div>";
     sendJsonRequest(null, '/get-user', getLoggedInUserCallback);
-    
-  
-    
+
+
+
 }
 
 function getLoggedInUserCallback(returnedObject, targetUrl, unused){
@@ -290,21 +290,21 @@ function signOut() {
 function saveReport(name) {
     //need to see if user is logged in to get current user, if not alert they must sign in, using default user now
 
-        
+
         let values = {};
         values['userBy'] = name;
         values['plate'] = document.getElementById("platenum").value;
         values['space'] = document.getElementById("spaceID").value;
         values['dateOccured'] = document.getElementById("date").value;
         values['description'] = document.getElementById("description").value;
-        
+
         values['dateSubmitted'] = Date.now().toString();
         values['garage'] = document.getElementById("garage").value;
         console.log('Created report... for ' + document.getElementById("platenum").value);
         console.log('Values: ' + values['userBy'] + ' ' + values['plate'] + ' ' + values['dateOccured'] + ' ' + values['description'] + ' ' + values['dateSubmitted'] + ' ' + values['garage']);
         sendJsonRequest(values,'/add-report', reportSaved);
-        
-    
+
+
     }
 
 //Load all Reports for a Garage
@@ -359,7 +359,6 @@ function tableGarageCallback(returnedObject, targetUrl, unused){
     console.log(returnedObject);
     let drNum = returnedObject['dl_no'];
     loadAllGaragesUser(drNum);
-
 }
 
 function loadAllGaragesUser(drNum) {
@@ -375,9 +374,9 @@ function loadAllGaragesUserCallback(result, targetURL, origParams) {
     var constantTag = '<td>';
     var closeTag = '</td>';
     elem.innerHTML = '';
-   
+
     text = '<h2>Your Garages:</h2> <table> <tr> <th style="width: 150px;">Name</th> <th style="width: 150px;">Address</th> <th style="width: 80px;">Floors</th>  <th style="width: 80px;">Phone</th> </tr>';
-    
+
     for (x in result) {
         text += '<tr>'
         text += constantTag + result[x].name + closeTag;
@@ -401,18 +400,53 @@ function tableAcountCallback(result, targetURL, origParams) {
     var constantTag = '<td>';
     var closeTag = '</td>';
     elem.innerHTML = '';
-   
+
     text = '<h2>Your Account:</h2> <table> <tr> <th style="width: 150px;">Username</th> <th style="width: 150px;">Phone Number</th> <th style="width: 150px;">Driver\'s License</th></tr>';
-    
+
 
     text += '<tr>'
     text += constantTag + result['username'] + closeTag;
     text += constantTag +result['phone'] + closeTag;
     text += constantTag + result['dl_no'] + closeTag;
     text += '</tr>'
-    
+
     text += '</table>'
     elem.innerHTML = text;
+}
+
+function addVehicle() {
+  // Remove the button from the page
+  document.getElementById("create-vehicle-button").innerHTML = '';
+
+  // Add Create Vehicle Fields to the page
+  var elem = document.getElementById("create-vehicle");
+  text = '<div style="width: 50%; margin: auto;">'
+  text += '<h2>Add Your Vehicle:</h2>'
+  text += '<form onsubmit="return false;">'
+  text += '<label for="vehicle_make">Make:   </label>'
+  text += '<input type="text" id="vehicle_make" name="vehicle_make">'
+  text += '<br><br>'
+  text += '<label for="vehicle_model">Model:   </label>'
+  text += '<input type="text" id="vehicle_model" name="vehicle_model">'
+  text += '<br><br>'
+  text += '<label for="vehicle_license_plate_number">License Plate Number:   </label>'
+  text += '<input type="text" id="vehicle_license_plate_number" name="vehicle_license_plate_number">'
+  text += '<br><br>'
+  text += '<button type="button" onclick="">Submit</button><button type="button" onclick="cancelAddVehicle()">Cancel</button>'
+  text += '</form>'
+  text += '</div>'
+  elem.innerHTML = text;
+}
+
+function cancelAddVehicle() {
+  // Remove Create Vehicle Fields from the page
+  document.getElementById("create-vehicle").innerHTML = '';
+
+  // Add the button to the page
+  var elem = document.getElementById("create-vehicle-button");
+  text = '<img src="images/add.png" alt="Add Vehicle" width = "50px" height = "50px" style="vertical-align: middle">'
+  text += '<span style="color: black; font-weight:bolder">Add Vehicle</span>'
+  elem.innerHTML = text
 }
 
 
@@ -426,5 +460,5 @@ function tableAcountCallback(result, targetURL, origParams) {
     text += '<li>Spaces: ' + result['spaces'] + '</li>';
     text += '<li>Address: ' + result['address'] + '</li>';
     text += '<li>Phone Number: ' + result['phone'] + '</li>';
-    text += '</ul>'; 
+    text += '</ul>';
     elem.innerHTML = text; */
