@@ -120,18 +120,12 @@ function garageSaved(result, targetUrl, params) {
 //Saves a new garage after user inputs one
 function saveGarage() {
     let values = {};
-    values['name'] = document.getElementById("addName").value;
-    values['floorCount'] = document.getElementById("addFloorCount").value;
-    values['spaces'] = document.getElementById("addSpaces").value;
-    values['address'] = document.getElementById("addAddress").value;
-    values['phone'] = document.getElementById("addPhone").value;
-    values['ownerDL'] = document.getElementById("addOwnerDL").value;
-    console.log(document.getElementById("addName").value)
-    console.log(document.getElementById("addFloorCount").value)
-    console.log(document.getElementById("addAddress").value)
-    console.log(document.getElementById("addPhone").value)
-    console.log(document.getElementById("addOwnerDL").value)
-
+    values['garageName'] = document.getElementById("garageName").value;
+    values['numSpots'] = document.getElementById("numSpots").value;
+    values['numHandicapSpots'] = document.getElementById('numHandicapSpots').value;
+    values['address'] = document.getElementById("address").value;
+    values['phone'] = document.getElementById("phoneNumber").value;
+    values['ownerDL'] = document.getElementById("ownerDL").value;
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
 
@@ -243,37 +237,105 @@ function loadAllGarages() {
 }
 
 function loadAllGaragesCallback(returnedObject, targetUrl, unused) {
-    var dropdown = document.getElementById("GarageSelect");
+    var dropdown = document.getElementById("garageSelect");
     text = '';
     text += "<option value='null'>--Select--</option>";
     Object.keys(returnedObject).forEach(function(key) {
-       text += "<option value='" + returnedObject[key]['name'] + "'>" + returnedObject[key]['name'] + "<//option>";
+       text += "<option value='" + returnedObject[key]['Name'] + "'>" + returnedObject[key]['Name'] + "<//option>";
     });
-   
     dropdown.innerHTML = text;
 }
 
-function getFloors() {
-    // Kind of difficult to get the selected garage's floors, since we need to get a garage by
-    // phone number. We need to save the garage's phone number somehow, and then populate everything.
-
-    var garage_name = document.getElementById("GarageSelect").value;
-    console.log("Getting floors for: " + garage_name)
-    let params = {};
-    params['garage_name'] = garage_name;
-    console.log(params);
-    sendJsonRequest(params, '/load-garage', displayFloors);
-}
-
-function displayFloors(returnedObject, targetUrl, unused) {
-    var dropdown = document.getElementById("floorSelect");
-    console.log(returnedObject);
-    var floorCount = returnedObject['floorCount']
-    var text = '';
-    for(var i=0; i<floorCount; i++){
-        text += "<option value='" + i + "'>" + i + "</option>";
+function showSpots() {
+    var time_in = getCheckinTime();
+    var time_out = getCheckoutTime();
+    var dateValue= document.getElementById('checkinDate').value;
+    if(!Date.parse(dateValue)){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Please enter a valid date.</p>";
     }
+    else if (time_out <= time_in){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Checkout time must be after checkin time.</p>";
+    }
+    else{
+        document.getElementById('errorMsg').innerHTML = "";
+        document.getElementById('spotsMessage').innerHTML = "<br><div class='loader'></div>"
+        var garageName = document.getElementById("garageSelect").value;
+        let params = {};
+        params['garageName'] = garageName;
+        params['checkinTime'] = getCheckinTime();
+        params['checkoutTime'] = getCheckoutTime();
+        params['handicap'] = document.getElementById('handicap').checked;
+
+        sendJsonRequest(params, '/populate-spots', showSpotsCallback);
+    }
+}
+
+function showSpotsCallback(returnedObject, targetUrl, nope){
+    document.getElementById('spotsMessage').innerHTML = '';
+    var dropdown = document.getElementById('spotSelect');
+    text = '';
+    text += "<p class='reserve-section-header'>The following spots are available at the time you selected. Please select a spot</p>";
+    text += "<select id='spot_selected'>";
+    console.log(returnedObject);
+    for(var i=0; i<returnedObject.length; i++){
+        text += "<option value='" + returnedObject[i]['space_id'] + "'>" + returnedObject[i]['num'] + "</option>";
+    }
+    text += "</select>"
     dropdown.innerHTML = text;
+    var buttons = document.getElementById('Buttons');
+    buttons.innerHTML = "<button id='reserveSpot' onclick='reserveSpot()'>Reserve Spot</button>"
+}
+
+function reserveSpot() {
+    var time_in = getCheckinTime();
+    var time_out = getCheckoutTime();
+    if (time_out <= time_in){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Checkout time must be after checkin time.</p>";
+    }
+    document.getElementById('errorMsg').innerHTML = "<br><div class='loader'></div>";
+    var garage_name = document.getElementById('garageSelect').value;
+    var spot_selected = document.getElementById('spot_selected').value;
+    params = {};
+    params['time_in'] = time_in;
+    params['time_out'] = time_out;
+    params['garage_name'] = garage_name;
+    params['spot_selected'] = spot_selected;
+    sendJsonRequest(params, '/reserve-spot', reserveSpotCallback)
+}
+
+function reserveSpotCallback(returnedObject, url, naw) {
+    if (returnedObject['error']){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Error!</p>";
+    }
+    else{
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Success! Redirecting to your account page...</p>";
+        setTimeout( function() {
+            document.location = '/static/account.html'
+        }, 3000);
+        
+    }
+}
+
+function getCheckinTime(){
+    var date = document.getElementById('checkinDate').value;
+    var inHour = document.getElementById('checkinHour').value;
+    var inMinute = document.getElementById('checkinMinutes').value;
+    var inAMorPM = document.getElementById('checkinAMorPM').value;
+    var inTime = convertToTime(date, inHour, inMinute, inAMorPM);
+    return inTime;
+}
+
+function getCheckoutTime(){
+    var date = document.getElementById('checkinDate').value
+    var outHour = document.getElementById('checkoutHour').value;
+    var outMinute = document.getElementById('checkoutMinutes').value;
+    var outAMorPM = document.getElementById('checkoutAMorPM').value;
+    var outTime = convertToTime(date, outHour, outMinute, outAMorPM);
+    return outTime;
+}
+
+function convertToTime(date, hour, minute, AMorPM){
+    return new Date(date + ' ' + hour + ':' + minute + ' ' + AMorPM);
 }
 
 /* ----------------------- End Reserve Page Dropdowns ------------------------ */ 
@@ -357,12 +419,16 @@ function loadIndexCallback(params, targetUrl){
     }
 }
 
-function loadAbout() {
-    sendGetRequest('/userLoggedIn', loadAboutCallback);
+
+// Used when static pages are loaded (help and about)
+// Shows all the menu buttons if the user is signed in
+function loadStatic() {
+    sendGetRequest('/userLoggedIn', loadStaticCallback);
     
 }
 
-function loadAboutCallback(params, targetUrl) {
+//Show menu items and logout button if user is signed in
+function loadStaticCallback(params, targetUrl) {
     var user = params['user_id'];
     if(user != null) {
         text = ""

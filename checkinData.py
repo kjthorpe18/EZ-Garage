@@ -18,7 +18,7 @@ def log(msg):
     """Log a simple message."""
     # Look at: https://console.cloud.google.com/logs to see your logs.
     # Make sure you have "stdout" selected.
-    print('userData: %s' % msg)
+    print('checkinData: %s' % msg)
 
 def load_key(client, item_id=None):
     """Load a datastore key using a particular client, and if known, the ID.
@@ -26,10 +26,10 @@ def load_key(client, item_id=None):
     them in this example."""
     key = None
     if item_id:
-        key = client.key(USER_ENTITY_TYPE, str(item_id))
+        key = client.key(CHECKIN_ENTITY_TYPE, str(item_id))
     else:
         # this will generate an ID
-        key = client.key(USER_ENTITY_TYPE)
+        key = client.key(CHECKIN_ENTITY_TYPE)
     return key
 
 def load_entity(client, item_id):
@@ -42,7 +42,6 @@ def load_entity(client, item_id):
 
 def convert_to_object(entity):
     checkin_id = entity.key.id_or_name
-    #     def __init__(self, user_id, date, time_in, time_out, space_id, garage_id):
     return Checkin(entity['user_id'], entity['date'], entity['time_in'], entity['time_out'], entity['space_id'], entity['garage_id'])
 
 def add_checkin(checkin_to_create):
@@ -53,15 +52,16 @@ def add_checkin(checkin_to_create):
     client = get_client()
     key = None
     entity = None
-    if not checkin.checkin_id:
+    if not checkin_to_create.checkin_id:
+        log('enter if')
         key = load_key(client)
         checkin_id = key.id_or_name
         entity = datastore.Entity(key)
     else:
         key = load_key(client, checkin.checkin_id)
         entity = datastore.Entity(key)
+    log('end if else')
     entity['user_id'] = checkin_to_create.user_id
-    entity['date'] = checkin_to_create.date
     entity['time_in'] = checkin_to_create.time_in
     entity['time_out'] = checkin_to_create.time_out
     entity['space_id'] = checkin_to_create.space_id
@@ -70,11 +70,20 @@ def add_checkin(checkin_to_create):
     log('Added checkin to database.')
 
 
-def get_user(user_id):
+def load_all_checkins(spot_id):
     client = get_client()
-    log('retrieving object for ID: %s' % user_id)
-    entity = load_entity(client, user_id)
-    if not entity:
-        return None
-    else:
-        return convert_to_object(entity)
+    query = client.query(kind='Checkin')
+    query.add_filter('space_id', '=', spot_id)
+    checkins = list(query.fetch())
+    log(checkins)
+    return checkins
+
+
+# def get_user(user_id):
+#     client = get_client()
+#     log('retrieving object for ID: %s' % user_id)
+#     entity = load_entity(client, user_id)
+#     if not entity:
+#         return None
+#     else:
+#         return convert_to_object(entity)

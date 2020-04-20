@@ -32,18 +32,18 @@
 
             <form onsubmit='return false;'>
                 <label>Enter Garage Name</label><br>
-                <input type="text" id= "addName"></input><br>
-                <label>Add Floor Count</label><br>
-                <input type="number" id = "addFloorCount"></input><br>
-                <label>Enter Space Names: [Floor-Letter] separated by comma and space eg. 1A, 1B, 1F, 4K...</label><br>
-                <input id ="addSpaces"></input><br>
+                <input type="text" id= "garageName"></input><br>
+                <label>Enter number of non-handicap parking spots available</label><br>
+                <input type='number' id ="numSpots"></input><br>
+                <label>Enter number of handicap parking spots available</label><br>
+                <input type='number' id ="numHandicapSpots"></input><br>
                 <label>Enter Address</label><br>
-                <input type="text" id="addAddress"></input><br>
+                <input type="text" id="address"></input><br>
                 <label>Enter Phone Number</label><br>
-                <input type="number" id="addPhone"></input><br>
+                <input type="number" id="phoneNumber"></input><br>
                 <label>Enter Owner's Drivers License Number </label><br>
-                <input id="addOwnerDL"></input><br>
-                <button onclick="saveGarage()"> Submit</button>
+                <input id="ownerDL"></input><br>
+                <button onclick="saveGarage()">Create Garage</button>
                 <br>
                 <br>
             </form>

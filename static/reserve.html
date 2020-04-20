@@ -5,52 +5,14 @@
 	<title>Reserve</title>
 	<link href="Style.css" type="text/css" rel="stylesheet" />
 	<script src="scripts.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 		<style>
 			body {
 				font-family: 'Roboto';
 			}
 		</style>
-
-	<!-- script to change Floor Letters Dependent on Floor Selection ARC -->
-	<script language="javascript" type="text/javascript">
-		function dynamicDropdown(index) {
-			document.getElementById("floor").length = 0;
-			switch (index) {
-				case "Floor 1":
-					document.getElementById("floor").options[0] = new Option("--Select--", "--Select--");
-					document.getElementById("floor").options[1] = new Option("1A", "1A");
-					document.getElementById("floor").options[2] = new Option("1B", "1B");
-					document.getElementById("floor").options[3] = new Option("1C", "1C");
-					document.getElementById("floor").options[4] = new Option("1D", "1D");
-					document.getElementById("floor").options[5] = new Option("1E", "1E");
-					document.getElementById("floor").options[6] = new Option("1F", "1F");
-					break;
-
-				case "Floor 2":
-					document.getElementById("floor").options[0] = new Option("--Select--", "--Select--");
-					document.getElementById("floor").options[1] = new Option("2A", "2A");
-					document.getElementById("floor").options[2] = new Option("2B", "2B");
-					document.getElementById("floor").options[3] = new Option("2C", "2C");
-					break;
-
-				case "Floor 3":
-					document.getElementById("floor").options[0] = new Option("--Select--", "--Select--");
-					document.getElementById("floor").options[1] = new Option("IT'S REALLY SECRET", "IT'S REALLY SECRET");
-
-					break;
-
-
-				case "0":
-					document.getElementById("floor").options[0] = new Option("Please select Floor First", "Please select Floor First");
-
-
-					break;
-			}
-
-			return true;
-		}
-	</script>
 </head>
 
 <body onload="loadAllGarages()">
@@ -74,12 +36,12 @@
 
 			<p class="reserve-section-header">Check-in Date</p>
 			<div>
-				<input type="date" id="date">
+				<input type="date" id="checkinDate">
 			</div>
 
 			<p class="reserve-section-header">Check-in Time</p>
 			<div>
-				<select id="checkInHour">
+				<select id="checkinHour">
 					<option value='12'>12</option>
 					<option value='1'>1</option>
 					<option value='2'>2</option>
@@ -132,37 +94,22 @@
 
 			<p class="reserve-section-header">Select Your Garage</p>
 			<div>
-				<select id="GarageSelect" onChange="getFloors()">
+				<select id="garageSelect">
 					<option value="null">Loading...</option>
 				</select>
 			</div>
 
-			
-			<p class="reserve-section-header">Select Floor</p>
-			<div>
-				<select id="floorSelect">
-					<option value="0">--Select--</option>
-				</select>
-			</div>
+			<p class="reserve-section-header">Handicapped Parking Spots Only</p>
+			<input type="checkbox" id="handicap"></input>
 
-				
-			<p class="reserve-section-header">Spot Select</p>
-			<div>
-				<script type="text/javascript" language="JavaScript">
-					document.write('<select id="floor"><option>Please select Floor First</option></select>')
-				</script>
 
-				<noscript>
-					<select name="floor" id="floor">
-						<option value="">Turn on Javascript.</option>
-					</select>
-				</noscript>
-			</div>
+			<div><button onclick="showSpots()">Show available spots</button></div>
+			<div id="spotsMessage"></div>
+			<div id='spotSelect'></div>
 
-			<div id ="Buttons">
-				<button>Find Closest</button>
-				<button>Find Handicap</button>
+			<div id='Buttons'>
 			</div>
+			<div id='errorMsg'></div>
 
 		</div>
 

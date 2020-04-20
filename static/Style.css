@@ -37,7 +37,7 @@ input, button {
 
 .loader {
   border: 10px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid rgb(10, 134, 175);
+  border-top: 10px solid rgb(10, 134, 175);
   border-radius: 50%;
   width: 20px;
   height: 20px;

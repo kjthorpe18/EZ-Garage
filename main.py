@@ -6,6 +6,7 @@ import userData
 import garageData
 import checkinData
 import carData
+import spaceData
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -14,6 +15,7 @@ from user import User
 from car import Car
 from garage import Garage
 from checkin import Checkin
+from space import Space
 
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
@@ -46,25 +48,19 @@ def userLoggedIn():
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
     log('Called addGarage') 
-    garageName = flask.request.form['name']
-    log(garageName)
-    floorCount = flask.request.form['Floor Count']
-    log(floorCount)
-    spaces = flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
-    log(spaces)
+    garageName = flask.request.form['garageName']
+    numSpots = flask.request.form['numSpots']
+    numHandicapSpots = flask.request.form['numHandicapSpots']
     address = flask.request.form['address']
-    log(address)
     phone = flask.request.form['phone']
-    log(phone)
     ownerDL = flask.request.form['ownerDL']
-    log(ownerDL)
     log('About to create JSON')
     json_result = {}
     log('About to try')
 
     try:
         log('In try')
-        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL)) #First argument is gID, will use as key somehow, passing phone for now
+        garageData.createGarage(Garage(garageName, numSpots, numHandicapSpots, address, phone, ownerDL)) #First argument is gID, will use as key somehow, passing phone for now
         log('finished create garage')
         json_result['ok'] = True
         log('after json result')
@@ -81,10 +77,45 @@ def load_garage():
     g = garageObj.toDict()
     log(g)
     return flask.Response(json.dumps(g), mimetype='application/json')
+
+@app.route('/populate-spots', methods=['POST'])
+def populate_spots():
+    available_spots = []
+    list_to_return = []
+    garageName = flask.request.form['garageName']
+    checkinTime = flask.request.form['checkinTime']
+    checkoutTime = flask.request.form['checkoutTime']
+    handicap = flask.request.form['handicap']
+    log('the value of handicap:')
+    log(handicap)
+    allSpotsInGarage = spaceData.load_all_spots(garageName)
+    log(allSpotsInGarage)
+    for spot in allSpotsInGarage:
+        spotIsAvailable = True
+        spot_id = spot.key.id_or_name
+        log(spot_id)
+        allCheckinsForSpot = checkinData.load_all_checkins(spot_id)
+        log(allCheckinsForSpot)
+        for checkin in allCheckinsForSpot:
+            if checkin['time_in'] >= checkoutTime:
+                continue
+            if checkin['time_out'] <= checkinTime:
+                continue
+            spotIsAvailable = False
+        if spotIsAvailable:
+            available_spots.append(spot)
+    for spot in available_spots:
+        log('handicap?')
+        log(spot['handicap'])
+        if (spot['handicap'] and handicap) or (not spot['handicap'] and not handicap):
+            s = spaceData._space_from_entity(spot)
+            list_to_return.append(s.toDict())
+    log('list to return:')
+    log(list_to_return)
+    return flask.Response(json.dumps(list_to_return), mimetype='application/json')
     
 @app.route('/load-all-garages', methods=['POST'])
 def load_all_garages():
-
     garage_list = garageData.load_all_garages()
     list_to_return = []
     for garage in garage_list:
@@ -109,6 +140,23 @@ def add_user():
         log(str(exc))
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
+
+@app.route('/reserve-spot', methods=['POST'])
+def reserve_spot():
+    user_id = flask.session['user_id']
+    time_in = flask.request.form['time_in']
+    time_out = flask.request.form['time_out']
+    garage_name = flask.request.form['garage_name']
+    space_id = flask.request.form['spot_selected']
+    checkin = Checkin(user_id, time_in, time_out, space_id, garage_name)
+    json_result = {}
+    try:
+        checkinData.add_checkin(checkin)
+        json_result['ok'] = True
+    except:
+        json_result['error'] = 'There was an error reserving this parking spot. Please try again.'
+    return flask.Response(json.dumps(json_result), mimetype='application/json')
+
 
 @app.route('/get-user', methods=['POST', 'GET'])
 def get_user():
