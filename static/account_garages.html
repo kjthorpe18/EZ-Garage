@@ -5,7 +5,7 @@
     <link href="Style.css" type="text/css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="scripts.js"></script>
-    <script src="server_access.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
 
 		<style>
 			body {
@@ -13,12 +13,11 @@
 			}
 		</style>
 	</head>
-	<body onload="getLoggedInUser(); prefillAccountInfo()">
+	<body onload="getTableGarages();">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
 	      <li class=""><a href="reserve.html">Reserve</a></li>
-				<li class=""><a href="create_garage.html">Create Garage</a></li>
 	      <li class=""><a href="account.html">Account</a></li>
 				<li class=""><a href="report.html">Report</a></li>
 				<li class=""><a href="about.html" >About</a></li>
@@ -26,7 +25,7 @@
 			</ul>
     </div>
 
-    <div class="body-content">
+    <div class="body-content" >
 
       <!-- Begin Account Page Navigation -->
 			<ul class="AccountNav">
@@ -51,31 +50,24 @@
       <!-- Begin Garage Table -->
       <div class="account-content">
         <div class="owned-section" style="width: 50%; margin: auto;">
-          <div id="garage-section">
-            <h2>Your Garages:</h2>
-            <table>
-              <tr>
-                <th style="width: 150px;">Name</th>
-                <th style="width: 150px;">Address</th>
-                <th style="width: 80px;">Floors</th>
-                <th style="width: 80px;">Spaces</th>
-								<th style="width: 50px;"></th>
-								<th style="width: 50px;"></th>
-              </tr>
-              <tr>
-                <td>Example Garage</td>
-                <td>111 University Pl.</td>
-                <td>10</td>
-                <td>100</td>
-								<td><a href="edit_account_garages.html">Edit</a></td>
-								<td><a href="">Delete</a></td>
-              </tr>
-            </table>
+          <div id="garage-section" >
+
+            <h1>Loading...</h1>
           </div>
         </div>
       </div>
-      <!-- End Garage Table -->
+	  <!-- End Garage Table -->
 
+	  <!-- Begin Create Garage Button -->
+	  <div id="create-garage-button" onclick="addGarage()" style="margin-left: 24.5%">
+			<img src="images/add.png" width = "50px" height = "50px" style="vertical-align: middle">
+			<span style="color: black; font-weight:bolder">Add Garage</span>
+		</div>
+		<!-- End Create Garage Button -->
+
+		<!-- Begin Create Garage -->
+		<div id="create-garage"></div>
+		<!-- End Create Garage -->
 
     </div>
 	</body>

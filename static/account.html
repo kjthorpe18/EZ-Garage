@@ -5,7 +5,7 @@
     <link href="Style.css" type="text/css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="scripts.js"></script>
-    <script src="server_access.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
 
 		<style>
 			body {
@@ -13,12 +13,11 @@
 			}
 		</style>
 	</head>
-	<body onload="getLoggedInUser(); prefillAccountInfo()">
+	<body onload="getTableAccount();">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
 	      <li class=""><a href="reserve.html">Reserve</a></li>
-				<li class=""><a href="create_garage.html">Create Garage</a></li>
 	      <li class=""><a href="account.html">Account</a></li>
 				<li class=""><a href="report.html">Report</a></li>
 				<li class=""><a href="about.html" >About</a></li>
@@ -52,23 +51,7 @@
       <div class="account-content">
         <div class="owned-section" style="width: 50%; margin: auto;">
           <div id="account-section">
-            <h2>Your Account:</h2>
-              <table>
-                <tr>
-                  <th style="width: 150px;">Username</th>
-                  <th style="width: 150px;">Phone Number</th>
-                  <th style="width: 250px;">Driver's License Number</th>
-									<th style="width: 50px;"></th>
-									<th style="width: 50px;"></th>
-                </tr>
-                <tr>
-                  <td>Sample Username</td>
-                  <td>(412) 321-1234</td>
-                  <td>43215678</td>
-									<td><a href="edit_account.html">Edit</a></td>
-									<td><a href="">Delete</a></td>
-                </tr>
-              </table>
+            <h1>Loading...</h1>
           </div>
         </div>
       </div>

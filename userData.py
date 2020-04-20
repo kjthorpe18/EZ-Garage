@@ -12,7 +12,9 @@ def get_client():
         return client
     except: # if that doesn't work, look for the local path to the API keys for the database
         #return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
-        return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
+        #return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
+        return datastore.Client.from_service_account_json('D:\CS1520\service-acct-keys.json')
+
 
 def log(msg):
     """Log a simple message."""
