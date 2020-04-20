@@ -257,10 +257,10 @@ function getFloors() {
     // Kind of difficult to get the selected garage's floors, since we need to get a garage by
     // phone number. We need to save the garage's phone number somehow, and then populate everything.
 
-    var phone = document.getElementById("phoneNum").innerHTML;
-    console.log("Getting floors for: " + phone)
+    var garage_name = document.getElementById("GarageSelect").value;
+    console.log("Getting floors for: " + garage_name)
     let params = {};
-    params['phone'] = phone;
+    params['garage_name'] = garage_name;
     console.log(params);
     sendJsonRequest(params, '/load-garage', displayFloors);
 }
@@ -268,9 +268,11 @@ function getFloors() {
 function displayFloors(returnedObject, targetUrl, unused) {
     var dropdown = document.getElementById("floorSelect");
     console.log(returnedObject);
+    var floorCount = returnedObject['floorCount']
     var text = '';
-    text = "<option value='" + returnedObject[key]['phone'] + "'>" + returnedObject[key]['phone'] + "<//option>";
-    console.log(text);
+    for(var i=0; i<floorCount; i++){
+        text += "<option value='" + i + "'>" + i + "</option>";
+    }
     dropdown.innerHTML = text;
 }
 
@@ -334,19 +336,17 @@ function onSignInCallback(returnedObject, targetURL, origParams){
     console.log("enter onSignInCallback");
 }
 
+// Gets if the user is logged in
 function loadIndex() {
     sendGetRequest('/userLoggedIn', loadIndexCallback);
 }
 
+// Shows menu items and hides login button if user is logged in 
 function loadIndexCallback(params, targetUrl){
-    var user = params['user_id']
+    var user = params['user_id'];
     elem = document.getElementById("mainBody");
     text = "";
-    if(user == null){
-        text += ""
-        // elem.innerHTML = "Please log in.";
-    }
-    else{
+    if(user != null){
         text = ""
         text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='create_garage.html'>Create Garage</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
         document.getElementById('BannerPlaceholder').innerHTML = text;
@@ -355,7 +355,22 @@ function loadIndexCallback(params, targetUrl){
         text = "<center>Welcome back!</center>";
         document.getElementById('indexBody').innerHTML = text;
     }
+}
 
+function loadAbout() {
+    sendGetRequest('/userLoggedIn', loadAboutCallback);
+    
+}
+
+function loadAboutCallback(params, targetUrl) {
+    var user = params['user_id'];
+    if(user != null) {
+        text = ""
+        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='create_garage.html'>Create Garage</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
+        document.getElementById('BannerPlaceholder').innerHTML = text;
+        text = "<li><a href=# onclick='signOut()''>Log Out</a>";
+        document.getElementById('LogoutPlaceholder').innerHTML = text;
+    }
 }
 
 

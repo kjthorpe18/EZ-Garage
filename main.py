@@ -48,7 +48,7 @@ def addGarage():
     log('Called addGarage') 
     garageName = flask.request.form['name']
     log(garageName)
-    floorCount = flask.request.form['floorCount']
+    floorCount = flask.request.form['Floor Count']
     log(floorCount)
     spaces = flask.request.form['spaces']            #Should be a string array w/ Number and then letters: 1AA 3BC etc. Let's see what happens as is
     log(spaces)
@@ -76,8 +76,8 @@ def addGarage():
 
 @app.route('/load-garage', methods=['POST'])
 def load_garage():
-    gPhone = flask.request.form['phone']
-    garageObj = garageData.load_garage(gPhone)
+    gName = flask.request.form['garage_name']
+    garageObj = garageData.load_garage(gName)
     g = garageObj.toDict()
     log(g)
     return flask.Response(json.dumps(g), mimetype='application/json')

@@ -43,6 +43,7 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 
     key = _load_key(client, entity_type, entity_id, parent_key)
     entity = client.get(key)
+    log(entity)
     log('retrieved entity for ' + str(entity_id))
     return entity
 
@@ -75,13 +76,13 @@ def createGarage(garage):
 def _garage_from_entity(garage_entity):
 
     log("Creating garage from entity...")
-    gID = garage_entity['phone']
-    name = garage_entity['name']
-    floorCount = garage_entity['floorCount']
-    spaces = garage_entity['spaces']
-    address = garage_entity['address']
-    phone = garage_entity['phone']
-    ownerDL = garage_entity['ownerDL']
+    gID = garage_entity['Name']
+    name = garage_entity['Name']
+    floorCount = garage_entity['Floor Count']
+    spaces = garage_entity['Spaces']
+    address = garage_entity['Address']
+    phone = garage_entity['Phone']
+    ownerDL = garage_entity['Owner DL']
     garageVal = Garage(gID, name, floorCount, spaces, address, phone, ownerDL)
     log("Returning garage from entity...")
     return garageVal
@@ -89,12 +90,12 @@ def _garage_from_entity(garage_entity):
 
 #NEED TO CHANGE
 #Load value from datastore based on PHONE
-def load_garage(phone):
-    log('Loading a Garage: %s ' + phone)
+def load_garage(gName):
+    log('Loading a Garage: %s ' + gName)
     client = getClient()
-    garage_entity = _load_entity(client, _GARAGE_ENTITY, phone)
-    log('Loaded a Garage name test: %s ' + garage_entity['phone'])
-    log('Loaded a Garage ownerDL test: %s ' + garage_entity['ownerDL'])
+    garage_entity = _load_entity(client, _GARAGE_ENTITY, gName)
+    log('Loaded a Garage name test: %s ' + garage_entity['Phone'])
+    log('Loaded a Garage ownerDL test: %s ' + garage_entity['Owner DL'])
     rGarage = _garage_from_entity(garage_entity)
     return rGarage
 
