@@ -418,7 +418,7 @@ function addVehicle() {
   // Remove the button from the page
   document.getElementById("create-vehicle-button").innerHTML = '';
 
-  // Add Create Vehicle Fields to the page
+  // Add Create Vehicle fields to the page
   var elem = document.getElementById("create-vehicle");
   text = '<div style="width: 50%; margin: auto;">'
   text += '<h2>Add Your Vehicle:</h2>'
@@ -439,14 +439,56 @@ function addVehicle() {
 }
 
 function cancelAddVehicle() {
-  // Remove Create Vehicle Fields from the page
+  // Remove Create Vehicle fields from the page
   document.getElementById("create-vehicle").innerHTML = '';
 
   // Add the button to the page
   var elem = document.getElementById("create-vehicle-button");
   text = '<img src="images/add.png" alt="Add Vehicle" width = "50px" height = "50px" style="vertical-align: middle">'
   text += '<span style="color: black; font-weight:bolder">Add Vehicle</span>'
-  elem.innerHTML = text
+  elem.innerHTML = text;
+}
+
+function addGarage() {
+  // Remove the button from the page
+  document.getElementById("create-garage-button").innerHTML = '';
+
+  // Add Create Garage fields to the page
+  var elem = document.getElementById("create-garage");
+  text = '<div style="width: 50%; margin: auto;">';
+  text += '<h2>Add Your Garage:</h2>';
+  text += '<form onsubmit="return false;">';
+  text += '<label>Enter Garage Name:   </label>';
+  text += '<input type="text" id= "addName"></input>';
+  text += '<br><br>';
+  text += '<label>Add Space Count:   </label>';
+  text += '<input type="number" id = "addSpaceCount"></input>';
+  text += '<br><br>';
+  text += '<label>Enter Address</label>';
+  text += '<input type="text" id="addAddress"></input>';
+  text += '<br><br>';
+  text += '<label>Enter Phone Number</label>';
+  text += '<input type="number" id="addPhone"></input>';
+  text += '<br><br>';
+  text += "<label>Enter Owner's Drivers License Number </label>";
+  text += '<input id="addOwnerDL"></input>';
+  text += '<br><br>';
+  text += '<button onclick="saveGarage()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
+  text += '<br><br>';
+  text += '</form>';
+  text += '</div>';
+  elem.innerHTML = text;
+}
+
+function cancelAddGarage() {
+  // Remove Create Garage fields from the page
+  document.getElementById("create-garage").innerHTML = '';
+
+  // Add the button to the page
+  var elem = document.getElementById("create-garage-button");
+  text = '<img src="images/add.png" width = "50px" height = "50px" style="vertical-align: middle">'
+  text += '<span style="color: black; font-weight:bolder">Add Garage</span>'
+  elem.innerHTML = text;
 }
 
 
