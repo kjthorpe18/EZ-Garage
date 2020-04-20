@@ -87,21 +87,7 @@ def load_all_garages():
     for X in garageArray:
         newDict = X.toDict().copy()
         data.append(newDict)
-        log('new dict added...')
-        log(json.dumps(newDict))
-
-   
-    return flask.Response(json.dumps(data), mimetype='application/json')
-
-@app.route('/load-garages-dropdown', methods=['POST'])
-def load_all_garages_dropdown():
-    garageArray = garageData.load_all_garages()
-    log('About to enter load-all Garages Dropdown for')
-    data = []
-    for X in garageArray:
-        newDict = X.toDict().copy()
-        data.append(newDict)
-        log('new dict added...')
+        log('new garage dict added...')
         log(json.dumps(newDict))
 
    
@@ -231,9 +217,6 @@ def addCar():
     log(plate_num)
     json_result = {}
     
-    
-    
-    
     userName ="Default User"
     user_id = flask.session['user_id']
     if user_id:
@@ -241,9 +224,6 @@ def addCar():
         user = userData.get_user(user_id)
         userName = user.username
 
-
-    
-    
     try:
         log('Creating a new Car and adding it to db')
         carData.createCar(Car(userName, make, model, plate_num))
@@ -253,15 +233,24 @@ def addCar():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-# this is for testing if it works, probably don't need
-@app.route('/load-car')
-def loadCarTest(plate_num):
-        log('loading Car.')
-        carObj = carData.load_car(plate_num)
-        car = carObj.toDict()
-        json_list = []
-        json_list.append(car)
-        return flask.Response(json.dumps(json_list), mimetype='application/json')
+# Loads all cars for a specific user
+@app.route('/load-cars-user', methods=['POST'])
+def loadCars():
+    data = []
+    user_id = flask.session['user_id']
+    
+    if user_id:
+        log('Getting User ID')
+        user = userData.get_user(user_id)
+        userName = user.username
+    carArray = carData.load_cars_user(userName)
+    for x in carArray:
+        newDict = x.toDict().copy()
+        data.append(newDict)
+        log('new car dict added...')
+        log(json.dumps(newDict))
+    return flask.Response(json.dumps(data), mimetype='application/json')
+        
 
 @app.route('/add-space', methods=['POST'])
 def addSpace():

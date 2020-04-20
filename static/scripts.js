@@ -346,6 +346,56 @@ function reportSaved(result, targetUrl, params) {
 
 //-- END REPORTS
 
+// -----------START CAR -----------------
+
+function saveCar() {
+    let values = {};
+    values['make'] = document.getElementById("Make").value;
+    values['model'] = document.getElementById("Model").value;
+    values['plate'] = document.getElementById("Plate").value;
+    console.log(values);
+    sendJsonRequest(values, '/add-car', saveCarCallback);
+}
+
+function saveCarCallback(result, targetUrl, params) {
+    if (result && result.ok) {
+        console.log("Saved Car.");
+    } else {
+        console.log("Received error: " + result.error);
+        showError(result.error);
+    }
+}
+
+function loadCarTable() {
+    console.log("Loading cars...");
+    sendJsonRequest(null, '/load-cars-user', loadCarTableCallback); 
+
+}
+
+function loadCarTableCallback(result, targetURL, origParams) {
+    console.log(result);
+    var elem = document.getElementById("car-section");
+    var constantTag = '<td>';
+    var closeTag = '</td>';
+    elem.innerHTML = '';
+
+    text = '<h2>Your Cars:</h2> <table> <tr> <th style="width: 150px;">Make</th> <th style="width: 150px;">Model</th> <th style="width: 150px;">License Plate</th></tr>';
+
+    for (x in result) {
+        text += '<tr>'
+        text += constantTag + result[x].make + closeTag;
+        text += constantTag +result[x].model + closeTag;
+        text += constantTag + result[x].plate_num + closeTag;
+        text += '</tr>'
+    }
+    text += '</table>'
+    elem.innerHTML = text;
+}
+
+//----- END CAR
+
+
+
 //--START Account Pages
 
 function getTableGarages() {
@@ -414,6 +464,11 @@ function tableAcountCallback(result, targetURL, origParams) {
     elem.innerHTML = text;
 }
 
+
+
+
+//---ACCOUNT PAGE ADD DOM
+
 function addVehicle() {
   // Remove the button from the page
   document.getElementById("create-vehicle-button").innerHTML = '';
@@ -424,15 +479,15 @@ function addVehicle() {
   text += '<h2>Add Your Vehicle:</h2>'
   text += '<form onsubmit="return false;">'
   text += '<label for="vehicle_make">Make:   </label>'
-  text += '<input type="text" id="vehicle_make" name="vehicle_make">'
+  text += '<input type="text" id="Make" name="vehicle_make">'
   text += '<br><br>'
   text += '<label for="vehicle_model">Model:   </label>'
-  text += '<input type="text" id="vehicle_model" name="vehicle_model">'
+  text += '<input type="text" id="Model" name="vehicle_model">'
   text += '<br><br>'
   text += '<label for="vehicle_license_plate_number">License Plate Number:   </label>'
-  text += '<input type="text" id="vehicle_license_plate_number" name="vehicle_license_plate_number">'
+  text += '<input type="text" id="Plate" name="vehicle_license_plate_number">'
   text += '<br><br>'
-  text += '<button type="button" onclick="">Submit</button><button type="button" onclick="cancelAddVehicle()">Cancel</button>'
+  text += '<button type="button" onclick="saveCar()">Submit</button><button type="button" onclick="cancelAddVehicle()">Cancel</button>'
   text += '</form>'
   text += '</div>'
   elem.innerHTML = text;

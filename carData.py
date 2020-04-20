@@ -72,3 +72,18 @@ def load_car(plate):
     
     rCar = _car_from_entity(car_entity)
     return rCar
+
+def load_cars_user(userToQuery):
+    log('Loading Cars for owner:' + userToQuery)
+    client = getClient()
+    query = client.query(kind = 'Car')
+    query.add_filter('Owner', '=', userToQuery)
+    returnList = []
+    iterable = list(query.fetch())
+    log('Iterable Contents: ' + str(len(iterable)))
+    for x in iterable:
+        newCar = _car_from_entity(x)
+        log('New Car:' + newCar.model)
+        returnList.append(newCar)
+    
+    return returnList
