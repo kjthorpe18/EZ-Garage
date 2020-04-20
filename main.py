@@ -93,6 +93,21 @@ def load_all_garages():
    
     return flask.Response(json.dumps(data), mimetype='application/json')
 
+@app.route('/load-garages-dropdown', methods=['POST'])
+def load_all_garages_dropdown():
+    garageArray = garageData.load_all_garages()
+    log('About to enter load-all Garages Dropdown for')
+    data = []
+    for X in garageArray:
+        newDict = X.toDict().copy()
+        data.append(newDict)
+        log('new dict added...')
+        log(json.dumps(newDict))
+
+   
+    return flask.Response(json.dumps(data), mimetype='application/json')
+
+
 @app.route('/add-user', methods=['POST'])
 def add_user():
     username = flask.request.form['username']
@@ -205,13 +220,33 @@ def show_json(json_data):
 
 @app.route('/add-car', methods=['POST'])
 def addCar():
-    make = flask.Flask.request.form['make']
-    model = flask.Flask.request.form['model']
-    plate_num = flask.Flask.request.form['plate_num']
+    log('Add Car called')
+    
+    make = flask.request.form['make']
+    log(make)
+
+    model = flask.request.form['model']
+    log(model)
+    plate_num = flask.request.form['plate']
+    log(plate_num)
     json_result = {}
+    
+    
+    
+    
+    userName ="Default User"
+    user_id = flask.session['user_id']
+    if user_id:
+        log('Getting User ID')
+        user = userData.get_user(user_id)
+        userName = user.username
+
+
+    
+    
     try:
         log('Creating a new Car and adding it to db')
-        carData.createCar(Car(None, make, model, plate_num))
+        carData.createCar(Car(userName, make, model, plate_num))
         json_result['ok'] = True
     except Exception as exc:
         log(str(exc))
@@ -225,11 +260,8 @@ def loadCarTest(plate_num):
         carObj = carData.load_car(plate_num)
         car = carObj.toDict()
         json_list = []
-        for key in car:
-            json_list.append(car[key])
-
-        responseJson = json.dumps(json_list)
-        return flask.Response(responseJson, mimetype='application/json')
+        json_list.append(car)
+        return flask.Response(json.dumps(json_list), mimetype='application/json')
 
 @app.route('/add-space', methods=['POST'])
 def addSpace():
