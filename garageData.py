@@ -68,8 +68,10 @@ def createGarage(garage):
     entity['ownerDL'] = garage.ownerDL
     log('ownerDL ' + garage.ownerDL)
     # Added code for coords
-    entity['coords'] = garage.coords
-    long('coords ' + garage.coords)
+    entity['latitude'] = garage.lat
+    log('latitude ' + garage.lat)
+    entity['longitude'] = garage.long
+    log('longitude ' + garage.long)
 
     log('putting entity')
     client.put(entity)

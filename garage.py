@@ -2,7 +2,7 @@
 #avoid parents
 
 class Garage(object):
-    def __init__(self, gID, name, floorCount,  spaces, address, phone, ownerDL, coords):
+    def __init__(self, gID, name, floorCount,  spaces, address, phone, ownerDL, latitude, longitude):
         self.gID = gID
         self.name= name
         self.floorCount = floorCount
@@ -10,7 +10,8 @@ class Garage(object):
         self.address = address
         self.phone = phone
         self.ownerDL = ownerDL
-        self.coords = coords
+        self.long = longitude
+        self.lat = latitude
 
     #add setter functions
 
@@ -23,5 +24,6 @@ class Garage(object):
             'address': self.address,
             'phone': self.phone,
             'ownerDL': self.ownerDL,           #For allowing Garage admnin option.
-            'coords': self.coords
+            'long': self.longitude,
+            'lat': self.latitude
         }

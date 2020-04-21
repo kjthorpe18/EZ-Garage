@@ -2,6 +2,7 @@ from flask import Flask, Response, redirect
 import carData
 import flask
 import json
+import requests as request_lib
 
 import userData
 import garageData
@@ -13,8 +14,14 @@ from user import User
 from car import Car
 from garage import Garage
 
+import googlemaps
+
+
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
+
+#Place location of API-Key TEXT FILE HERE
+API_KEY_FILE_LOC = "/Users/Jared/Documents/College Doc's/Senior Year/Second Semester/Web Dev/Google_API_KEY.txt"
 
 app = flask.Flask(__name__)
 app.secret_key = b'@U\xb0\xadf\x92f\xe8\x10\xee\xdf\x81O\x92\xb7\xe5\xca\x10rE&=\xd0\x7f'
@@ -50,12 +57,14 @@ def addGarage():
     log('About to create JSON')
     json_result = {}
     log('About to try')
-    coords = flask.request.form['coords']
-    log(coords)
+    latitude = flask.request.form['latitude']
+    log(latitude)
+    longitude = flask.request.form['longitude']
+    log(longitude)
 
     try:
         log('In try')
-        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL, coords)) #First argument is gID, will use as key somehow, passing phone for now
+        garageData.createGarage(Garage(phone, garageName, floorCount, spaces, address, phone, ownerDL, latitude, longitude)) #First argument is gID, will use as key somehow, passing phone for now
         log('finished create garage')
         json_result['ok'] = True
         log('after json result')
@@ -223,6 +232,25 @@ def addSpace():
     except Exception as exc:
         log(str(exc))
         json_result['error'] = str(exc)
+    return flask.Response(json.dumps(json_result), mimetype='application/json')
+
+# Used to make call to GeoCode API since API key is used
+@app.route('/get-coords', methods=['POST'])
+def getCoords():
+    # Place the path to API Key file in the first parameter below
+    api_key_file = open(API_KEY_FILE_LOC, "r")
+    # Get the API key from the text file
+    api_key = api_key_file.read()
+    gmaps = googlemaps.Client(key=api_key)
+    address = flask.request.form['address']
+    json_result = {};
+    try:
+        log('Making request to GEOCODING')
+        json_result = gmaps.geocode(address)
+        #log(json_result)
+    except Exception as exc:
+            log(str(exc))
+            json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
 

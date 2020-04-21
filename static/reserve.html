@@ -4,6 +4,7 @@
 <head>
 	<title>Reserve</title>
 	<link href="Style.css" type="text/css" rel="stylesheet" />
+    <script src="scripts.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 		<style>
 			body {
@@ -114,22 +115,21 @@
 
 		</div>
 
-		<!-- Parking Lot : Jared -->
-		<div id="MapContainer">
-			<h1 class="reserve-header">Local Garages Map</h1>
+		<!-- Map of Garages: Jared -->
+        <!-- script for loading and connecting to the Google Maps api -->
+		<div class="MapContainer">
+			<h1 >Local Garages Map</h1>
 			<div id="map_area">
-                <!-- script for loading and connecting to the Google Maps api -->
-                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9cZpbGsGALA05ij9hx-EIpKKD84eZW1s&callback=initMap"></script>
-                <script language="javascript" type="text/javascript">
+                <script>
                 function initMap() {
                     console.log('Entered initMap');
                     var pitt_location = {lat:40.441754, lng:-79.956339};
-                    var map_var = document.getElementById('map_area');
-                    var map = new google.maps.Map(document.getElementById('map_area'), {zoom: 4, center: pitt_location});
+                    var map = new google.maps.Map (document.getElementById('map_area'), {zoom: 4, center: pitt_location});
                     var pitt_marker = new google.maps.Marker({position: pitt_location, map: map});
-                    console.log('Finished init');
+                    // Make call to datastore to get the other garages to place on the map
                 }
                 </script>
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZG64loSyO1gzrSep7qvrR3r2DbNQr60&callback=initMap"> </script>
 			</div>
 		</div>
 	</div>

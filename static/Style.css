@@ -86,10 +86,8 @@ marquee{
 #garage-section {
   padding-bottom: 10px;
 }
-#map {
-    width: 50%;
-    height: 400px;
-    background-color: grey;
+#map_area {
+    background-color: black;
 }
 
 table {

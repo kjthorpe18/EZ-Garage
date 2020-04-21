@@ -104,20 +104,13 @@ function garageSaved(result, targetUrl, params) {
 // Function that is called on sumbit from the createGarage page
 function setupForGetCoords() {
     var address = document.getElementById("addAddress").value;
-    getCoords(address);
+    postParams = {
+        'address' : address
+    }
+    sendJsonRequest(postParams,'/get-coords', saveGarage)
 }
 
-// Calls the GeoCode API to get the coords of the passed in address
-function getCoords(address) {
-    var params = {
-        'address' : address,
-        'key' : 'AIzaSyB9cZpbGsGALA05ij9hx-EIpKKD84eZW1s&callback'
-    };
-    // Call the API and send it to the addGarage Function
-    sendJsonRequest(params,'https://maps.googleapis.com/maps/api/geocode/json?', saveGarage)
-}
-
-//Saves a new garage after user inputs one -- Called after get coords
+//Saves a new garage after user inputs one
 function saveGarage(returnedJSON) {
     let values = {};
     values['name'] = document.getElementById("addName").value;
@@ -131,24 +124,22 @@ function saveGarage(returnedJSON) {
     console.log(document.getElementById("addAddress").value)
     console.log(document.getElementById("addPhone").value)
     console.log(document.getElementById("addOwnerDL").value)
-    // Parse coords json to get the lat and longitude
-    if (returnedJSON.status === "OK") {
-        var lat = returnedJSON.results.geometry.location.lat;
-        var lng = returnedJSON.results.geometry.location.lng;
-        var coords = {
-            'lat' : lat,
-            'lng' : lng
-        }
-        console.log(coords);
-    } else {
+    // Parse json to get the lat and longitude
+    str = JSON.stringify(returnedJSON)
+    // Convert to JSON
+    jsonData = JSON.parse(str)
+    try {
+        //console.log(jsonData)
+        //console.log('geometry-> ', jsonData[0].geometry.location)
+        var lat = jsonData[0].geometry.location.lat;
+        var lng = jsonData[0].geometry.location.lng;
+        values['latitude'] = lat;
+        values['longitude'] = lng;
+    } catch (err) {
         // Geocode API didn't find a matching address so add fake lat and long
-        var coords = {
-            'lat' : '-1.00',
-            'lng' : '-1.00'
-        }
+        values['latitude'] = '-1.00';
+        values['longitude'] = '-1.00';
     }
-    
-    values['coords'] = coords;
 
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
@@ -318,13 +309,27 @@ function signOut() {
     });
 }
 
+// Function to make API call to maps API
+function setupMap() {
+    // Connect to backend to make the API call.
+    console.log('In setupMap');
+    sendJsonRequest("",'/get-map', mapApiCall);
+}
+
+// Makes the API Call since the API key was grabbed from the backend
+async function mapApiCall(jsonObject) {
+    console.log('Made API Call: ', jsonObject);
+    // Parse the URI from the returned data
+    uri = jsonObject['uri'];
+    // Make the get request
+    sendJsonRequest("", uri, initMap);
+}
 /*
+// Callback function for when the map has been fully loaded
 function initMap() {
     console.log('Entered initMap');
     var pitt_location = {lat:40.441754, lng:-79.956339};
-    var map = new google.maps.Map (
-        document.getElementById('map'), {zoom: 4, center: pitt_location});
-        var pitt_marker = new google.maps.Marker({position: pitt_location, map: map});
-    )
+    var map = new google.maps.Map (document.getElementById('map'), {zoom: 4, center: pitt_location});
+    var pitt_marker = new google.maps.Marker({position: pitt_location, map: map});
 }
 */
