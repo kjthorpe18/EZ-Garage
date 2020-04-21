@@ -87,7 +87,9 @@ marquee{
   padding-bottom: 10px;
 }
 #map_area {
-    background-color: black;
+    width: 200%;
+   height: 400px;
+   background-color: grey;
 }
 
 table {

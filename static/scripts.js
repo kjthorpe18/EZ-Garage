@@ -324,12 +324,3 @@ async function mapApiCall(jsonObject) {
     // Make the get request
     sendJsonRequest("", uri, initMap);
 }
-/*
-// Callback function for when the map has been fully loaded
-function initMap() {
-    console.log('Entered initMap');
-    var pitt_location = {lat:40.441754, lng:-79.956339};
-    var map = new google.maps.Map (document.getElementById('map'), {zoom: 4, center: pitt_location});
-    var pitt_marker = new google.maps.Marker({position: pitt_location, map: map});
-}
-*/
