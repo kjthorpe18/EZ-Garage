@@ -118,8 +118,19 @@ function garageSaved(result, targetUrl, params) {
     }
 }
 
+// Order for saving Garage: setupForGetCoords -> getCoords -> saveGarage
+
+// Function that is called on sumbit from the createGarage page
+function setupForGetCoords() {
+    var address = document.getElementById("addAddress").value;
+    postParams = {
+        'address' : address
+    }
+    sendJsonRequest(postParams,'/get-coords', saveGarage)
+}
+
 //Saves a new garage after user inputs one
-function saveGarage() {
+function saveGarage(returnedJSON) {
     let values = {};
     values['garageName'] = document.getElementById("garageName").value;
     values['numSpots'] = document.getElementById("numSpots").value;
@@ -127,23 +138,22 @@ function saveGarage() {
     values['address'] = document.getElementById("address").value;
     values['phone'] = document.getElementById("phoneNumber").value;
     values['ownerDL'] = document.getElementById("ownerDL").value;
+    // Parse json to get the lat and longitude
+    jsonData = JSON.parse(returnedJSON)
+    try {
+        //console.log(jsonData)
+        //console.log('geometry-> ', jsonData[0].geometry.location)
+        var lat = jsonData[0].geometry.location.lat;
+        var lng = jsonData[0].geometry.location.lng;
+        values['latitude'] = lat;
+        values['longitude'] = lng;
+    } catch (err) {
+        // Geocode API didn't find a matching address so add fake lat and long
+        values['latitude'] = '-1.00';
+        values['longitude'] = '-1.00';
+    }
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
-
-// function loadGarage() {
-//     var name = document.getElementById("name").value;
-//     let params = {};
-//     params['name'] = name;
-//     var elem = document.getElementById("DisplayArea");
-//     elem.innerHTML = "<div class='loader'></div>";
-//     sendJsonRequest(params, '/load-garage', displayGarage);
-// }
-
-// //Change a DIV to show garage immediately after stored
-// function displayGarage(result, targetUrl, params) {
-//     /*Gameplan is to change display array to text of garage object returned*/
-//     console.log(result);
-// }
 
 function addUser(){
     var userInfo = {};
@@ -222,7 +232,7 @@ function openAccordion() {
     }
 }
 
-/* ----------------------- Reserve Page Dropdowns ------------------------ */ 
+/* ----------------------- Reserve Page Dropdowns ------------------------ */
 
 // Loads the garages for the dropdown in the reserve page
 function loadAllGarages() {
@@ -338,7 +348,7 @@ function reserveSpotCallback(returnedObject, url, naw) {
         setTimeout( function() {
             document.location = '/static/account_reservations.html'
         }, 3000);
-        
+
     }
 }
 
@@ -364,7 +374,7 @@ function convertToTime(date, hour, minute, AMorPM){
     return new Date(date + ' ' + hour + ':' + minute + ' ' + AMorPM);
 }
 
-/* ----------------------- End Reserve Page Dropdowns ------------------------ */ 
+/* ----------------------- End Reserve Page Dropdowns ------------------------ */
 
 // Pre-fills the information of a user into the update account info form on the account page
 function prefillAccountInfo() {
@@ -429,7 +439,7 @@ function loadIndex() {
     sendGetRequest('/userLoggedIn', loadIndexCallback);
 }
 
-// Shows menu items and hides login button if user is logged in 
+// Shows menu items and hides login button if user is logged in
 function loadIndexCallback(params, targetUrl){
     var user = params['user_id'];
     elem = document.getElementById("mainBody");
@@ -450,7 +460,7 @@ function loadIndexCallback(params, targetUrl){
 // Shows all the menu buttons if the user is signed in
 function loadStatic() {
     sendGetRequest('/userLoggedIn', loadStaticCallback);
-    
+
 }
 
 //Show menu items and logout button if user is signed in
@@ -774,4 +784,19 @@ function cancelAddGarage() {
   text = '<img src="images/add.png" width = "50px" height = "50px" style="vertical-align: middle">'
   text += '<span style="color: black; font-weight:bolder">Add Garage</span>'
   elem.innerHTML = text;
+}
+// Function to make API call to maps API
+function setupMap() {
+    // Connect to backend to make the API call.
+    console.log('In setupMap');
+    sendJsonRequest("",'/get-map', mapApiCall);
+}
+
+// Makes the API Call since the API key was grabbed from the backend
+async function mapApiCall(jsonObject) {
+    console.log('Made API Call: ', jsonObject);
+    // Parse the URI from the returned data
+    uri = jsonObject['uri'];
+    // Make the get request
+    sendJsonRequest("", uri, initMap);
 }

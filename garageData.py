@@ -21,6 +21,7 @@ def getClient():
     except: # if that doesn't work, look for the local path to the API keys for the database
         # return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
         return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
+        #return datastore.Client.from_service_account_json("/Users/Jared/Documents/College Doc's/Senior Year/Second Semester/Web Dev/service-acct-keys.json")
         # return datastore.Client.from_service_account_json('D:\CS1520\service-acct-keys.json')
 
 
@@ -55,7 +56,7 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 def createGarage(garage):
     log("Storing garage entity: " + garage.name)
     client = getClient()
-    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.name))                   
+    entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.name))
     entity['Name'] = garage.name
     entity['numSpots'] = garage.numSpots
     entity['numHandicapSpots'] = garage.numHandicapSpots
@@ -63,6 +64,11 @@ def createGarage(garage):
     entity['Phone'] = garage.phone
     entity['Owner DL'] = garage.ownerDL
     # entity['user_id'] = garage.user_id
+    # Added code for coords
+    entity['latitude'] = garage.lat
+    log('latitude ' + garage.lat)
+    entity['longitude'] = garage.long
+    log('longitude ' + garage.long)
 
     log('putting entity')
     client.put(entity)
@@ -106,8 +112,8 @@ def load_garage(gName):
 # For the reserve dropdowns
 def load_all_garages():
     log('Getting all garages...')
-    client = getClient() 
-    
+    client = getClient()
+
     query = client.query(kind='Garage')
     results = list(query.fetch())
     log(results)
@@ -125,6 +131,5 @@ def load_all_garages_dl(dlNumber):
         newGarage = _garage_from_entity(x)
         log('New Garage name' + newGarage.name)
         returnList.append(newGarage)
-    
-    return returnList
 
+    return returnList

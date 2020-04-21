@@ -7,10 +7,13 @@ class Garage(object):
         self.address = address
         self.phone = phone
         self.ownerDL = ownerDL
+        self.long = longitude
+        self.lat = latitude
+
+    #add setter functions
 
 
-    
-   
+
     def toDict(self):
         return {
             'gID': self.gID,
@@ -19,5 +22,7 @@ class Garage(object):
             'numHandicapSpots': self.numHandicapSpots,
             'Address': self.address,
             'Phone': self.phone,
-            'ownerDL': self.ownerDL            #For allowing Garage admnin option.
+            'ownerDL': self.ownerDL,           #For allowing Garage admnin option.
+            'long': self.longitude,
+            'lat': self.latitude
         }

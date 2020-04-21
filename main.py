@@ -1,6 +1,7 @@
 from flask import Flask, Response, redirect
 import flask
 import json
+import requests as request_lib
 
 import userData
 import garageData
@@ -19,9 +20,14 @@ from checkin import Checkin
 from space import Space
 from report import Report
 
-# BE SURE TO CHANGE NAME BACK TO MAIN !!!!!
+import googlemaps
+
+
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
+
+#Place location of API-Key TEXT FILE HERE
+API_KEY_FILE_LOC = "/Users/Jared/Documents/College Doc's/Senior Year/Second Semester/Web Dev/Google_API_KEY.txt"
 
 app = flask.Flask(__name__)
 app.secret_key = b'@U\xb0\xadf\x92f\xe8\x10\xee\xdf\x81O\x92\xb7\xe5\xca\x10rE&=\xd0\x7f'
@@ -50,7 +56,7 @@ def userLoggedIn():
 
 @app.route('/add-garage', methods=['POST'])
 def addGarage():
-    log('Called addGarage') 
+    log('Called addGarage')
     garageName = flask.request.form['garageName']
     numSpots = flask.request.form['numSpots']
     numHandicapSpots = flask.request.form['numHandicapSpots']
@@ -60,10 +66,14 @@ def addGarage():
     log('About to create JSON')
     json_result = {}
     log('About to try')
+    latitude = flask.request.form['latitude']
+    log(latitude)
+    longitude = flask.request.form['longitude']
+    log(longitude)
 
     try:
         log('In try')
-        garageData.createGarage(Garage(garageName, numSpots, numHandicapSpots, address, phone, ownerDL)) #First argument is gID, will use as key somehow, passing phone for now
+        garageData.createGarage(Garage(garageName, numSpots, numHandicapSpots, address, phone, ownerDL, latitude, longitude)) #First argument is gID, will use as key somehow, passing phone for now
         log('finished create garage')
         json_result['ok'] = True
         log('after json result')
@@ -73,18 +83,6 @@ def addGarage():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-# @app.route('/load-garage', methods=['POST'])
-# def load_garage():
-# <<<<<<< HEAD
-#     gName = flask.request.form['garage_name']
-#     garageObj = garageData.load_garage(gName)
-# =======
-#     name = flask.request.form['name']
-#     garageObj = garageData.load_garage(name)
-# >>>>>>> master
-#     g = garageObj.toDict()
-#     log(g)
-#     return flask.Response(json.dumps(g), mimetype='application/json')
 
 @app.route('/populate-spots', methods=['POST'])
 def populate_spots():
@@ -118,7 +116,7 @@ def populate_spots():
             s = spaceData._space_from_entity(spot)
             list_to_return.append(s.toDict())
     return flask.Response(json.dumps(list_to_return), mimetype='application/json')
-    
+
 @app.route('/load-all-garages', methods=['POST'])
 def load_all_garages():
     garage_list = garageData.load_all_garages()
@@ -282,7 +280,7 @@ def show_json(json_data):
 @app.route('/add-car', methods=['POST'])
 def addCar():
     log('Add Car called')
-    
+
     make = flask.request.form['make']
     log(make)
 
@@ -291,7 +289,7 @@ def addCar():
     plate_num = flask.request.form['plate']
     log(plate_num)
     json_result = {}
-    
+
     userName ="Default User"
     user_id = flask.session['user_id']
     if user_id:
@@ -313,7 +311,7 @@ def addCar():
 def loadCars():
     data = []
     user_id = flask.session['user_id']
-    
+
     if user_id:
         log('Getting User ID')
         user = userData.get_user(user_id)
@@ -325,7 +323,7 @@ def loadCars():
         log('new car dict added...')
         log(json.dumps(newDict))
     return flask.Response(json.dumps(data), mimetype='application/json')
-        
+
 
 @app.route('/add-space', methods=['POST'])
 def addSpace():
@@ -344,7 +342,7 @@ def addSpace():
 
 @app.route('/add-report', methods=['POST'])
 def addReport():
-    log('Called add-report') 
+    log('Called add-report')
     user = flask.request.form['userBy']
     log(user)
     plate = flask.request.form['plate']
@@ -363,10 +361,10 @@ def addReport():
     log('adding report for ' + dateOccured)
     json_result = {}
     try:
-       
+
         reportData.createReport(Report(user, description, plate, garage, space, dateReported, dateOccured ))
         json_result['ok'] = True
-        
+
     except Exception as exc:
         log('EXCEPTION')
         log(str(exc))
@@ -380,7 +378,7 @@ def loadReports():
     garageToQuery = flask.request.form['garage']
     reportArray = reportData.loadAllReports(garageToQuery)
     data = []
-    
+
     log('About to enter load-all reports for')
     for X in reportArray:
         newDict = X.toDict().copy()
@@ -388,7 +386,7 @@ def loadReports():
         log('new dict added...')
         log(json.dumps(newDict))
 
-   
+
     return flask.Response(json.dumps(data), mimetype='application/json')
 
 @app.route('/load-reservations-user', methods=['POST'])
@@ -399,6 +397,25 @@ def load_reservations_user():
         checkinObj = checkinData.convert_to_object(checkinEntity)
         list_to_return.append(checkinObj.to_dict())
     return flask.Response(json.dumps(list_to_return), mimetype='application/json')
+    
+# Used to make call to GeoCode API since API key is used
+@app.route('/get-coords', methods=['POST'])
+def getCoords():
+    # Place the path to API Key file in the first parameter below
+    api_key_file = open(API_KEY_FILE_LOC, "r")
+    # Get the API key from the text file
+    api_key = api_key_file.read()
+    gmaps = googlemaps.Client(key=api_key)
+    address = flask.request.form['address']
+    json_result = {};
+    try:
+        log('Making request to GEOCODING')
+        json_result = gmaps.geocode(address)
+        #log(json_result)
+    except Exception as exc:
+            log(str(exc))
+            json_result['error'] = str(exc)
+    return flask.Response(json.dumps(json_result), mimetype='application/json')
 
 
 

@@ -95,6 +95,11 @@ marquee{
 #garage-section {
   padding-bottom: 10px;
 }
+#map_area {
+    width: 200%;
+   height: 400px;
+   background-color: grey;
+}
 
 table {
   border-collapse: collapse;
