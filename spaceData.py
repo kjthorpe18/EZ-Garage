@@ -62,16 +62,12 @@ def _space_from_entity(space_entity):
 
 #Load value from datastore based on id
 def load_space(space_id):
-    log('Loading a Space: ' + space_id)
     client = getClient()
     space_entity = _load_entity(client, _SPACE_ENTITY, space_id)
-    log('Loaded a Space: ' + space_id)
-    
     rSpace = _space_from_entity(space_entity)
     return rSpace
 
 def load_all_spots(garage_name):
-    log('getting all spots for garage' + str(garage_name))
     client = getClient()
     query = client.query(kind='Space')
     query.add_filter('garage', '=', 'matts garage')

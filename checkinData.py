@@ -53,14 +53,12 @@ def add_checkin(checkin_to_create):
     key = None
     entity = None
     if not checkin_to_create.checkin_id:
-        log('enter if')
         key = load_key(client)
         checkin_id = key.id_or_name
         entity = datastore.Entity(key)
     else:
         key = load_key(client, checkin.checkin_id)
         entity = datastore.Entity(key)
-    log('end if else')
     entity['user_id'] = checkin_to_create.user_id
     entity['time_in'] = checkin_to_create.time_in
     entity['time_out'] = checkin_to_create.time_out

@@ -86,16 +86,15 @@ def populate_spots():
     checkinTime = flask.request.form['checkinTime']
     checkoutTime = flask.request.form['checkoutTime']
     handicap = flask.request.form['handicap']
+    if handicap == 'false':
+        handicap = False
     log('the value of handicap:')
     log(handicap)
     allSpotsInGarage = spaceData.load_all_spots(garageName)
-    log(allSpotsInGarage)
     for spot in allSpotsInGarage:
         spotIsAvailable = True
         spot_id = spot.key.id_or_name
-        log(spot_id)
         allCheckinsForSpot = checkinData.load_all_checkins(spot_id)
-        log(allCheckinsForSpot)
         for checkin in allCheckinsForSpot:
             if checkin['time_in'] >= checkoutTime:
                 continue
@@ -105,13 +104,9 @@ def populate_spots():
         if spotIsAvailable:
             available_spots.append(spot)
     for spot in available_spots:
-        log('handicap?')
-        log(spot['handicap'])
-        if (spot['handicap'] and handicap) or (not spot['handicap'] and not handicap):
+        if (handicap and spot['handicap']) or (not handicap and not spot['handicap']):
             s = spaceData._space_from_entity(spot)
             list_to_return.append(s.toDict())
-    log('list to return:')
-    log(list_to_return)
     return flask.Response(json.dumps(list_to_return), mimetype='application/json')
     
 @app.route('/load-all-garages', methods=['POST'])
