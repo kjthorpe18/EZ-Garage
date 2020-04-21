@@ -1,5 +1,5 @@
 class Garage(object):
-    def __init__(self, name, numSpots, numHandicapSpots, address, phone, ownerDL):
+    def __init__(self, name, numSpots, numHandicapSpots, address, phone, ownerDL, longitude, latitude):
         self.gID = name
         self.name = name
         self.numSpots = int(numSpots)
@@ -23,6 +23,6 @@ class Garage(object):
             'Address': self.address,
             'Phone': self.phone,
             'ownerDL': self.ownerDL,           #For allowing Garage admnin option.
-            'long': self.longitude,
-            'lat': self.latitude
+            'long': self.long,
+            'lat': self.lat
         }

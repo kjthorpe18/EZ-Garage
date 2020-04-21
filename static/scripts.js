@@ -122,7 +122,7 @@ function garageSaved(result, targetUrl, params) {
 
 // Function that is called on sumbit from the createGarage page
 function setupForGetCoords() {
-    var address = document.getElementById("addAddress").value;
+    var address = document.getElementById("address").value;
     postParams = {
         'address' : address
     }
@@ -139,8 +139,9 @@ function saveGarage(returnedJSON) {
     values['phone'] = document.getElementById("phoneNumber").value;
     values['ownerDL'] = document.getElementById("ownerDL").value;
     // Parse json to get the lat and longitude
-    jsonData = JSON.parse(returnedJSON)
+    returnedJSON = JSON.stringify(returnedJSON)
     try {
+        jsonData = JSON.parse(returnedJSON)
         //console.log(jsonData)
         //console.log('geometry-> ', jsonData[0].geometry.location)
         var lat = jsonData[0].geometry.location.lat;
@@ -748,6 +749,7 @@ function addGarage() {
     // Add Create Garage fields to the page
     var elem = document.getElementById("create-garage");
     text = '<div style="width: 50%; margin: auto;">';
+    text += "<div id='ErrorArea'></div>";
     text += '<h2>Add Your Garage:</h2>';
     text += '<form onsubmit="return false;">';
     text += '<label>Enter Garage Name:   </label>';
@@ -768,7 +770,7 @@ function addGarage() {
     text += '<label>Enter Phone Number:   </label>';
     text += '<input type="number" id="phoneNumber"></input>';
     text += '<br><br>';
-    text += '<button onclick="saveGarage()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
+    text += '<button onclick="setupForGetCoords()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
     text += '<br><br>';
     text += '</form>';
     text += '</div>';

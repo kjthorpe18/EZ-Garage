@@ -27,7 +27,9 @@ import googlemaps
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
 
 #Place location of API-Key TEXT FILE HERE
-API_KEY_FILE_LOC = "/Users/Jared/Documents/College Doc's/Senior Year/Second Semester/Web Dev/Google_API_KEY.txt"
+# API_KEY_FILE_LOC = "/Users/Jared/Documents/College Doc's/Senior Year/Second Semester/Web Dev/Google_API_KEY.txt"
+API_KEY_FILE_LOC = "/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/Google_API_KEY.txt"
+
 
 app = flask.Flask(__name__)
 app.secret_key = b'@U\xb0\xadf\x92f\xe8\x10\xee\xdf\x81O\x92\xb7\xe5\xca\x10rE&=\xd0\x7f'

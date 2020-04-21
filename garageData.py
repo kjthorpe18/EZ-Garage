@@ -94,7 +94,9 @@ def _garage_from_entity(garage_entity):
     address = garage_entity['Address']
     phone = garage_entity['Phone']
     ownerDL = garage_entity['Owner DL']
-    garageVal = Garage(name, numSpots, numHandicapSpots, address, phone, ownerDL)
+    latitude = garage_entity['latitude']
+    longitude = garage_entity['longitude']
+    garageVal = Garage(name, numSpots, numHandicapSpots, address, phone, ownerDL, longitude, latitude)
     log("Returning garage from entity...")
     return garageVal
 
