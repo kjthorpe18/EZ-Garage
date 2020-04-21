@@ -8,9 +8,9 @@ class Garage(object):
         self.phone = phone
         self.ownerDL = ownerDL
 
-    
-    #add setter functions
 
+    
+   
     def toDict(self):
         return {
             'gID': self.gID,

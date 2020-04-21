@@ -7,6 +7,7 @@ import garageData
 import checkinData
 import carData
 import spaceData
+import reportData
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -16,7 +17,9 @@ from car import Car
 from garage import Garage
 from checkin import Checkin
 from space import Space
+from report import Report
 
+# BE SURE TO CHANGE NAME BACK TO MAIN !!!!!
 
 SIGN_IN_CLIENT_ID = '552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com'
 
@@ -70,13 +73,18 @@ def addGarage():
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-@app.route('/load-garage', methods=['POST'])
-def load_garage():
-    gName = flask.request.form['garage_name']
-    garageObj = garageData.load_garage(gName)
-    g = garageObj.toDict()
-    log(g)
-    return flask.Response(json.dumps(g), mimetype='application/json')
+# @app.route('/load-garage', methods=['POST'])
+# def load_garage():
+# <<<<<<< HEAD
+#     gName = flask.request.form['garage_name']
+#     garageObj = garageData.load_garage(gName)
+# =======
+#     name = flask.request.form['name']
+#     garageObj = garageData.load_garage(name)
+# >>>>>>> master
+#     g = garageObj.toDict()
+#     log(g)
+#     return flask.Response(json.dumps(g), mimetype='application/json')
 
 @app.route('/populate-spots', methods=['POST'])
 def populate_spots():
@@ -120,6 +128,20 @@ def load_all_garages():
     return flask.Response(json.dumps(list_to_return), mimetype='application/json')
 
 
+@app.route('/load-all-garages-user', methods=['POST'])
+def load_all_garages_user():
+    nameToQuery = flask.request.form['dl_number']
+    garageArray = garageData.load_all_garages_dl(nameToQuery)
+    data = []
+    log('About to enter load-all Garages for')
+    for X in garageArray:
+        newDict = X.toDict().copy()
+        data.append(newDict)
+        log('new garage dict added...')
+        log(json.dumps(newDict))
+    return flask.Response(json.dumps(data), mimetype='application/json')
+
+
 @app.route('/add-user', methods=['POST'])
 def add_user():
     username = flask.request.form['username']
@@ -157,8 +179,10 @@ def reserve_spot():
 def get_user():
     user_id = flask.session['user_id']
     if user_id:
+        log('Getting User ID')
         user = userData.get_user(user_id)
         u = user.to_dict()
+        log(json.dumps(u))
     return flask.Response(json.dumps(u), mimetype='application/json')
 
 @app.route('/login', methods=['POST'])
@@ -252,31 +276,51 @@ def show_json(json_data):
 
 @app.route('/add-car', methods=['POST'])
 def addCar():
-    make = flask.Flask.request.form['make']
-    model = flask.Flask.request.form['model']
-    plate_num = flask.Flask.request.form['plate_num']
+    log('Add Car called')
+    
+    make = flask.request.form['make']
+    log(make)
+
+    model = flask.request.form['model']
+    log(model)
+    plate_num = flask.request.form['plate']
+    log(plate_num)
     json_result = {}
+    
+    userName ="Default User"
+    user_id = flask.session['user_id']
+    if user_id:
+        log('Getting User ID')
+        user = userData.get_user(user_id)
+        userName = user.username
+
     try:
         log('Creating a new Car and adding it to db')
-        carData.createCar(Car(None, make, model, plate_num))
+        carData.createCar(Car(userName, make, model, plate_num))
         json_result['ok'] = True
     except Exception as exc:
         log(str(exc))
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
 
-# this is for testing if it works, probably don't need
-@app.route('/load-car')
-def loadCarTest(plate_num):
-        log('loading Car.')
-        carObj = carData.load_car(plate_num)
-        car = carObj.toDict()
-        json_list = []
-        for key in car:
-            json_list.append(car[key])
-
-        responseJson = json.dumps(json_list)
-        return flask.Response(responseJson, mimetype='application/json')
+# Loads all cars for a specific user
+@app.route('/load-cars-user', methods=['POST'])
+def loadCars():
+    data = []
+    user_id = flask.session['user_id']
+    
+    if user_id:
+        log('Getting User ID')
+        user = userData.get_user(user_id)
+        userName = user.username
+    carArray = carData.load_cars_user(userName)
+    for x in carArray:
+        newDict = x.toDict().copy()
+        data.append(newDict)
+        log('new car dict added...')
+        log(json.dumps(newDict))
+    return flask.Response(json.dumps(data), mimetype='application/json')
+        
 
 @app.route('/add-space', methods=['POST'])
 def addSpace():
@@ -292,6 +336,56 @@ def addSpace():
         log(str(exc))
         json_result['error'] = str(exc)
     return flask.Response(json.dumps(json_result), mimetype='application/json')
+
+@app.route('/add-report', methods=['POST'])
+def addReport():
+    log('Called add-report') 
+    user = flask.request.form['userBy']
+    log(user)
+    plate = flask.request.form['plate']
+    log(plate)
+    space = flask.request.form['space']
+    log(space)
+    dateOccured = flask.request.form['dateOccured']
+    log(dateOccured)
+    description = flask.request.form['description']
+    log(description)
+    dateReported = flask.request.form['dateSubmitted']
+    log(description)
+    garage = flask.request.form['garage']
+    log(garage)
+    log(garage)
+    log('adding report for ' + dateOccured)
+    json_result = {}
+    try:
+       
+        reportData.createReport(Report(user, description, plate, garage, space, dateReported, dateOccured ))
+        json_result['ok'] = True
+        
+    except Exception as exc:
+        log('EXCEPTION')
+        log(str(exc))
+        json_result['error'] = str(exc)
+    return flask.Response(json.dumps(json_result), mimetype='application/json')
+
+
+#Loads all reports for a specfic garage
+@app.route('/load-all-reports', methods=['POST'])
+def loadReports():
+    garageToQuery = flask.request.form['garage']
+    reportArray = reportData.loadAllReports(garageToQuery)
+    data = []
+    
+    log('About to enter load-all reports for')
+    for X in reportArray:
+        newDict = X.toDict().copy()
+        data.append(newDict)
+        log('new dict added...')
+        log(json.dumps(newDict))
+
+   
+    return flask.Response(json.dumps(data), mimetype='application/json')
+
 
 
 if __name__ == '__main__':

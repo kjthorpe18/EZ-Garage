@@ -21,6 +21,7 @@ def getClient():
     except: # if that doesn't work, look for the local path to the API keys for the database
         # return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
         return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
+        # return datastore.Client.from_service_account_json('D:\CS1520\service-acct-keys.json')
 
 
 
@@ -52,19 +53,16 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 
 #insert garage object
 def createGarage(garage):
-    log("Storing garage entity %s " + garage.name)
+    log("Storing garage entity: " + garage.name)
     client = getClient()
-    log('Testing load key')
-    log('creating entity')
-
     entity = datastore.Entity(_load_key(client, _GARAGE_ENTITY, garage.name))                   
-    # entity['gID'] = garage.gID
     entity['Name'] = garage.name
     entity['numSpots'] = garage.numSpots
     entity['numHandicapSpots'] = garage.numHandicapSpots
     entity['Address'] = garage.address
     entity['Phone'] = garage.phone
     entity['Owner DL'] = garage.ownerDL
+    # entity['user_id'] = garage.user_id
 
     log('putting entity')
     client.put(entity)
@@ -83,9 +81,7 @@ def createGarage(garage):
 
 #Create garage from datastore entity
 def _garage_from_entity(garage_entity):
-
     log("Creating garage from entity...")
-    gID = garage_entity['Name']
     name = garage_entity['Name']
     numSpots = garage_entity['numSpots']
     numHandicapSpots = garage_entity['numHandicapSpots']
@@ -107,6 +103,7 @@ def load_garage(gName):
     return rGarage
 
 # This is supposed to get all garage entities
+# For the reserve dropdowns
 def load_all_garages():
     log('Getting all garages...')
     client = getClient() 
@@ -115,3 +112,19 @@ def load_all_garages():
     results = list(query.fetch())
     log(results)
     return results
+
+def load_all_garages_dl(dlNumber):
+    log('Loading Garages for owner:' + dlNumber)
+    client = getClient()
+    query = client.query(kind = 'Garage')
+    query.add_filter('Owner DL', '=', dlNumber)
+    returnList = []
+    iterable = list(query.fetch())
+    log('Iterable Contents: ' + str(len(iterable)))
+    for x in iterable:
+        newGarage = _garage_from_entity(x)
+        log('New Garage name' + newGarage.name)
+        returnList.append(newGarage)
+    
+    return returnList
+

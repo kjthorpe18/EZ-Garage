@@ -129,30 +129,20 @@ function saveGarage() {
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
 
-function loadGarage() {
-    var phone = document.getElementById("phoneCheck").value;
-    let params = {};
-    params['phone'] = phone;
-    var elem = document.getElementById("DisplayArea");
-    elem.innerHTML = "<div class='loader'></div>";
-    sendJsonRequest(params, '/load-garage', displayGarage);
-}
+// function loadGarage() {
+//     var name = document.getElementById("name").value;
+//     let params = {};
+//     params['name'] = name;
+//     var elem = document.getElementById("DisplayArea");
+//     elem.innerHTML = "<div class='loader'></div>";
+//     sendJsonRequest(params, '/load-garage', displayGarage);
+// }
 
-//Change a DIV to show garage immediately after stored
-function displayGarage(result, targetUrl, params) {
-    /*Gameplan is to change display array to text of garage object returned*/
-    var elem = document.getElementById("DisplayArea");
-    elem.innerHTML = '';
-    text = '<ul>';
-    text += '<li>Garage ID: ' + result['gID'] + '</li>';
-    text += '<li>Garage Name: ' + result['name'] + '</li>';
-    text += '<li>Floor Count: ' + result['floorCount'] + '</li>';
-    text += '<li>Spaces: ' + result['spaces'] + '</li>';
-    text += '<li>Address: ' + result['address'] + '</li>';
-    text += '<li>Phone Number: ' + result['phone'] + '</li>';
-    text += '</ul>';
-    elem.innerHTML = text;
-}
+// //Change a DIV to show garage immediately after stored
+// function displayGarage(result, targetUrl, params) {
+//     /*Gameplan is to change display array to text of garage object returned*/
+//     console.log(result);
+// }
 
 function addUser(){
     var userInfo = {};
@@ -196,6 +186,9 @@ function getLoggedInUser(){
     var elem = document.getElementById('getLoggedInUser');
     elem.innerHTML = "<div class='loader'></div>";
     sendJsonRequest(null, '/get-user', getLoggedInUserCallback);
+
+
+
 }
 
 function getLoggedInUserCallback(returnedObject, targetUrl, unused){
@@ -310,7 +303,7 @@ function reserveSpotCallback(returnedObject, url, naw) {
     else{
         document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Success! Redirecting to your account page...</p>";
         setTimeout( function() {
-            document.location = '/static/account.html'
+            document.location = '/static/account_reservations.html'
         }, 3000);
         
     }
@@ -410,7 +403,7 @@ function loadIndexCallback(params, targetUrl){
     text = "";
     if(user != null){
         text = ""
-        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='create_garage.html'>Create Garage</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
+        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
         document.getElementById('BannerPlaceholder').innerHTML = text;
         text = "<li><a href=# onclick='signOut()''>Log Out</a>";
         document.getElementById('LogoutPlaceholder').innerHTML = text;
@@ -432,7 +425,7 @@ function loadStaticCallback(params, targetUrl) {
     var user = params['user_id'];
     if(user != null) {
         text = ""
-        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='create_garage.html'>Create Garage</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
+        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
         document.getElementById('BannerPlaceholder').innerHTML = text;
         text = "<li><a href=# onclick='signOut()''>Log Out</a>";
         document.getElementById('LogoutPlaceholder').innerHTML = text;
@@ -451,4 +444,269 @@ function signOut() {
             });
         });
     });
+}
+
+
+//----Start Reports--------
+
+function saveReport(name) {
+    //need to see if user is logged in to get current user, if not alert they must sign in, using default user now
+
+
+        let values = {};
+        values['userBy'] = name;
+        values['plate'] = document.getElementById("platenum").value;
+        values['space'] = document.getElementById("spaceID").value;
+        values['dateOccured'] = document.getElementById("date").value;
+        values['description'] = document.getElementById("description").value;
+
+        values['dateSubmitted'] = Date.now().toString();
+        values['garage'] = document.getElementById("garage").value;
+        console.log('Created report... for ' + document.getElementById("platenum").value);
+        console.log('Values: ' + values['userBy'] + ' ' + values['plate'] + ' ' + values['dateOccured'] + ' ' + values['description'] + ' ' + values['dateSubmitted'] + ' ' + values['garage']);
+        sendJsonRequest(values,'/add-report', reportSaved);
+
+
+    }
+
+//Load all Reports for a Garage
+function loadAllReports() {
+    garage = 'Cool Garage'
+    let params = {};
+    params['garage'] = garage;
+
+    sendJsonRequest(params,'/load-all-reports', loadAllCallback);
+}
+
+function loadAllCallback(result, targetUrl, params) {
+    console.log('Load All has returned')
+    console.log(result)
+}
+
+function getUserForReport(){
+        console.log('entering getUserforReport');
+        sendJsonRequest(null, '/get-user', reportUserCallback);
+}
+
+
+
+
+function reportUserCallback(returnedObject, targetUrl, unused){
+    let name = returnedObject['username'];
+    saveReport(name);
+
+}
+
+function reportSaved(result, targetUrl, params) {
+     if (result && result.ok) {
+         console.log("Saved Report.");
+     } else {
+         console.log("Received error: " + result.error);
+         showError(result.error);
+       }
+    }
+
+//-- END REPORTS
+
+// -----------START CAR -----------------
+
+function saveCar() {
+    let values = {};
+    values['make'] = document.getElementById("Make").value;
+    values['model'] = document.getElementById("Model").value;
+    values['plate'] = document.getElementById("Plate").value;
+    console.log(values);
+    sendJsonRequest(values, '/add-car', saveCarCallback);
+}
+
+function saveCarCallback(result, targetUrl, params) {
+    if (result && result.ok) {
+        console.log("Saved Car.");
+    } else {
+        console.log("Received error: " + result.error);
+        showError(result.error);
+    }
+}
+
+function loadCarTable() {
+    console.log("Loading cars...");
+    sendJsonRequest(null, '/load-cars-user', loadCarTableCallback);
+
+}
+
+function loadCarTableCallback(result, targetURL, origParams) {
+    console.log(result);
+    var elem = document.getElementById("car-section");
+    var constantTag = '<td>';
+    var closeTag = '</td>';
+    elem.innerHTML = '';
+
+    text = '<h2>Your Cars:</h2> <table> <tr> <th style="width: 150px;">Make</th> <th style="width: 150px;">Model</th> <th style="width: 150px;">License Plate</th></tr>';
+
+    for (x in result) {
+        text += '<tr>'
+        text += constantTag + result[x].make + closeTag;
+        text += constantTag +result[x].model + closeTag;
+        text += constantTag + result[x].plate_num + closeTag;
+        text += '</tr>'
+    }
+    text += '</table>'
+    elem.innerHTML = text;
+}
+
+//----- END CAR
+
+
+
+//--START Account Pages
+
+function getTableGarages() {
+    console.log('Entering getTableGarage');
+    sendJsonRequest(null, '/get-user', tableGarageCallback);
+}
+
+function tableGarageCallback(returnedObject, targetUrl, unused){
+    console.log('Entering tableCallback');
+    console.log('result:');
+    console.log(returnedObject);
+    let drNum = returnedObject['dl_no'];
+    loadAllGaragesUser(drNum);
+}
+
+function loadAllGaragesUser(drNum) {
+    console.log('Entering loadAllGaragesUser');
+    let params = {};
+    params['dl_number'] = drNum;
+    sendJsonRequest(params, '/load-all-garages-user', loadAllGaragesUserCallback);
+}
+
+function loadAllGaragesUserCallback(result, targetURL, origParams) {
+    console.log(result);
+    var elem = document.getElementById("garage-section");
+    var constantTag = '<td>';
+    var closeTag = '</td>';
+    elem.innerHTML = '';
+
+    text = '<h2>Your Garages:</h2> <table> <tr> <th style="width: 150px;">Name</th> <th style="width: 150px;">Address</th> <th style="width: 200px;">Handicap Spots</th>  <th style="width: 300px;">Non-Handicap Spots</th>  <th style="width: 80px;">Phone</th> </tr>';
+    for (var x=0; x<result.length; x++) {
+        text += '<tr>'
+        text += constantTag + result[x]['Name'] + closeTag;
+        text += constantTag + result[x]['Address'] + closeTag;
+        text += constantTag + result[x]['numHandicapSpots'] + closeTag;
+        text += constantTag + result[x]['numSpots'] + closeTag;
+        text += constantTag + result[x]['Phone'] + closeTag;
+        text += '</tr>'
+    }
+    text += '</table>'
+    elem.innerHTML = text;
+}
+
+function getTableAccount() {
+    console.log('Entering getTableAccount');
+    sendJsonRequest(null, '/get-user', tableAcountCallback);
+}
+
+function tableAcountCallback(result, targetURL, origParams) {
+    console.log(result);
+    var elem = document.getElementById("account-section");
+    var constantTag = '<td>';
+    var closeTag = '</td>';
+    elem.innerHTML = '';
+
+    text = '<h2>Your Account:</h2> <table> <tr> <th style="width: 150px;">Username</th> <th style="width: 150px;">Phone Number</th> <th style="width: 150px;">Driver\'s License</th></tr>';
+
+
+    text += '<tr>'
+    text += constantTag + result['username'] + closeTag;
+    text += constantTag +result['phone'] + closeTag;
+    text += constantTag + result['dl_no'] + closeTag;
+    text += '</tr>'
+
+    text += '</table>'
+    elem.innerHTML = text;
+}
+
+
+
+
+//---ACCOUNT PAGE ADD DOM
+
+function addVehicle() {
+  // Remove the button from the page
+  document.getElementById("create-vehicle-button").innerHTML = '';
+
+  // Add Create Vehicle fields to the page
+  var elem = document.getElementById("create-vehicle");
+  text = '<div style="width: 50%; margin: auto;">'
+  text += '<h2>Add Your Vehicle:</h2>'
+  text += '<form onsubmit="return false;">'
+  text += '<label for="vehicle_make">Make:   </label>'
+  text += '<input type="text" id="Make" name="vehicle_make">'
+  text += '<br><br>'
+  text += '<label for="vehicle_model">Model:   </label>'
+  text += '<input type="text" id="Model" name="vehicle_model">'
+  text += '<br><br>'
+  text += '<label for="vehicle_license_plate_number">License Plate Number:   </label>'
+  text += '<input type="text" id="Plate" name="vehicle_license_plate_number">'
+  text += '<br><br>'
+  text += '<button type="button" onclick="saveCar()">Submit</button><button type="button" onclick="cancelAddVehicle()">Cancel</button>'
+  text += '</form>'
+  text += '</div>'
+  elem.innerHTML = text;
+}
+
+function cancelAddVehicle() {
+  // Remove Create Vehicle fields from the page
+  document.getElementById("create-vehicle").innerHTML = '';
+
+  // Add the button to the page
+  var elem = document.getElementById("create-vehicle-button");
+  text = '<img src="images/add.png" alt="Add Vehicle" width = "50px" height = "50px" style="vertical-align: middle">'
+  text += '<span style="color: black; font-weight:bolder">Add Vehicle</span>'
+  elem.innerHTML = text;
+}
+
+function addGarage() {
+    // Remove the button from the page
+    document.getElementById("create-garage-button").innerHTML = '';
+
+    // Add Create Garage fields to the page
+    var elem = document.getElementById("create-garage");
+    text = '<div style="width: 50%; margin: auto;">';
+    text += '<h2>Add Your Garage:</h2>';
+    text += '<form onsubmit="return false;">';
+    text += '<label>Enter Garage Name:   </label>';
+    text += '<input type="text" id= "garageName"></input>';
+    text += '<br><br>';
+    text += '<label>Add Space Count:   </label>';
+    text += '<input type="number" id = "numSpots"></input>';
+    text += '<br><br>';
+    text += '<label>Add Handicap Space Count:   </label>';
+    text += '<input type="number" id = "numHandicapSpots"></input>';
+    text += '<br><br>';
+    text += '<label>Enter Address:   </label>';
+    text += '<input type="text" id="address"></input>';
+    text += '<br><br>';
+    text += '<label>Enter Owner Drivers License Number:   </label>';
+    text += '<input type="number" id="ownerDL"></input>';
+    text += '<br><br>';
+    text += '<label>Enter Phone Number:   </label>';
+    text += '<input type="number" id="phoneNumber"></input>';
+    text += '<br><br>';
+    text += '<button onclick="saveGarage()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
+    text += '<br><br>';
+    text += '</form>';
+    text += '</div>';
+    elem.innerHTML = text;
+}
+
+function cancelAddGarage() {
+  // Remove Create Garage fields from the page
+  document.getElementById("create-garage").innerHTML = '';
+
+  // Add the button to the page
+  var elem = document.getElementById("create-garage-button");
+  text = '<img src="images/add.png" width = "50px" height = "50px" style="vertical-align: middle">'
+  text += '<span style="color: black; font-weight:bolder">Add Garage</span>'
+  elem.innerHTML = text;
 }

@@ -5,11 +5,7 @@
     <link href="Style.css" type="text/css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="scripts.js"></script>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
-
-
+    <script src="server_access.js"></script>
 
 		<style>
 			body {
@@ -17,30 +13,31 @@
 			}
 		</style>
 	</head>
-	<body onload="getTableAccount();">
+	<body onload="getLoggedInUser(); prefillAccountInfo()">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
 	      <li class=""><a href="reserve.html">Reserve</a></li>
+				<li class=""><a href="create_garage.html">Create Garage</a></li>
 	      <li class=""><a href="account.html">Account</a></li>
 				<li class=""><a href="report.html">Report</a></li>
 				<li class=""><a href="about.html" >About</a></li>
 				<li class=""><a href="help.html">Help</a></li>
-        <li class=""><a href=# onclick="signOut()">Log Out</a>
 			</ul>
     </div>
 
     <div class="body-content">
-			<!-- Begin Account Page Navigation -->
+
+      <!-- Begin Account Page Navigation -->
 			<ul class="AccountNav">
 				<li>
 					<a href="account.html" class="account-nav-icon">
-						<img src="images/accountimages/activeaccount.png" alt="Account"  width = "200px" height = "200px">
+						<img src="images/accountimages/inactiveaccount.png" alt="Account"  width = "200px" height = "200px">
 					</a>
 				</li>
 				<li>
 					<a href="account_vehicles.html" class="account-nav-icon">
-						<img src="images/accountimages/inactivevehicles.png" alt="Vehicles" width = "200px" height = "200px">
+						<img src="images/accountimages/activevehicles.png" alt="Vehicles" width = "200px" height = "200px">
 					</a>
 				</li>
 				<li>
@@ -48,23 +45,34 @@
 						<img src="images/accountimages/inactivegarages.png" alt="Garages" width = "200px" height = "200px">
 					</a>
 				</li>
-				<li>
-					<a href="account_reservations.html" class="account-nav-icon">
-						<img src="images/accountimages/inactivereservations.png" alt="Reservations" width = "200px" height = "200px">	
-					</a>
-				</li>
 			</ul>
-			<!-- End Account Page Navigation -->
+      <!-- End Account Page Navigation -->
 
-			<!-- Begin Account Table -->
+      <!-- Begin Vehicle Table -->
       <div class="account-content">
         <div class="owned-section" style="width: 50%; margin: auto;">
-          <div id="account-section">
-            <h1>Loading...</h1>
+          <div id="car-section">
+            <h2>Editing Vehicle:</h2>
+              <table>
+                <tr>
+                  <th style="width: 100px;">Make</th>
+                  <th style="width: 100px;">Model</th>
+                  <th style="width: 140px;">License Plate No.</th>
+									<th style="width: 50px;"></th>
+									<th style="width: 50px;"></th>
+                </tr>
+                <tr>
+                  <td>Example</td>
+                  <td>Car</td>
+                  <td>KKY-2948</td>
+									<td><a href="">Edit</a></td>
+									<td><a href="">Delete</a></td>
+                </tr>
+              </table>
           </div>
         </div>
       </div>
-      <!-- End Account Table -->
+      <!-- End Vehicle Table -->
 
     </div>
 	</body>

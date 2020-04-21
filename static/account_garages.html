@@ -5,11 +5,7 @@
     <link href="Style.css" type="text/css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="scripts.js"></script>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
-
-
+    <script src="https://apis.google.com/js/platform.js"></script>
 
 		<style>
 			body {
@@ -17,7 +13,7 @@
 			}
 		</style>
 	</head>
-	<body onload="getTableAccount();">
+	<body onload="getTableGarages();">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
@@ -26,16 +22,16 @@
 				<li class=""><a href="report.html">Report</a></li>
 				<li class=""><a href="about.html" >About</a></li>
 				<li class=""><a href="help.html">Help</a></li>
-        <li class=""><a href=# onclick="signOut()">Log Out</a>
 			</ul>
     </div>
 
-    <div class="body-content">
-			<!-- Begin Account Page Navigation -->
+    <div class="body-content" >
+
+      <!-- Begin Account Page Navigation -->
 			<ul class="AccountNav">
 				<li>
 					<a href="account.html" class="account-nav-icon">
-						<img src="images/accountimages/activeaccount.png" alt="Account"  width = "200px" height = "200px">
+						<img src="images/accountimages/inactiveaccount.png" alt="Account"  width = "200px" height = "200px">
 					</a>
 				</li>
 				<li>
@@ -45,26 +41,38 @@
 				</li>
 				<li>
 					<a href="account_garages.html" class="account-nav-icon">
-						<img src="images/accountimages/inactivegarages.png" alt="Garages" width = "200px" height = "200px">
+						<img src="images/accountimages/activegarages.png" alt="Garages" width = "200px" height = "200px">
 					</a>
 				</li>
 				<li>
 					<a href="account_reservations.html" class="account-nav-icon">
-						<img src="images/accountimages/inactivereservations.png" alt="Reservations" width = "200px" height = "200px">	
+						<img src="images/accountimages/inactivereservations.png" alt="Reservations" width = "200px" height = "200px">
 					</a>
 				</li>
 			</ul>
-			<!-- End Account Page Navigation -->
+      <!-- End Account Page Navigation -->
 
-			<!-- Begin Account Table -->
+      <!-- Begin Garage Table -->
       <div class="account-content">
         <div class="owned-section" style="width: 50%; margin: auto;">
-          <div id="account-section">
+          <div id="garage-section" >
+
             <h1>Loading...</h1>
           </div>
         </div>
       </div>
-      <!-- End Account Table -->
+	  <!-- End Garage Table -->
+
+	  <!-- Begin Create Garage Button -->
+	  <div id="create-garage-button" onclick="addGarage()" style="margin-left: 24.5%">
+			<img src="images/add.png" width = "50px" height = "50px" style="vertical-align: middle">
+			<span style="color: black; font-weight:bolder">Add Garage</span>
+		</div>
+		<!-- End Create Garage Button -->
+
+		<!-- Begin Create Garage -->
+		<div id="create-garage"></div>
+		<!-- End Create Garage -->
 
     </div>
 	</body>
