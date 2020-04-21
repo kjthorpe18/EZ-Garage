@@ -368,7 +368,7 @@ function saveCarCallback(result, targetUrl, params) {
 
 function loadCarTable() {
     console.log("Loading cars...");
-    sendJsonRequest(null, '/load-cars-user', loadCarTableCallback); 
+    sendJsonRequest(null, '/load-cars-user', loadCarTableCallback);
 
 }
 
@@ -519,14 +519,14 @@ function addGarage() {
   text += '<label>Add Space Count:   </label>';
   text += '<input type="number" id = "addSpaceCount"></input>';
   text += '<br><br>';
+  text += '<label>Add Handicap Space Count:   </label>';
+  text += '<input type="number" id = "addHandicapSpaceCount"></input>';
+  text += '<br><br>';
   text += '<label>Enter Address</label>';
   text += '<input type="text" id="addAddress"></input>';
   text += '<br><br>';
   text += '<label>Enter Phone Number</label>';
   text += '<input type="number" id="addPhone"></input>';
-  text += '<br><br>';
-  text += "<label>Enter Owner's Drivers License Number </label>";
-  text += '<input id="addOwnerDL"></input>';
   text += '<br><br>';
   text += '<button onclick="saveGarage()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
   text += '<br><br>';
