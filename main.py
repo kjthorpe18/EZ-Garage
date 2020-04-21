@@ -99,6 +99,8 @@ def populate_spots():
     log('the value of handicap:')
     log(handicap)
     allSpotsInGarage = spaceData.load_all_spots(garageName)
+    log("all spots in garage:")
+    log(allSpotsInGarage)
     for spot in allSpotsInGarage:
         spotIsAvailable = True
         spot_id = spot.key.id_or_name
@@ -163,9 +165,12 @@ def reserve_spot():
     user_id = flask.session['user_id']
     time_in = flask.request.form['time_in']
     time_out = flask.request.form['time_out']
-    garage_name = flask.request.form['garage_name']
+    garage_id = flask.request.form['garage_name']
     space_id = flask.request.form['spot_selected']
-    checkin = Checkin(user_id, time_in, time_out, space_id, garage_name)
+    vehicle_id = flask.request.form['vehicle_selected']
+    log('the garage id: ')
+    log(garage_id)
+    checkin = Checkin(user_id, time_in, time_out, space_id, garage_id, vehicle_id)
     json_result = {}
     try:
         checkinData.add_checkin(checkin)
@@ -385,6 +390,16 @@ def loadReports():
 
    
     return flask.Response(json.dumps(data), mimetype='application/json')
+
+@app.route('/load-reservations-user', methods=['POST'])
+def load_reservations_user():
+    all_reservations = checkinData.load_all_checkins_user(flask.session['user_id'])
+    list_to_return = []
+    for checkinEntity in all_reservations:
+        checkinObj = checkinData.convert_to_object(checkinEntity)
+        list_to_return.append(checkinObj.to_dict())
+    return flask.Response(json.dumps(list_to_return), mimetype='application/json')
+
 
 
 

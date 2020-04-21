@@ -70,6 +70,6 @@ def load_space(space_id):
 def load_all_spots(garage_name):
     client = getClient()
     query = client.query(kind='Space')
-    query.add_filter('garage', '=', 'matts garage')
+    query.add_filter('garage', '=', garage_name)
     results = list(query.fetch())
     return results
