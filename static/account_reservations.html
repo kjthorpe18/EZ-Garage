@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-    <title>Manage your Account</title>
+    <title>Manage your Reservations</title>
     <link href="Style.css" type="text/css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="scripts.js"></script>
@@ -13,7 +13,7 @@
 			}
 		</style>
 	</head>
-	<body onload="getTableGarages();">
+	<body onload="loadCarTable()">
 		<div>
 			<ul class="HomeNav">
 				<li class=""><a href="index.html">Home</a></li>
@@ -25,7 +25,7 @@
 			</ul>
     </div>
 
-    <div class="body-content" >
+    <div class="body-content">
 
       <!-- Begin Account Page Navigation -->
 			<ul class="AccountNav">
@@ -41,38 +41,27 @@
 				</li>
 				<li>
 					<a href="account_garages.html" class="account-nav-icon">
-						<img src="images/accountimages/activegarages.png" alt="Garages" width = "200px" height = "200px">
+						<img src="images/accountimages/inactivegarages.png" alt="Garages" width = "200px" height = "200px">
 					</a>
 				</li>
 				<li>
 					<a href="account_reservations.html" class="account-nav-icon">
-						<img src="images/accountimages/inactivereservations.png" alt="Reservations" width = "200px" height = "200px">
+						<img src="images/accountimages/activereservations.png" alt="Reservations" width = "200px" height = "200px">
 					</a>
 				</li>
 			</ul>
       <!-- End Account Page Navigation -->
 
-      <!-- Begin Garage Table -->
+      <!-- Begin Vehicle Table -->
       <div class="account-content">
         <div class="owned-section" style="width: 50%; margin: auto;">
-          <div id="garage-section" >
-
+          <div id="car-section">
             <h1>Loading...</h1>
+
           </div>
         </div>
       </div>
-	  <!-- End Garage Table -->
-
-	  <!-- Begin Create Garage Button -->
-	  <div id="create-garage-button" onclick="addGarage()" style="margin-left: 24.5%">
-			<img src="images/add.png" width = "50px" height = "50px" style="vertical-align: middle">
-			<span style="color: black; font-weight:bolder">Add Garage</span>
-		</div>
-		<!-- End Create Garage Button -->
-
-		<!-- Begin Create Garage -->
-		<div id="create-garage"></div>
-		<!-- End Create Garage -->
+	    <!-- End Vehicle Table -->
 
     </div>
 	</body>
