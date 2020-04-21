@@ -1,17 +1,15 @@
 class Space(object):
-    def __init__(self, space_id, num, floor, garage, taken):
+    def __init__(self, garage, num, handicap=False):
         # space_id is essentially the space number + garage it resides in
-        self.space_id = str(num) + ':' + garage
+        self.space_id = str(garage) + '_' + str(num)
         self.num = num
-        self.floor = floor
         self.garage = garage
-        self.taken = False
+        self.handicap = handicap
 
     def toDict(self):
         return {
             'space_id': self.space_id, 
             'num': self.num,
-            'floor': self.floor,
             'garage': self.garage,
-            'taken': self.taken,
+            'handicap': self.handicap,
         }

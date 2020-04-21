@@ -11,7 +11,14 @@ def log(msg):
     print('SpaceData: %s' % msg)
 
 def getClient():
-     return datastore.Client()
+    client = None
+    try: # When we run 'gcloud app deploy' this will work and it will connect to the database
+        client = datastore.Client()
+        return client
+    except: # if that doesn't work, look for the local path to the API keys for the database
+        # return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
+        return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
+
 
 #project 9 ex
 def _load_key(client, entity_type, entity_id=None, parent_key=None):
@@ -38,23 +45,19 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 
 #insert space object
 def createSpace(space):
-    client =getClient()
+    client = getClient()
     entity = datastore.Entity(_load_key(client, _SPACE_ENTITY, space.space_id))
-    entity['space_id'] = space.space_id
     entity['num'] = space.num
-    entity['floor'] = space.floor
     entity['garage'] = space.garage
-    entity['taken'] = space.taken
+    entity['handicap'] = space.handicap
     client.put(entity)
 
 # Create a space from datastore entry
 def _space_from_entity(space_entity):
-    space_id = space_entity['space_id']
     num = space_entity['num']
-    floor = space_entity['floor']
     garage = space_entity['garage']
-    taken = space_entity['taken']
-    spaceVal = Space(space_id, num, floor, garage, taken)
+    handicap = space_entity['handicap']
+    spaceVal = Space(garage, num, handicap)
     return spaceVal
 
 #Load value from datastore based on id
@@ -66,3 +69,11 @@ def load_space(space_id):
     
     rSpace = _space_from_entity(space_entity)
     return rSpace
+
+def load_all_spots(garage_name):
+    log('getting all spots for garage' + str(garage_name))
+    client = getClient()
+    query = client.query(kind='Space')
+    query.add_filter('garage', '=', 'matts garage')
+    results = list(query.fetch())
+    return results

@@ -11,14 +11,7 @@ def log(msg):
     print('CarData: %s' % msg)
 
 def getClient():
-    client = None
-    try: # When we run 'gcloud app deploy' this will work and it will connect to the database
-        client = datastore.Client()
-        return client
-    except: # if that doesn't work, look for the local path to the API keys for the database
-        #return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
-        #return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
-        return datastore.Client.from_service_account_json('D:\CS1520\service-acct-keys.json')
+     return datastore.Client()
 
 #project 9 ex
 def _load_key(client, entity_type, entity_id=None, parent_key=None):
@@ -47,20 +40,17 @@ def _load_entity(client, entity_type, entity_id, parent_key=None):
 def createCar(car):
     client =getClient()
     entity = datastore.Entity(_load_key(client, _CAR_ENTITY, car.plate_num))
-    entity['Owner'] = car.owner
-    entity['Make'] = car.make
-    entity['Model'] = car.model
-    entity['Plate Number'] = car.plate_num
+    entity['make'] = car.make
+    entity['model'] = car.model
+    entity['plate_num'] = car.plate_num
     client.put(entity)
-    log('Saved new Car')
 
 # Create a car from datastore entry
 def _car_from_entity(car_entity):
-    owner = car_entity['Owner']
-    make = car_entity['Make']
-    model = car_entity['Model']
-    plate_num = car_entity['Plate Number']
-    carVal = Car(owner, make, model, plate_num)
+    make = car_entity['make']
+    model = car_entity['model']
+    plate_num = car_entity['plate_num']
+    carVal = Car(make, model, plate_num)
     return carVal
 
 #Load value from datastore based on plate_num
@@ -72,18 +62,3 @@ def load_car(plate):
     
     rCar = _car_from_entity(car_entity)
     return rCar
-
-def load_cars_user(userToQuery):
-    log('Loading Cars for owner:' + userToQuery)
-    client = getClient()
-    query = client.query(kind = 'Car')
-    query.add_filter('Owner', '=', userToQuery)
-    returnList = []
-    iterable = list(query.fetch())
-    log('Iterable Contents: ' + str(len(iterable)))
-    for x in iterable:
-        newCar = _car_from_entity(x)
-        log('New Car:' + newCar.model)
-        returnList.append(newCar)
-    
-    return returnList

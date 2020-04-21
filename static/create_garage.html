@@ -17,13 +17,14 @@
      <body>
         <div>
               <ul class="HomeNav">
-                <li class=""><a href="index.html">Home</a></li>
-                <li class=""><a href="reserve.html">Reserve</a></li>
+                    <li class=""><a href="index.html">Home</a></li>
+                    <li class=""><a href="reserve.html">Reserve</a></li>
             		<li class=""><a href="create_garage.html">Create Garage</a></li>
-                <li class=""><a href="account.html">Account</a></li>
+                    <li class=""><a href="account.html">Account</a></li>
             		<li class=""><a href="report.html">Report</a></li>
             		<li class=""><a href="about.html" >About</a></li>
             		<li class=""><a href="help.html">Help</a></li>
+                    <li class=""><a href=# onclick="signOut()">Log Out</a>
               </ul>
         </div>
         <div class="content">
@@ -31,28 +32,24 @@
 
             <form onsubmit='return false;'>
                 <label>Enter Garage Name</label><br>
-                <input type="text" id= "addName"></input><br>
-                <label>Add Floor Count</label><br>
-                <input type="number" id = "addFloorCount"></input><br>
-                <label>Enter Space Names: [Floor-Letter] separated by comma and space eg. 1A, 1B, 1F, 4K...</label><br>
-                <input id ="addSpaces"></input><br>
+                <input type="text" id= "garageName"></input><br>
+                <label>Enter number of non-handicap parking spots available</label><br>
+                <input type='number' id ="numSpots"></input><br>
+                <label>Enter number of handicap parking spots available</label><br>
+                <input type='number' id ="numHandicapSpots"></input><br>
                 <label>Enter Address</label><br>
-                <input type="text" id="addAddress"></input><br>
+                <input type="text" id="address"></input><br>
                 <label>Enter Phone Number</label><br>
-                <input type="number" id="addPhone"></input><br>
+                <input type="number" id="phoneNumber"></input><br>
                 <label>Enter Owner's Drivers License Number </label><br>
-                <input id="addOwnerDL"></input><br>
-                <label>Longitude</label><br>
-                <input id="longitude"></input><br>
-                <label>Latitude</label><br>
-                <input id="latitude"></input><br>
-                <button onclick="saveGarage()"> Submit</button>
+                <input id="ownerDL"></input><br>
+                <button onclick="saveGarage()">Create Garage</button>
                 <br>
                 <br>
             </form>
-            <form onsubmit='return false'>
-              <label>Enter name of Garage</label><br>
-              <input type="text" id="name"> </input><br>
+            <form onsubmit='return false;'>
+              <label>Enter Phone Number of Garage Owner</label><br>
+              <input type="number" id="phoneCheck"> </input><br>
               <button type="button" id="displayGarage" onclick="loadGarage()">Show Garage</button>
             </form>
             <div id="DisplayArea"></div>
