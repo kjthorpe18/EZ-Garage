@@ -1,7 +1,7 @@
 from google.cloud import datastore
-from user import User
+from checkin import Checkin
 
-USER_ENTITY_TYPE = 'User'
+CHECKIN_ENTITY_TYPE = 'Checkin'
 
 # Note - you will need to change this path. You can try setting an environment variable but it didn't work for me
 # See this: https://cloud.google.com/docs/authentication/getting-started
@@ -13,14 +13,12 @@ def get_client():
     except: # if that doesn't work, look for the local path to the API keys for the database
         # return datastore.Client.from_service_account_json('/Users/kylethorpe/Desktop/service-acct-keys.json')
         return datastore.Client.from_service_account_json('/Users/matthewhrydil/Pitt/CurrentClassesLocal/CS1520/service-account-keys/service-acct-keys.json')
-        # return datastore.Client.from_service_account_json('D:\CS1520\service-acct-keys.json')
-
 
 def log(msg):
     """Log a simple message."""
     # Look at: https://console.cloud.google.com/logs to see your logs.
     # Make sure you have "stdout" selected.
-    print('userData: %s' % msg)
+    print('checkinData: %s' % msg)
 
 def load_key(client, item_id=None):
     """Load a datastore key using a particular client, and if known, the ID.
@@ -28,10 +26,10 @@ def load_key(client, item_id=None):
     them in this example."""
     key = None
     if item_id:
-        key = client.key(USER_ENTITY_TYPE, str(item_id))
+        key = client.key(CHECKIN_ENTITY_TYPE, str(item_id))
     else:
         # this will generate an ID
-        key = client.key(USER_ENTITY_TYPE)
+        key = client.key(CHECKIN_ENTITY_TYPE)
     return key
 
 def load_entity(client, item_id):
@@ -43,35 +41,47 @@ def load_entity(client, item_id):
     return entity 
 
 def convert_to_object(entity):
-    user_id = entity.key.id_or_name
-    return User(user_id, entity['username'], entity['phone'], entity['dl_no'])   
+    checkin_id = entity.key.id_or_name
+    return Checkin(entity['user_id'], entity['date'], entity['time_in'], entity['time_out'], entity['space_id'], entity['garage_id'])
 
-def create_user(user_to_create):
+def add_checkin(checkin_to_create):
     """
-    Takes a User as a parameter and adds that user to the database
+    Takes a Checkin object as a parameter and adds that checkin to the DB
     """
-    log('enter create_user')
+    log('enter add_checkin')
     client = get_client()
     key = None
     entity = None
-    if not user_to_create.uid:
-        key = load_key(client) # generate a key for the entity
-        user_to_create.uid = key.id_or_name
-        entity = datastore.Entity(key) # create empty entity with the key from above
-    else:
-        key = load_key(client, user_to_create.uid)
+    if not checkin_to_create.checkin_id:
+        key = load_key(client)
+        checkin_id = key.id_or_name
         entity = datastore.Entity(key)
-    entity['username'] = user_to_create.username
-    entity['phone'] = user_to_create.phone
-    entity['dl_no'] = user_to_create.dl_no
-    client.put(entity) # add the entity to the DB
-    log('Saved new user. User id: %s' % key.id_or_name)
-
-def get_user(user_id):
-    client = get_client()
-    log('retrieving object for ID: %s' % user_id)
-    entity = load_entity(client, user_id)
-    if not entity:
-        return None
     else:
-        return convert_to_object(entity)
+        key = load_key(client, checkin.checkin_id)
+        entity = datastore.Entity(key)
+    entity['user_id'] = checkin_to_create.user_id
+    entity['time_in'] = checkin_to_create.time_in
+    entity['time_out'] = checkin_to_create.time_out
+    entity['space_id'] = checkin_to_create.space_id
+    entity['garage_id'] = checkin_to_create.garage_id
+    client.put(entity)
+    log('Added checkin to database.')
+
+
+def load_all_checkins(spot_id):
+    client = get_client()
+    query = client.query(kind='Checkin')
+    query.add_filter('space_id', '=', spot_id)
+    checkins = list(query.fetch())
+    log(checkins)
+    return checkins
+
+
+# def get_user(user_id):
+#     client = get_client()
+#     log('retrieving object for ID: %s' % user_id)
+#     entity = load_entity(client, user_id)
+#     if not entity:
+#         return None
+#     else:
+#         return convert_to_object(entity)

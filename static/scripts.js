@@ -45,7 +45,25 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 
+function get(xmlHttp, target) {
+    if (xmlHttp) {
+        xmlHttp.open("GET", target, true); // XMLHttpRequest.open(method, url, async)
+        var contentType = "application/x-www-form-urlencoded";
+        xmlHttp.setRequestHeader("Content-type", contentType);
+        xmlHttp.send();
+    }
+}
 
+function sendGetRequest(targetUrl, callbackFunction) {
+    var xmlHttp = createXmlHttp();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4) {
+            var myObject = JSON.parse(xmlHttp.responseText);
+            callbackFunction(myObject, targetUrl);
+        }
+    }
+    get(xmlHttp, targetUrl)
+}
 
 
 
@@ -102,45 +120,29 @@ function garageSaved(result, targetUrl, params) {
 //Saves a new garage after user inputs one
 function saveGarage() {
     let values = {};
-    values['name'] = document.getElementById("addName").value;
-    values['floorCount'] = document.getElementById("addFloorCount").value;
-    values['spaces'] = document.getElementById("addSpaces").value;
-    values['address'] = document.getElementById("addAddress").value;
-    values['phone'] = document.getElementById("addPhone").value;
-    values['ownerDL'] = document.getElementById("addOwnerDL").value;
-    values['longitude'] = document.getElementById("longitude").value;
-    values['latitude'] = document.getElementById("latitude").value;
-    console.log(values);
-
+    values['garageName'] = document.getElementById("garageName").value;
+    values['numSpots'] = document.getElementById("numSpots").value;
+    values['numHandicapSpots'] = document.getElementById('numHandicapSpots').value;
+    values['address'] = document.getElementById("address").value;
+    values['phone'] = document.getElementById("phoneNumber").value;
+    values['ownerDL'] = document.getElementById("ownerDL").value;
     sendJsonRequest(values,'/add-garage', garageSaved)
 }
 
-function loadGarage() {
-    var name = document.getElementById("name").value;
-    let params = {};
-    params['name'] = name;
-    var elem = document.getElementById("DisplayArea");
-    elem.innerHTML = "<div class='loader'></div>";
-    sendJsonRequest(params, '/load-garage', displayGarage);
-}
+// function loadGarage() {
+//     var name = document.getElementById("name").value;
+//     let params = {};
+//     params['name'] = name;
+//     var elem = document.getElementById("DisplayArea");
+//     elem.innerHTML = "<div class='loader'></div>";
+//     sendJsonRequest(params, '/load-garage', displayGarage);
+// }
 
-//Change a DIV to show garage immediately after stored
-function displayGarage(result, targetUrl, params) {
-    /*Gameplan is to change display array to text of garage object returned*/
-    console.log(result);
-
-
-    /* var elem = document.getElementById("DisplayArea");
-    elem.innerHTML = '';
-    text = '<ul>';
-    text += '<li>Garage Name: ' + result['name'] + '</li>';
-    text += '<li>Floor Count: ' + result['floorCount'] + '</li>';
-    text += '<li>Spaces: ' + result['spaces'] + '</li>';
-    text += '<li>Address: ' + result['address'] + '</li>';
-    text += '<li>Phone Number: ' + result['phone'] + '</li>';
-    text += '</ul>';
-    elem.innerHTML = text; */
-}
+// //Change a DIV to show garage immediately after stored
+// function displayGarage(result, targetUrl, params) {
+//     /*Gameplan is to change display array to text of garage object returned*/
+//     console.log(result);
+// }
 
 function addUser(){
     var userInfo = {};
@@ -219,6 +221,118 @@ function openAccordion() {
     }
 }
 
+/* ----------------------- Reserve Page Dropdowns ------------------------ */ 
+
+// Loads the garages for the dropdown in the reserve page
+function loadAllGarages() {
+    console.log("Loading all garages for dropdown...")
+    sendJsonRequest(null, '/load-all-garages', loadAllGaragesCallback);
+}
+
+function loadAllGaragesCallback(returnedObject, targetUrl, unused) {
+    var dropdown = document.getElementById("garageSelect");
+    text = '';
+    text += "<option value='null'>--Select--</option>";
+    Object.keys(returnedObject).forEach(function(key) {
+       text += "<option value='" + returnedObject[key]['Name'] + "'>" + returnedObject[key]['Name'] + "<//option>";
+    });
+    dropdown.innerHTML = text;
+}
+
+function showSpots() {
+    var time_in = getCheckinTime();
+    var time_out = getCheckoutTime();
+    var dateValue= document.getElementById('checkinDate').value;
+    if(!Date.parse(dateValue)){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Please enter a valid date.</p>";
+    }
+    else if (time_out <= time_in){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Checkout time must be after checkin time.</p>";
+    }
+    else{
+        document.getElementById('errorMsg').innerHTML = "";
+        document.getElementById('spotsMessage').innerHTML = "<br><div class='loader'></div>"
+        var garageName = document.getElementById("garageSelect").value;
+        let params = {};
+        params['garageName'] = garageName;
+        params['checkinTime'] = getCheckinTime();
+        params['checkoutTime'] = getCheckoutTime();
+        params['handicap'] = document.getElementById('handicap').checked;
+
+        sendJsonRequest(params, '/populate-spots', showSpotsCallback);
+    }
+}
+
+function showSpotsCallback(returnedObject, targetUrl, nope){
+    document.getElementById('spotsMessage').innerHTML = '';
+    var dropdown = document.getElementById('spotSelect');
+    text = '';
+    text += "<p class='reserve-section-header'>The following spots are available at the time you selected. Please select a spot</p>";
+    text += "<select id='spot_selected'>";
+    console.log(returnedObject);
+    for(var i=0; i<returnedObject.length; i++){
+        text += "<option value='" + returnedObject[i]['space_id'] + "'>" + returnedObject[i]['num'] + "</option>";
+    }
+    text += "</select>"
+    dropdown.innerHTML = text;
+    var buttons = document.getElementById('Buttons');
+    buttons.innerHTML = "<button id='reserveSpot' onclick='reserveSpot()'>Reserve Spot</button>"
+}
+
+function reserveSpot() {
+    var time_in = getCheckinTime();
+    var time_out = getCheckoutTime();
+    if (time_out <= time_in){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Checkout time must be after checkin time.</p>";
+    }
+    document.getElementById('errorMsg').innerHTML = "<br><div class='loader'></div>";
+    var garage_name = document.getElementById('garageSelect').value;
+    var spot_selected = document.getElementById('spot_selected').value;
+    params = {};
+    params['time_in'] = time_in;
+    params['time_out'] = time_out;
+    params['garage_name'] = garage_name;
+    params['spot_selected'] = spot_selected;
+    sendJsonRequest(params, '/reserve-spot', reserveSpotCallback)
+}
+
+function reserveSpotCallback(returnedObject, url, naw) {
+    if (returnedObject['error']){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Error!</p>";
+    }
+    else{
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Success! Redirecting to your account page...</p>";
+        setTimeout( function() {
+            document.location = '/static/account_reservations.html'
+        }, 3000);
+        
+    }
+}
+
+function getCheckinTime(){
+    var date = document.getElementById('checkinDate').value;
+    var inHour = document.getElementById('checkinHour').value;
+    var inMinute = document.getElementById('checkinMinutes').value;
+    var inAMorPM = document.getElementById('checkinAMorPM').value;
+    var inTime = convertToTime(date, inHour, inMinute, inAMorPM);
+    return inTime;
+}
+
+function getCheckoutTime(){
+    var date = document.getElementById('checkinDate').value
+    var outHour = document.getElementById('checkoutHour').value;
+    var outMinute = document.getElementById('checkoutMinutes').value;
+    var outAMorPM = document.getElementById('checkoutAMorPM').value;
+    var outTime = convertToTime(date, outHour, outMinute, outAMorPM);
+    return outTime;
+}
+
+function convertToTime(date, hour, minute, AMorPM){
+    return new Date(date + ' ' + hour + ':' + minute + ' ' + AMorPM);
+}
+
+/* ----------------------- End Reserve Page Dropdowns ------------------------ */ 
+
 // Pre-fills the information of a user into the update account info form on the account page
 function prefillAccountInfo() {
     console.log("enter prefillAccountInfo()");
@@ -263,11 +377,13 @@ function onSignIn(googleUser) {
     params['email'] = profile.getEmail();
     params['id_token'] = id_token;
     sendJsonRequest(params, '/login', onSignInCallback);
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.disconnect();
 }
 
 function onSignInCallback(returnedObject, targetURL, origParams){
     if(returnedObject['data']['user_in_db'] == "true"){
-        window.location = '/static/account.html';
+        window.location = '/static/index.html';
     }
     else{
         window.location = '/static/create_account.html';
@@ -275,12 +391,58 @@ function onSignInCallback(returnedObject, targetURL, origParams){
     console.log("enter onSignInCallback");
 }
 
+// Gets if the user is logged in
+function loadIndex() {
+    sendGetRequest('/userLoggedIn', loadIndexCallback);
+}
+
+// Shows menu items and hides login button if user is logged in 
+function loadIndexCallback(params, targetUrl){
+    var user = params['user_id'];
+    elem = document.getElementById("mainBody");
+    text = "";
+    if(user != null){
+        text = ""
+        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
+        document.getElementById('BannerPlaceholder').innerHTML = text;
+        text = "<li><a href=# onclick='signOut()''>Log Out</a>";
+        document.getElementById('LogoutPlaceholder').innerHTML = text;
+        text = "<center>Welcome back!</center>";
+        document.getElementById('indexBody').innerHTML = text;
+    }
+}
+
+
+// Used when static pages are loaded (help and about)
+// Shows all the menu buttons if the user is signed in
+function loadStatic() {
+    sendGetRequest('/userLoggedIn', loadStaticCallback);
+    
+}
+
+//Show menu items and logout button if user is signed in
+function loadStaticCallback(params, targetUrl) {
+    var user = params['user_id'];
+    if(user != null) {
+        text = ""
+        text += "<li><a href='reserve.html'>Reserve</a></li><li><a href='account.html'>Account</a></li><li><a href='report.html'>Report</a></li>";
+        document.getElementById('BannerPlaceholder').innerHTML = text;
+        text = "<li><a href=# onclick='signOut()''>Log Out</a>";
+        document.getElementById('LogoutPlaceholder').innerHTML = text;
+    }
+}
+
 
 // Sign out of google sign in
 function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
+    gapi.load('auth2', function(){
+        gapi.auth2.init().then(function() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                document.location = '/dologout';
+            });
+        });
     });
 }
 
@@ -415,7 +577,7 @@ function loadAllGaragesUser(drNum) {
     console.log('Entering loadAllGaragesUser');
     let params = {};
     params['dl_number'] = drNum;
-    sendJsonRequest(params, '/load-all-garages', loadAllGaragesUserCallback);
+    sendJsonRequest(params, '/load-all-garages-user', loadAllGaragesUserCallback);
 }
 
 function loadAllGaragesUserCallback(result, targetURL, origParams) {
@@ -425,14 +587,14 @@ function loadAllGaragesUserCallback(result, targetURL, origParams) {
     var closeTag = '</td>';
     elem.innerHTML = '';
 
-    text = '<h2>Your Garages:</h2> <table> <tr> <th style="width: 150px;">Name</th> <th style="width: 150px;">Address</th> <th style="width: 80px;">Floors</th>  <th style="width: 80px;">Phone</th> </tr>';
-
-    for (x in result) {
+    text = '<h2>Your Garages:</h2> <table> <tr> <th style="width: 150px;">Name</th> <th style="width: 150px;">Address</th> <th style="width: 200px;">Handicap Spots</th>  <th style="width: 300px;">Non-Handicap Spots</th>  <th style="width: 80px;">Phone</th> </tr>';
+    for (var x=0; x<result.length; x++) {
         text += '<tr>'
-        text += constantTag + result[x].name + closeTag;
-        text += constantTag +result[x].address + closeTag;
-        text += constantTag + result[x].floorCount + closeTag;
-        text += constantTag + result[x].phone + closeTag;
+        text += constantTag + result[x]['Name'] + closeTag;
+        text += constantTag + result[x]['Address'] + closeTag;
+        text += constantTag + result[x]['numHandicapSpots'] + closeTag;
+        text += constantTag + result[x]['numSpots'] + closeTag;
+        text += constantTag + result[x]['Phone'] + closeTag;
         text += '</tr>'
     }
     text += '</table>'
@@ -505,34 +667,37 @@ function cancelAddVehicle() {
 }
 
 function addGarage() {
-  // Remove the button from the page
-  document.getElementById("create-garage-button").innerHTML = '';
+    // Remove the button from the page
+    document.getElementById("create-garage-button").innerHTML = '';
 
-  // Add Create Garage fields to the page
-  var elem = document.getElementById("create-garage");
-  text = '<div style="width: 50%; margin: auto;">';
-  text += '<h2>Add Your Garage:</h2>';
-  text += '<form onsubmit="return false;">';
-  text += '<label>Enter Garage Name:   </label>';
-  text += '<input type="text" id= "addName"></input>';
-  text += '<br><br>';
-  text += '<label>Add Space Count:   </label>';
-  text += '<input type="number" id = "addSpaceCount"></input>';
-  text += '<br><br>';
-  text += '<label>Add Handicap Space Count:   </label>';
-  text += '<input type="number" id = "addHandicapSpaceCount"></input>';
-  text += '<br><br>';
-  text += '<label>Enter Address</label>';
-  text += '<input type="text" id="addAddress"></input>';
-  text += '<br><br>';
-  text += '<label>Enter Phone Number</label>';
-  text += '<input type="number" id="addPhone"></input>';
-  text += '<br><br>';
-  text += '<button onclick="saveGarage()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
-  text += '<br><br>';
-  text += '</form>';
-  text += '</div>';
-  elem.innerHTML = text;
+    // Add Create Garage fields to the page
+    var elem = document.getElementById("create-garage");
+    text = '<div style="width: 50%; margin: auto;">';
+    text += '<h2>Add Your Garage:</h2>';
+    text += '<form onsubmit="return false;">';
+    text += '<label>Enter Garage Name:   </label>';
+    text += '<input type="text" id= "garageName"></input>';
+    text += '<br><br>';
+    text += '<label>Add Space Count:   </label>';
+    text += '<input type="number" id = "numSpots"></input>';
+    text += '<br><br>';
+    text += '<label>Add Handicap Space Count:   </label>';
+    text += '<input type="number" id = "numHandicapSpots"></input>';
+    text += '<br><br>';
+    text += '<label>Enter Address:   </label>';
+    text += '<input type="text" id="address"></input>';
+    text += '<br><br>';
+    text += '<label>Enter Owner Drivers License Number:   </label>';
+    text += '<input type="number" id="ownerDL"></input>';
+    text += '<br><br>';
+    text += '<label>Enter Phone Number:   </label>';
+    text += '<input type="number" id="phoneNumber"></input>';
+    text += '<br><br>';
+    text += '<button onclick="saveGarage()">Submit</button><button onclick="cancelAddGarage()">Cancel</button>';
+    text += '<br><br>';
+    text += '</form>';
+    text += '</div>';
+    elem.innerHTML = text;
 }
 
 function cancelAddGarage() {
@@ -545,17 +710,3 @@ function cancelAddGarage() {
   text += '<span style="color: black; font-weight:bolder">Add Garage</span>'
   elem.innerHTML = text;
 }
-
-
-
-
-    /* var elem = document.getElementById("DisplayArea");
-    elem.innerHTML = '';
-    text = '<ul>';
-    text += '<li>Garage Name: ' + result['name'] + '</li>';
-    text += '<li>Floor Count: ' + result['floorCount'] + '</li>';
-    text += '<li>Spaces: ' + result['spaces'] + '</li>';
-    text += '<li>Address: ' + result['address'] + '</li>';
-    text += '<li>Phone Number: ' + result['phone'] + '</li>';
-    text += '</ul>';
-    elem.innerHTML = text; */

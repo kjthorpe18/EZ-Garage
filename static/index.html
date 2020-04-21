@@ -1,5 +1,28 @@
 <html>
 
+<!-- <<<<<<< HEAD -->
+	<head>
+		<title>EZ Garage</title>
+	    <link rel="icon" href="images/ezgarage_logo.png">
+		<link href="Style.css" type="text/css" rel="stylesheet" />
+		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+			<style>
+				body {
+					font-family: 'Roboto';
+				}
+			</style>
+		<script src="scripts.js"></script>
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<meta name="google-signin-client_id" content="552110144556-qef3jf1sukp03o4khvjtcsu8kvs108tr.apps.googleusercontent.com">
+
+	</head>
+
+
+
+	<body onload="loadIndex(); showRandomQuote()">
+		<div id="mainBody">
+			
+<!-- =======
 <head>
 	<title>EZ Garage</title>
     <link rel="icon" href="images/ezgarage_logo.png">
@@ -37,41 +60,36 @@
 
 		<div id="logo">
 				<img src="images/ezgarage_logo_wide.png" style="width:600; height:150;"></img>
+>>>>>>> master -->
+		</div>
+		<div>
+			<ul class='HomeNav'>
+		      	<li><a href='index.html'>Home</a></li>
+		      	<div id='BannerPlaceholder'></div>
+				<li><a href='about.html'>About</a></li>
+				<li><a href='help.html'>Help</a></li>
+				<div id='LogoutPlaceholder'></div>
+			</ul>
 		</div>
 
-		<div class="center">
-			<div class="formdiv">
-				<h3>Please click the button below to sign in with Google. If this is your first time, you will be asked to provide some info for your account.</h3>
-
-				<div align="center" class="g-signin2" data-onsuccess="onSignIn"></div>
-				<div align="center" id="pleaseWait"></div>
-				<!-- <a href="#" onclick="signOut();">Sign out</a> -->
-
-				<!-- <form>
-				   <label for="username">Username:</label><br>
-				   <input type="text" id="username" name="username"><br>
-				   <label for="pwd">Password:</label><br>
-				   <input type="password" id="pwd" name="pwd"><br>
-				   <button type="button">Submit</button>
-				</form> -->
-<!-- 				<a href="create_account.html">Click here to create an account</a>
- -->			 </div>
-
+		<div class="content">
+			<div id="logo">
+				<img src="images/ezgarage_logo_wide.png" style="width:600; height:150;"></img>
+			</div>
+			<div class="center">
+				<div id="indexBody">
+					<div class="formdiv">
+						<h3>Please click the button below to sign in with Google. If this is your first time, you will be asked to provide some info for your account.</h3>
+						<div align="center" class="g-signin2" data-onsuccess="onSignIn"></div>
+						<div align="center" id="pleaseWait"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 
-	</div>
+		<br>
+		<br>
 
-	<br>
-	<br>
-
-
-<center>
-
-<div id="randomQuotes">
-</div>
-
-
-
-</body>
-
+		<center><div id="randomQuotes"></div></center>
+	</body>
 </html>
