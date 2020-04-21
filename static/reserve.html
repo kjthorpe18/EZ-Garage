@@ -15,7 +15,7 @@
 		</style>
 </head>
 
-<body onload="loadAllGarages()">
+<body onload="loadAllGarages(); loadUserCars();">
 	<div>
 		<ul class="HomeNav">
 			<li class=""><a href="index.html">Home</a></li>
@@ -91,12 +91,19 @@
 			</div>
 			
 
-			<p class="reserve-section-header">Select Your Garage</p>
+			<p class="reserve-section-header">Select A Garage:</p>
 			<div>
 				<select id="garageSelect">
 					<option value="null">Loading...</option>
 				</select>
 			</div>
+
+            <p class="reserve-section-header">Select Your Vehicle:</p>
+            <div>
+                <select id="vehicleSelect">
+                    <option value="null">Loading...</option>
+                </select>
+            </div>
 
 			<p class="reserve-section-header">Handicapped Parking Spots Only</p>
 			<input type="checkbox" id="handicap"></input>

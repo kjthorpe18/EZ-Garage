@@ -111,6 +111,7 @@ function hideError() {
 function garageSaved(result, targetUrl, params) {
     if (result && result.ok) {
         console.log("Saved Garage.");
+        document.location= 'http://localhost:8080/static/account_garages.html';
     } else {
         console.log("Received error: " + result.error);
         showError(result.error);
@@ -232,10 +233,25 @@ function loadAllGarages() {
 function loadAllGaragesCallback(returnedObject, targetUrl, unused) {
     var dropdown = document.getElementById("garageSelect");
     text = '';
-    text += "<option value='null'>--Select--</option>";
+    text += "<option value=null>--Select--</option>";
     Object.keys(returnedObject).forEach(function(key) {
        text += "<option value='" + returnedObject[key]['Name'] + "'>" + returnedObject[key]['Name'] + "<//option>";
     });
+    dropdown.innerHTML = text;
+}
+
+function loadUserCars() {
+    sendJsonRequest(null, '/load-cars-user', loadUserCarsCallback);
+}
+
+function loadUserCarsCallback(returnedObject, targetUrl) {
+    var dropdown = document.getElementById('vehicleSelect');
+    console.log(returnedObject);
+    text = '';
+    text += "<option value=null>--Select--</option>";
+    for (var i = 0; i<returnedObject.length; i++){
+        text += "<option value='" + returnedObject[i]['plate_num'] + "'>" + returnedObject[i]['make'] + ' ' + returnedObject[i]['model'] + ' - ' + returnedObject[i]['plate_num'] + '</option>';
+    }
     dropdown.innerHTML = text;
 }
 
@@ -245,29 +261,43 @@ function showSpots() {
     var dateValue= document.getElementById('checkinDate').value;
     if(!Date.parse(dateValue)){
         document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Please enter a valid date.</p>";
+        return
     }
-    else if (time_out <= time_in){
+    if (time_out <= time_in){
         document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Checkout time must be after checkin time.</p>";
+        return;
     }
-    else{
-        document.getElementById('errorMsg').innerHTML = "";
-        document.getElementById('spotsMessage').innerHTML = "<br><div class='loader'></div>"
-        var garageName = document.getElementById("garageSelect").value;
-        let params = {};
-        params['garageName'] = garageName;
-        params['checkinTime'] = getCheckinTime();
-        params['checkoutTime'] = getCheckoutTime();
-        params['handicap'] = document.getElementById('handicap').checked;
+    if ((document.getElementById("garageSelect").value) == 'null'){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Please select a garage.</p>";
+        return;
+    }
+    if ((document.getElementById('vehicleSelect').value) == 'null'){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>Please select a vehicle.</p>";
+        return;
+    }
 
-        sendJsonRequest(params, '/populate-spots', showSpotsCallback);
-    }
+    document.getElementById('errorMsg').innerHTML = "";
+    document.getElementById('spotsMessage').innerHTML = "<br><div class='loader'></div>"
+    var garageName = document.getElementById("garageSelect").value;
+    let params = {};
+    params['garageName'] = garageName;
+    params['checkinTime'] = getCheckinTime();
+    params['checkoutTime'] = getCheckoutTime();
+    params['handicap'] = document.getElementById('handicap').checked;
+    console.log(params);
+
+    sendJsonRequest(params, '/populate-spots', showSpotsCallback);
 }
 
 function showSpotsCallback(returnedObject, targetUrl, nope){
     document.getElementById('spotsMessage').innerHTML = '';
+    if(returnedObject.length == 0){
+        document.getElementById('errorMsg').innerHTML = "<p class='reserve-section-header'>There were no spots available at that garage for the times you selected. Please try again.</p>";
+        return;
+    }
     var dropdown = document.getElementById('spotSelect');
     text = '';
-    text += "<p class='reserve-section-header'>The following spots are available at the time you selected. Please select a spot</p>";
+    text += "<p class='reserve-section-header'>The following spots are available at the time you selected. Please select a spot:</p>";
     text += "<select id='spot_selected'>";
     console.log(returnedObject);
     for(var i=0; i<returnedObject.length; i++){
@@ -288,11 +318,14 @@ function reserveSpot() {
     document.getElementById('errorMsg').innerHTML = "<br><div class='loader'></div>";
     var garage_name = document.getElementById('garageSelect').value;
     var spot_selected = document.getElementById('spot_selected').value;
+    var vehicle_selected = document.getElementById('vehicleSelect').value;
     params = {};
     params['time_in'] = time_in;
     params['time_out'] = time_out;
     params['garage_name'] = garage_name;
     params['spot_selected'] = spot_selected;
+    params['vehicle_selected'] = vehicle_selected;
+    console.log(params);
     sendJsonRequest(params, '/reserve-spot', reserveSpotCallback)
 }
 
@@ -531,7 +564,6 @@ function saveCarCallback(result, targetUrl, params) {
 function loadCarTable() {
     console.log("Loading cars...");
     sendJsonRequest(null, '/load-cars-user', loadCarTableCallback);
-
 }
 
 function loadCarTableCallback(result, targetURL, origParams) {
@@ -553,8 +585,41 @@ function loadCarTableCallback(result, targetURL, origParams) {
     text += '</table>'
     elem.innerHTML = text;
 }
-
 //----- END CAR
+
+//-- START RESERVE TABLE
+
+function loadReserveTable() {
+    sendJsonRequest(null, '/load-reservations-user', loadReserveCallback)
+}
+
+function loadReserveCallback(returnedObject, url) {
+    var elem = document.getElementById('reserve-section')
+    console.log(returnedObject);
+    text = '<h2>Your Reservations:</h2> <table> <tr> <th style="width: 100px;">Parking Spot</th> <th style="width: 150px;">Time-In</th> <th style="width: 150px;">Time-Out</th> <th style="width: 80px;">Vehicle License Plate No.</th></tr>';
+    var oTag = "<td>";
+    var cTag = "</td>";
+
+    for(var i=0; i<returnedObject.length; i++){
+        text += "<tr>" + oTag +  returnedObject[i]['space_id'] + cTag + oTag + toSimpleDate(returnedObject[i]['time_in']) + cTag + oTag + toSimpleDate(returnedObject[i]['time_out']) + cTag + oTag + returnedObject[i]['vehicle_id'] + cTag + "</tr>";
+    }
+
+    elem.innerHTML = text;
+
+}
+
+function toSimpleDate(date){
+    date = new Date(date);
+    let formatted_date = date.getFullYear() + "-" + appendLeadingZeroes((date.getMonth() + 1)) + "-" + appendLeadingZeroes(date.getDate()) + " " + appendLeadingZeroes(date.getHours()) + ":" + appendLeadingZeroes(date.getMinutes()) + ":" + appendLeadingZeroes(date.getSeconds());
+    return formatted_date;
+}
+
+function appendLeadingZeroes(n){
+  if(n <= 9){
+    return "0" + n;
+  }
+  return n;
+}
 
 
 
