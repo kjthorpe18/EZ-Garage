@@ -17,6 +17,8 @@ EZ-Garage is a web application that streamlines the process of public parking- w
 * Google Sign-in API
 * Google Cloud Datastore
 * Deployed using Google App Engine
+* Google Maps API
+* Google Maps Geocoding API
 
 
 ## Project Proposal
