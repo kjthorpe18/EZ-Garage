@@ -111,7 +111,7 @@ function hideError() {
 function garageSaved(result, targetUrl, params) {
     if (result && result.ok) {
         console.log("Saved Garage.");
-        document.location= 'http://localhost:8080/static/account_garages.html';
+        document.location= '/static/account_garages.html';
     } else {
         console.log("Received error: " + result.error);
         showError(result.error);
